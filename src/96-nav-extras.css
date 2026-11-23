@@ -1,0 +1,117 @@
+/* ============================================================================
+   96-nav-extras.css — shared navigation and footer components that only
+   surface on logged-in / seller pages.
+
+   Measured on the seller hub, but these are NOT seller-dashboard widgets: they
+   are the global header, footer and favourites bar, so they appear across the
+   whole site and belong to the theme regardless of the seller hub work.
+   ========================================================================== */
+
+/* ---- Footer navigation link columns ------------------------------------ */
+.nav-footer-navigation__link,
+.nav-footer-navigation__title,
+.nav-footer-hp,
+[class*="nav-footer-navigation"] a,
+[class*="nav-footer-navigation"] span {
+  color: var(--ml-text-secondary) !important;
+}
+.nav-footer-navigation__link:hover,
+[class*="nav-footer-navigation"] a:hover {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- Favourites bar (bottom bar on /favoritos and PDPs) ---------------- */
+.nav-favorites-bar,
+[class*="nav-favorites-bar"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+.nav-favorites-bar__chip-text,
+.nav-favorites-bar__buy-at-meli,
+[class*="nav-favorites-bar__chip"] {
+  color: var(--ml-text-primary) !important;
+}
+.nav-favorites-bar__chip,
+[class*="nav-favorites-bar__chip"]:not([class*="text"]) {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+.nav-favorites-bar__tooltip,
+[class*="nav-favorites-bar__tooltip"] {
+  background-color: var(--ml-surface-4) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+}
+
+/* ---- Language switcher inside the user menu ---------------------------- */
+.nav-user-menu-language-switcher__section,
+[class*="nav-user-menu-language-switcher__section"] {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+}
+.nav-user-menu-language-switcher__label,
+.nav-user-menu-language-switcher__value,
+.nav-user-menu-language-switcher__option-title,
+[class*="nav-user-menu-language-switcher"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="nav-user-menu-language-switcher__option"]:hover {
+  background-color: var(--ml-surface-4) !important;
+}
+
+/* ---- Seller-only header affordances ------------------------------------ */
+.nav-sellers-logo-label,
+.nav-header-sellers-action,
+.nav-seller-assistant__text,
+[class*="nav-sellers-logo-label"],
+[class*="nav-header-sellers-action"],
+[class*="nav-seller-assistant"] {
+  color: var(--ml-text-primary) !important;
+}
+.nav-header-sellers-help__tail,
+.nav-header-sellers-help__options,
+[class*="nav-header-sellers-help"] {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Side navigation shell --------------------------------------------- */
+.nav-sidebar,
+[class*="nav-sidebar"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Andes segmented control (design-system primitive) -----------------
+   Used by language switchers, view switchers and seller filters. The light
+   theme paints the track #fff and the selection #fff, which is invisible on
+   dark and looks like a missing control. */
+.andes-segmented-control,
+.andes-segmented-control__container {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-segmented-control__segment,
+[class*="andes-segment"] {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+}
+.andes-segmented-control__segment:hover,
+[class*="andes-segment"]:hover {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+}
+.andes-segmented-control__selection {
+  background-color: var(--ml-surface-4) !important;
+  box-shadow: var(--ml-shadow-card) !important;
+}
+.andes-segmented-control__segment[class*="--active"],
+.andes-segmented-control__segment[aria-checked="true"],
+[class*="andes-segment"][class*="--active"] {
+  background-color: var(--ml-blue-tint) !important;
+  color: var(--ml-blue) !important;
+}

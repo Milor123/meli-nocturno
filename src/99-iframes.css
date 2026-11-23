@@ -1,0 +1,406 @@
+/* ===========================================================================
+   99-iframes.css — widgets that MELI renders inside same-origin iframes
+   ===========================================================================
+
+   WHY THIS FILE EXISTS
+   --------------------
+   Some MELI panels are not part of the host document. They are separate
+   documents served from their own routes and mounted with <iframe src=…>:
+
+     /notifications/center/widget?modeless_box_version=…   (bell panel)
+     …and whatever else MELI decides to split out next.
+
+   Consequences, all measured:
+     • Our rules never reach them. An injected <style> lives in the host
+       document; an iframe has its own document, its own styleSheets and its
+       own cascade. No amount of `!important` crosses that boundary, exactly
+       like Shadow DOM.
+     • They ship their OWN class system. The notification widget uses
+       `hub-*` / `hub-layout-*` / `notification-*` / `notification-item-*` /
+       `category-tabs-*` — none of which appear anywhere else in the theme,
+       so every earlier fix pass ignored them.
+     • They start from a bare white `body` (#fff), so without rules here they
+       render as a fully white card in the middle of the dark header.
+
+   Stylus and most UserCSS managers DO inject into same-origin iframes, which
+   is what makes this fixable at all: the widget is served from
+   mercadolibre.com.co, the same origin as the page that embeds it, and the
+   domain list of the document wrapper at the top of this file already
+   matches it.
+
+   !! NEVER NAME THE DOCUMENT-WRAPPER AT-RULE IN A COMMENT !!
+   Stylus splits a UserCSS into sections with a plain text search for that
+   at-rule; it does not know about comments. A mention in a CSS comment block
+   creates a phantom section boundary, which unbalances the braces and makes
+   the ENTIRE style stop applying on every page -- the exact failure observed as
+   "nothing applies on /ayuda, /ofertas, /c/ropa-y-accesorios". tools/build.mjs
+   now fails the build if the token appears more than once, so this cannot
+   regress silently.
+
+   RELATED TRAP, PAID FOR TWICE: never write the two-character sequence that
+   CLOSES a CSS comment inside one. Writing it to mean "a comment" ends the
+   comment early, and every following line is parsed as CSS -- which is exactly
+   how the selector fragments further down became syntax errors. Describe a
+   comment in words instead.
+
+   SCOPE NOTE
+   ----------
+   These rules are intentionally written against the *generic* names
+   (`hub-header`, `notification-item__*`, `category-tabs`). Per the hard rule
+   in 92-landings.css we never widen `[class*="…"]` to a prefix that could
+   swallow a content class such as `…-image` or `…__overlay`; the attribute
+   selectors below are anchored at `^=` (prefix) or on an exact token so the
+   blast radius stays inside the widget.
+
+   If a future pass finds another white iframe, map its prefixes and add a
+   section here — do not add page-specific chains to the host files.
+   =========================================================================== */
+
+/* ---- Notification centre widget (hub-* / notification-* ) ---------------- */
+
+/* The widget's own document. `:root` carries our token defaults because the
+   tokens travel with the stylesheet, but the widget's body paints its own
+   white background over whatever we set on the root. */
+html,
+body {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* Widget chrome: header bar, tab strip, scroll rail, footer. */
+[class^="hub-header"],
+[class^="hub-layout"],
+[class^="hub-footer"],
+[class^="category-tabs"],
+[class^="channels-log"],
+[class^="modeless-box"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* Header title ("Notificaciones") ships as `#333` inside the iframe. */
+[class^="hub-header"] :is(h1, h2, h3, h4, span, div, p),
+[class^="hub-header__title"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Tabs (Todo / Ventas / Compras …) ----------------------------------- */
+/* MELI reuses `andes-tabs` here, but the unscoped `.andes-tab__link` rules in
+   50-coverage.css are written for the host document's padding rhythm; inside
+   the widget only the colours need to land. */
+[class^="category-tabs"] :is(button, a, span, li),
+[class^="andes-tab"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+}
+[class^="category-tabs"] :is(button, a, span, li)[class*="active"],
+[class^="category-tabs"] :is(button, a, span, li)[aria-selected="true"] {
+  color: var(--ml-blue, #5b9bff) !important;
+  border-color: var(--ml-blue, #5b9bff) !important;
+}
+/* The bare `<span>Ventas</span>` label MELI emits unclassified at rgb(115,115,115). */
+[class^="category-tabs"] > span,
+[class^="category-tabs"] > span * {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+
+/* ---- Notification rows -------------------------------------------------- */
+[class^="notification-item"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class^="notification-item"]:hover {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+}
+[class^="notification-item__content"],
+[class^="notification-item__body"],
+[class^="notification-item__wrapper"] {
+  background-color: transparent !important;
+}
+/* Unread rows carry a tint + bolder title; keep the emphasis, on dark. */
+[class^="notification-item"][class*="unread"],
+[class^="notification-item--unread"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+}
+[class^="notification-item"][class*="unread"] :is(a, span, p, div),
+[class^="notification-item--unread"] :is(a, span, p, div) {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* Row typography: title (rgba(0,0,0,.9)), date and body (rgba(0,0,0,.55)).
+   These are exactly the three literals 30-text.css maps on the host page, so
+   the same mapping applies — the iframe just never received it. */
+[class^="notification-item__title"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class^="notification-item__title-date"],
+[class^="notification-item__date"] {
+  color: var(--ml-text-muted, #7c8794) !important;
+}
+[class^="notification-item__text"],
+[class^="notification-item__description"],
+[class^="notification-item__subtitle"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+[class^="notification-item"] :is(h1, h2, h3, h4, strong, b) {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class^="notification-item"] a {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+
+/* Delete/dismiss affordance: light theme is a #f0f0f0 pill with a dark glyph. */
+[class^="notification-item__delete"] {
+  background-color: var(--ml-surface-3, #262c35) !important;
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+[class^="notification-item__delete"]:hover {
+  background-color: var(--ml-surface-4, #2e3540) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* Thumbnails inside rows: the widget paints them #fff as a letterbox behind
+   transparent PNGs, which reads as a white hole on the dark list. */
+[class^="notification-item"] [class^="andes-thumbnail"],
+[class^="notification-item"] [class^="andes-image"],
+[class^="notification-item"] img {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* ---- Generic safety net for any future iframe --------------------------- */
+/* Any widget MELI ships in an iframe still starts from a white body. These
+   two rules make the *default* look correct even before a widget-specific
+   pass exists, so a new panel shows up as slightly-bright rather than as a
+   glowing white rectangle. */
+:root:not([data-ml-theme]) body:not([class]) {
+  background-color: var(--ml-surface-1, #181c22) !important;
+}
+
+/* The `noscript` element reports `color: rgb(0,0,0)` in the widget document;
+   it never renders, so leave it alone rather than chasing it in audits. */
+
+/* ---- Address hub widget (andes-ui-* variant) ----------------------------
+   The address picker mounted by the header link is another same-origin
+   iframe (/addresses/v3/navigation/hub) and it uses a THIRD generation of the
+   design system: `andes-ui-*` instead of `andes-*`. All earlier passes wrote
+   `andes-*` selectors, so nothing landed here and the dialog body — plus its
+   fixed footer bar, `andes-ui-fixed-footer` at rgb(255,255,255) — rendered
+   white with rgba(0,0,0,.9) text on top.
+
+   `[class^="andes-ui"]` is safe to use as a prefix here (unlike the substring
+   problem in 92-landings.css): it is anchored at the start of a class token
+   and the only MELI classes beginning with `andes-ui` are this generation's
+   primitives. */
+html,
+body {
+  background-color: transparent !important; /* the host dialog paints behind */
+}
+
+[class^="andes-ui"] {
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* Structural shells of this generation. */
+[class^="layout"],
+[class^="content"],
+[class^="andes-ui-fixed"],
+[class^="andes-ui-dismiss"] {
+  background-color: var(--ml-surface-4, #2e3540) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* Typography primitives carry the text colour directly, at
+   rgba(0,0,0,.9) / rgba(0,0,0,.55). */
+[class^="andes-ui-typography"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="andes-ui-typography-body"],
+[class*="andes-progress-indicator"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+
+/* Footer bar with the confirm/cancel buttons. */
+[class^="andes-ui-fixed-footer"],
+[class*="andes-ui-fixed"][class*="footer"] {
+  background-color: var(--ml-surface-4, #2e3540) !important;
+  border-top: 1px solid var(--ml-border-subtle, #242a33) !important;
+  box-shadow: none !important;
+}
+
+/* Buttons: keep brand fills, only retint the neutral (secondary) variant. */
+[class^="andes-ui-button"] {
+  border-color: var(--ml-border, #2f3742) !important;
+}
+[class*="andes-ui-button"][class*="secondary"],
+[class*="andes-ui-button"][class*="neutral"],
+[class*="andes-ui-button"][class*="outline"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* Dismiss control (the × ) and any link inside the widget. */
+[class*="andes-ui-dismiss"] {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+[class^="andes-ui"] a,
+[class^="andes-ui"] a * {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+
+/* Inputs (address search / new address form). */
+[class^="andes-ui"] :is(input, textarea, select) {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border, #2f3742) !important;
+}
+[class^="andes-ui"] :is(input, textarea)::placeholder {
+  color: var(--ml-text-disabled, #5a6472) !important;
+}
+
+/* ---- Help centre chat widget (/chat) -----------------------------------
+   Reached by clicking "Contactanos" on /ayuda; the panel is a same-origin
+   IFRAME whose src is
+     /chat?flavor=mlcx&origin=portal&hideHeader=true&andes_ui=restyled
+
+   Because it is same-origin AND on the same domain, the wrapper at-rule
+   already matches it, so these rules land without any extra plumbing. That
+   is why its <body> was already surface-1 while the panel stayed white: only
+   the body was covered, never the panel's own vocabulary.
+
+   Measured on the live widget:
+
+     .chat-container(.--navbar-hidden)       rgb(255,255,255)   340x556
+     .conversation-sidebar__content          rgb(255,255,255)   340x556
+     .voice-transcript-sidebar__content      rgb(255,255,255)   306x556
+     .voice-transcript-sidebar__list         rgb(247,248,250)
+     button.welcome-item  x3                 rgb(244,245,249)
+     .welcome-greeting__line                 dark, unreadable
+     .voice-transcript-sidebar__title        dark, unreadable
+
+   Text primitives are shared with the rest of the site (andes-ui-typography,
+   andes-typography), so they were already themed; only the containers and the
+   two widget-specific headings needed work. */
+.chat-container,
+[class*="chat-container"],
+[class*="conversation-sidebar__content"],
+[class*="voice-transcript-sidebar__content"],
+[class*="voice-transcript-sidebar__list"],
+[class*="chat-pane"],
+[class*="chat-main"],
+[class*="chat-messages"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* The three starter prompts: light chips that became unreadable once their
+   labels inherited the dark-theme text colour. */
+[class*="welcome-item"],
+[class*="welcome-starter"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #242a33) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="welcome-item"]:hover,
+[class*="welcome-starter"]:hover {
+  background-color: var(--ml-surface-3, #262c35) !important;
+}
+
+/* Widget-specific headings that carry their own black text. */
+[class*="welcome-greeting"],
+[class*="voice-transcript-sidebar__title"],
+[class*="sidebar-state-view"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="welcome-greeting"] * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+/* Input row and the floating upload/record affordances. */
+[class*="new-chat-input"],
+[class*="chat-input"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border, #242a33) !important;
+}
+[class*="new-chat-input"] input,
+[class*="new-chat-input"] textarea,
+[class*="chat-input"] input,
+[class*="chat-input"] textarea {
+  background-color: var(--ml-input-bg, #12151a) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="new-chat-input"] input::placeholder,
+[class*="chat-input"] input::placeholder {
+  color: var(--ml-text-muted, #7c8794) !important;
+}
+
+/* reCAPTCHA badge is a third-party white card pinned to the widget corner;
+   it is MELI's obligation to show it, so leave its own paint untouched and
+   only stop it from glowing against the dark panel. */
+[class*="grecaptcha"] {
+  opacity: 0.85 !important;
+}
+
+/* ---- Floating chat popup shell (host document) -------------------------
+   The chat panel is TWO pieces, and only one of them is the iframe:
+
+     section.floating-contact-popup(--open)     rgb(255,255,255)  340x620
+       div.floating-contact-popup__header                       340x64
+         div.andes-ui-header__content_wrapper  rgb(255,255,255)  340x64
+         div.andes-ui-header__content
+       div.floating-contact-popup__body  -> contains the /chat iframe
+
+   The header bar — with the compose, history, "Asistente" label, expand and
+   close controls — lives HERE, in the page, not inside the frame. That is why
+   theming the iframe left a bright white bar floating above the dark panel,
+   with light-on-white labels barely visible.
+
+   The header itself is the generic `andes-ui-header` primitive, so it is
+   themed as a primitive rather than as a widget one-off: any future MELI
+   surface built from the same component inherits the fix. */
+.floating-contact-popup,
+[class*="floating-contact-popup"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #242a33) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55) !important;
+}
+[class*="floating-contact-popup"] [class*="__header"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #242a33) !important;
+}
+[class*="floating-contact-popup"] [class*="__body"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+}
+/* The header's own labels/buttons, which MELI paints for a white bar. */
+[class*="floating-contact-popup"] [class*="andes-ui-header"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="floating-contact-popup"] [class*="andes-ui-header"] * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+[class*="floating-contact-popup"] button,
+[class*="floating-contact-popup"] [class*="icon"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+[class*="floating-contact-popup"] button:hover {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  background-color: var(--ml-surface-3, #262c35) !important;
+}

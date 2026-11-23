@@ -1,0 +1,170 @@
+/* ============================================================================
+   97-seller.css — MercadoLibre Seller Centre (`vendedores.mercadolibre.com.co`)
+
+   The seller hub is its own application with a THIRD look: a lavender canvas,
+   `sll-*` (seller listing) grid tables, `sc-*` chrome (header listing, task
+   cards, massive-actions toolbar, hover buttons, stacked scroll wrappers).
+   It shares the global header/footer (already covered in 96-nav-extras.css)
+   but nothing else, so it gets its own pass.
+
+   Measured on /publicaciones: 28 light grid rows + 7 light wrappers + 5 dark
+   labels. The grid row is the whole table body, so getting it right fixes
+   most of the page.
+   ========================================================================== */
+
+/* ---- Canvas and shells ------------------------------------------------- */
+.sll-layout,
+[class*="sll-layout"],
+[class*="sll-main"],
+[class*="seller-hub"],
+[class*="sellers-hub"],
+[class*="sc-page"] {
+  background-color: var(--ml-surface-0) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Listing header ---------------------------------------------------- */
+.sc-header-listing__background,
+[class*="sc-header-listing__background"] {
+  background-color: var(--ml-surface-0) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.sc-header-listing__title,
+[class*="sc-header-listing__title"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="sc-header-listing"] [class*="__subtitle"],
+[class*="sc-header-listing"] p {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Listing grid ------------------------------------------------------
+   The 28 light rows are the publication table. Rows alternate meaning through
+   modifiers: `--item` is a product row, `--catalog` / `--family` are group
+   headers, so they get a raised / deeper tone to keep the hierarchy readable. */
+.sll-list-grid-row,
+[class*="sll-list-grid-row"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+.sll-list-grid-row--item,
+[class*="sll-list-grid-row--item"] {
+  background-color: var(--ml-surface-1) !important;
+}
+.sll-list-grid-row--catalog,
+[class*="sll-list-grid-row--catalog"],
+.sll-list-grid-row--family,
+[class*="sll-list-grid-row--family"],
+.sll-list-grid-row--header,
+[class*="sll-list-grid-row--header"] {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-secondary) !important;
+}
+[class*="sll-list-grid-row"]:hover {
+  background-color: var(--ml-surface-2) !important;
+}
+/* Column header row of the same grid. */
+[class*="sll-list-grid"] [class*="__header"],
+[class*="sll-list-grid-header"] {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-secondary) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- Stacked / scroll wrappers ---------------------------------------- */
+.sll-list-grid-row__stacked,
+.sc-scroll-stacked,
+.sc-scroll-stacked__content-wrapper,
+[class*="sc-scroll-stacked"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Task cards and toolbars ------------------------------------------ */
+.andes-card.sc-task-card,
+.sc-task-card,
+[class*="sc-task-card"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class*="sc-massive-actions-toolbar"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class*="sc-massive-actions-toolbar__separator"],
+[class*="sc-massive-actions-toolbar"] [class*="separator"] {
+  background-color: var(--ml-border) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- Pills, badges and hover affordances ------------------------------ */
+.sll-list-rounded-pills,
+[class*="sll-list-rounded-pills"] {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+}
+.sll-list-rounded-pills__label,
+[class*="sll-list-rounded-pills__label"] {
+  color: var(--ml-text-secondary) !important;
+}
+.sc-hover-button,
+[class*="sc-hover-button"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+.sc-hover-button__text,
+[class*="sc-hover-button__text"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="sc-hover-button"]:hover {
+  background-color: var(--ml-surface-3) !important;
+}
+
+/* ---- Generic text inside the seller shell -----------------------------
+   The hub emits bare <span>/<p> nodes without classes for table cells, which
+   is where the remaining dark text came from. Scoped to the seller prefixes so
+   nothing global is introduced. */
+[class*="sll-"] span,
+[class*="sll-"] p,
+[class*="sc-header-listing"] span,
+[class*="sc-task-card"] span,
+[class*="sc-task-card"] p,
+[class*="sc-massive-actions"] span {
+  color: inherit !important;
+}
+[class*="sll-list"] a {
+  color: var(--ml-blue) !important;
+}
+[class*="sll-"] table,
+[class*="sll-"] th,
+[class*="sll-"] td {
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Inputs and selects in the seller hub ----------------------------- */
+[class*="sll-"] input,
+[class*="sll-"] select,
+[class*="sll-"] textarea,
+[class*="sc-header-listing"] input,
+[class*="sc-massive-actions"] input {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+/* "Filtrar y ordenar" keeps its own dark colour through the hover-button
+   wrapper, so the plain `.sc-hover-button__text` rule loses. */
+.sll-list-filter-button,
+[class*="sll-list-filter-button"],
+[class*="sll-list-filter-button"] [class*="sc-hover-button__text"],
+[class*="sll-list-navbar"] [class*="sc-hover-button"],
+[class*="sll-list-navbar"] [class*="sc-hover-button__text"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="sll-list-filter-button"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}

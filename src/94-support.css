@@ -1,0 +1,145 @@
+/* ============================================================================
+   94-support.css — Consumer Support / "Mi Meli" pages
+   (/preguntas/, /ayuda/, /inbox/, /vender/ and their help flows).
+
+   NOTE: glob-looking route patterns are deliberately written WITHOUT the
+   asterisk, because a slash followed by an asterisk opens a nested CSS
+   comment and silently leaves an unterminated block behind (four of them here,
+   detected as a 416-vs-412 comment imbalance in the built file).
+
+   Fourth component system, measured on `/preguntas/comprador`:
+     sc-*        support centre widgets (question cards, labels, toggles)
+     myml-*      "Mi Meli" side navigation
+     inbox-*     purchase inbox / messages
+     app-wrapper the shell those pages mount into
+
+   These pages ship their own labels with `rgb(0,0,0)` / `rgba(0,0,0,.55)`
+   literals and their own white cards, so they need their own pass.
+   ========================================================================== */
+
+/* ---- Page shells -------------------------------------------------------- */
+.app-wrapper,
+#app-wrapper,
+[class*="app-wrapper"],
+.myml-nav,
+[class*="myml-nav"],
+.inbox-sidebar,
+.inbox-sidebar__content,
+[class*="inbox-sidebar"],
+[class*="sc-container"],
+[class*="sc-main"] {
+  background-color: var(--ml-surface-0) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* Cards and panels inside the support centre. */
+[class*="sc-card"],
+[class*="sc-panel"],
+[class*="sc-section"],
+[class*="sc-container"] [class*="card"],
+[class*="myml-nav"] [class*="card"],
+[class*="inbox"] [class*="card"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- mi meli side navigation ------------------------------------------- */
+.myml-nav__section-title,
+[class*="myml-nav__section-title"] {
+  color: var(--ml-text-secondary) !important;
+  text-transform: none;
+}
+.myml-nav__menu-item-text,
+[class*="myml-nav__menu-item-text"],
+[class*="myml-nav__menu-item"] a,
+[class*="myml-nav"] li a {
+  color: var(--ml-text-primary) !important;
+}
+[class*="myml-nav__menu-item"]:hover,
+[class*="myml-nav__menu-item"] a:hover {
+  color: var(--ml-blue) !important;
+}
+[class*="myml-nav__menu-item"][class*="--active"],
+[class*="myml-nav__menu-item"][class*="--selected"] {
+  background-color: var(--ml-blue-tint) !important;
+  color: var(--ml-blue) !important;
+}
+[class*="myml-nav"] [class*="divider"] {
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Support centre labels and question cards -------------------------- */
+.sc-label__text,
+[class*="sc-label__text"],
+[class*="sc-label__text_link"],
+[class*="sc-label__text_detail"],
+[class*="sc-label__date"],
+[class*="sc-label__title"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="sc-label__text_detail"],
+[class*="sc-label__date"],
+[class*="sc-label__subtext"] {
+  color: var(--ml-text-muted) !important;
+}
+[class*="sc-label__text_link"] {
+  color: var(--ml-blue) !important;
+}
+
+/* Question rows ("question desktop" is measured markup, not a typo). */
+[class*="sc-question"],
+.question.desktop,
+[class*="question desktop"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class*="sc-question"] [class*="subLabel"],
+[class*="sc-question"] [class*="sublabel"],
+[class*="sc-question"] [class*="sub-label"] {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* Accordion toggles: the open state is painted white in the light theme. */
+[class*="sc-question--toggle"],
+[class*="sc-question-toggle"],
+[class*="sc-toggle"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class*="sc-question--toggle"].opened,
+[class*="sc-question--toggle"][class*="--opened"],
+[class*="sc-question--toggle"][aria-expanded="true"] {
+  background-color: var(--ml-surface-3) !important;
+}
+
+/* Answer bodies and help copy. */
+[class*="sc-answer"],
+[class*="sc-help"],
+[class*="sc-description"],
+[class*="sc-content"] p,
+[class*="sc-content"] li {
+  color: var(--ml-text-primary) !important;
+}
+[class*="sc-answer"] a,
+[class*="sc-help"] a {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- Misc leftovers ---------------------------------------------------- */
+/* The breadcrumb has a `__label` variant beyond `__link`/`__title`. */
+.andes-breadcrumb__label,
+[class*="andes-breadcrumb"] [class*="__label"] {
+  color: var(--ml-text-secondary) !important;
+}
+/* Pagination numbers on these pages are links, not buttons. */
+.andes-pagination__link {
+  background-color: transparent !important;
+}
+[class*="sc-"] [class*="empty"],
+[class*="sc-"] [class*="no-results"] {
+  color: var(--ml-text-secondary) !important;
+}

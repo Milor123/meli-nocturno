@@ -1,0 +1,8 @@
+# Keep line endings identical everywhere. These are CSS files shipped to Stylus
+# and userstyles.world; a CRLF round-trip changes the byte count and makes two
+# builds of the same source differ.
+* text=auto eol=lf
+
+# Screenshots are binary.
+*.jpeg binary
+*.png binary

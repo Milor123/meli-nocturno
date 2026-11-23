@@ -1,0 +1,118 @@
+/* ============================================================================
+   base.css — document level: native dark affordances, page/window surfaces,
+   media protection, safety net for inline light backgrounds.
+   ========================================================================== */
+
+/* Native UI (scrollbars, selects, date pickers, spinners) turns dark.
+   This is the single cheapest durability win in the whole theme. */
+html {
+  color-scheme: dark !important;
+  background-color: var(--ml-surface-0) !important;
+}
+
+body,
+#root-app,
+#nav-header,
+div[role="main"],
+main {
+  background-color: var(--ml-surface-0) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+::selection {
+  background-color: var(--ml-blue-fill);
+  color: var(--ml-text-on-brand);
+}
+
+/* Focus must stay visible on dark: MELI ships rgba(0,0,0,.1) outlines. */
+:focus-visible {
+  outline: 2px solid var(--ml-blue) !important;
+  outline-offset: 1px !important;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ml-surface-0);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ml-border-strong);
+  border: 3px solid var(--ml-surface-0);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4a5464;
+}
+::-webkit-scrollbar-corner {
+  background: var(--ml-surface-0);
+}
+
+/* Chrome autofill bleeds white; kill it explicitly. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--ml-surface-2) inset !important;
+  caret-color: var(--ml-text-primary);
+}
+
+/* ---------------------------------------------------------------------------
+   Media protection. Product photos, ads and video keep their own colours.
+   They are only dimmed globally by --ml-img-dim (0.9 by default) so white
+   studio backgrounds stop being headlights, then framed on a dark surface.
+   ------------------------------------------------------------------------- */
+img.poly-component__picture,
+.ui-pdp-gallery__figure img,
+.ui-pdp-image,
+.ui-pdp-thumbnail img,
+.ui-pdp-gallery__figure,
+.cl-image-label img,
+.ui-search-carousel__item-generic-card img,
+.bads-vertical-product-card__image-container img,
+.poly-card__portada img {
+  filter: brightness(var(--ml-img-dim));
+}
+
+/* Brand marks stay untouched — a dimmed logo looks broken. */
+.nav-logo img,
+.nav-logo svg,
+.nav-header-avatar img,
+.user-menu__avatar,
+.nav-account-switcher__avatar {
+  filter: none !important;
+}
+
+/* Images used as CSS backgrounds (MELI widgets, third-party ad frames). */
+[style*="background-image"] {
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------------
+   Safety net for inline light backgrounds written by MELI widgets or by
+   third-party ad/chat scripts that we have not enumerated. Only literal
+   white inline backgrounds are caught, so brand fills are never harmed.
+   ------------------------------------------------------------------------- */
+[style*="background-color: rgb(255, 255, 255)"],
+[style*="background-color: #fff"],
+[style*="background-color:#fff"],
+[style*="background: rgb(255, 255, 255)"],
+[style*="background: #fff"],
+[style*="background:#fff"] {
+  background-color: var(--ml-surface-1) !important;
+}
+
+/* Same idea for inline dark text. */
+[style*="color: rgb(0, 0, 0)"]:not([style*="background"]) {
+  color: var(--ml-text-primary) !important;
+}
+[style*="color: rgba(0, 0, 0, 0.9)"] {
+  color: var(--ml-text-primary) !important;
+}
+[style*="color: rgba(0, 0, 0, 0.55)"] {
+  color: var(--ml-text-secondary) !important;
+}

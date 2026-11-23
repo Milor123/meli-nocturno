@@ -1,0 +1,232 @@
+/* ============================================================================
+   92-landings.css — MELI's campaign/landing page builder.
+   Measured on `mercadolibre.com.co/ofertas/supermercado`, which is built with a
+   THIRD component system on top of Andes:
+
+     sbc-*              "Supermercado / store brand campaign" shell
+     sbc-landing-*      landing layout
+     ui-sbc-main-*      landing content blocks
+     andes-landings-*   landing typography and blocks
+     products-gallery-* product rails inside a landing
+
+   Covering this family makes /ofertas, /ofertas/supermercado, Black Friday,
+   Cyber Monday, back-to-school and every other campaign page fall in line
+   without per-campaign rules.
+   ========================================================================== */
+
+/* ---- Landing shells ----------------------------------------------------
+   Scope note: `[class*="sbc-main-"]` / `[class*="ui-sbc-main"]` were removed
+   from this list. They matched `.ui-sbc-main-banner__overlay`, which is an
+   absolutely-positioned layer sitting on top of the hero photo — colouring it
+   hid the banner (see the long note further down). Page-level shells only. */
+.sbc-landing-layout,
+[class*="sbc-landing-layout"],
+.sbc,
+[class*="sbc-container"],
+[class*="sbc-section"] {
+  background-color: var(--ml-surface-0) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* Campaign cards/rows inside a landing keep the raised surface. */
+[class*="sbc-landing"] [class*="card"],
+[class*="sbc-main"] [class*="card"],
+[class*="ui-sbc-main"] [class*="card"],
+[class*="sbc-section"] [class*="card"],
+[class*="sbc-container"] [class*="card"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Landing typography ------------------------------------------------
+   MELI ships `andes-landings-typography` with a hard-coded rgb(26,26,26).
+   That single class is reused for every heading in every campaign page. */
+.andes-landings-typography,
+[class*="andes-landings-typography"],
+[class*="andes-landings-title"],
+[class*="andes-landings-subtitle"],
+[class*="andes-landings-text"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="andes-landings-typography--secondary"],
+[class*="andes-landings-subtitle"] {
+  color: var(--ml-text-secondary) !important;
+}
+[class*="andes-landings-link"] {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- Product rails inside a landing ------------------------------------ */
+[class*="products-gallery"] {
+  background-color: transparent !important;
+}
+[class*="products-gallery__title"],
+[class*="products-gallery"] h2,
+[class*="products-gallery"] h3 {
+  color: var(--ml-text-primary) !important;
+}
+[class*="products-gallery"] [class*="subtitle"],
+[class*="products-gallery"] [class*="description"] {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Landing buttons ---------------------------------------------------
+   Classless <button> elements appear inside the campaign rails; scope them by
+   the landing container so no global button styling is introduced. */
+[class*="sbc-landing"] button,
+[class*="sbc-main"] button,
+[class*="ui-sbc-main"] button,
+[class*="andes-landings"] button,
+[class*="products-gallery"] button {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Campaign banners --------------------------------------------------
+   Campaign hero banners are images ON PURPOSE. Only the frame around them is
+   themed, so the promotional art keeps its own colours. */
+[class*="sbc-banner"],
+[class*="sbc-hero"],
+[class*="andes-landings-banner"],
+[class*="andes-landings-hero"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+/* ---- Landing hero background ------------------------------------------
+   CRITICAL FINDING: `.andes-landings-background--hero` paints the campaign
+   hero with `linear-gradient(rgb(233,233,233) 40%, rgb(255,255,255) 100%)`.
+   A light GRADIENT has `background-color: transparent`, so neither a
+   computed-style audit nor a `background-color` override will ever see it —
+   this block looked correct to the probe while being the brightest area on
+   the screen. Gradients must be killed with `background-image: none`.
+
+   DANGER — DO NOT WIDEN THESE SELECTORS. `[class*="andes-landings-background"]`
+   matches not only the decorative backdrop but ALSO the three content classes
+   that carry real campaign imagery and sit ABOVE it at `z-index: 1`:
+     .andes-landings-background-container          (the image frame)
+     .andes-landings-background-carousel-item      (the slide)
+     .andes-landings-image-container               (the <img> wrapper)
+   Painting those made every hero banner a solid colour block with the photo
+   hidden underneath — the "carousel disappeared" bug. Same for
+   `[class*="ui-sbc-main"]`, which matched `.ui-sbc-main-banner__overlay`
+   (absolutely positioned over the photo).
+
+   Rule of thumb: this family gets `background-image: none` ONLY. Never a
+   background-color, and never through a substring selector wide enough to
+   swallow `-image-container` / `__overlay`. */
+.andes-landings-background,
+[class*="andes-landings-background--"] {
+  background-image: none !important;
+}
+/* Keep a hint of the campaign glow, but dark: a vertical wash from a slightly
+   raised tone to the page tone reads as depth without glare. */
+[class*="andes-landings-background--hero"] {
+  background-image: linear-gradient(
+    var(--ml-surface-1) 0%,
+    var(--ml-surface-0) 70%
+  ) !important;
+}
+[class*="andes-landings-background--section"],
+[class*="andes-landings-background--card"] {
+  background-image: none !important;
+  background-color: var(--ml-surface-1) !important;
+}
+
+/* Campaign imagery must never be tinted or covered by us: these are photos and
+   promotional art. Declared after the backdrop rules so they win any tie. */
+[class*="andes-landings-image-container"],
+[class*="andes-landings-background-container"],
+.andes-landings-background-carousel-item,
+[class*="andes-landings-background-carousel-item"],
+[class*="ui-sbc-main-banner__overlay"] {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+[class*="andes-landings-image-container"] img,
+[class*="andes-landings-background-carousel-item"] img,
+[class*="ui-sbc-main-banner"] img {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Category thumbnails that sit on that hero gradient. */
+.sbc-thumbnails-carousel,
+[class*="sbc-thumbnails"] {
+  background-color: transparent !important;
+}
+[class*="sbc-thumbnails"] [class*="__item"] {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Campaign landing shell: bare-word classes --------------------------
+   `/ofertas` is built with yet another vocabulary, and its classes are single
+   lowercase words with no prefix at all: `header_title`, `header_subtitle`,
+   `results-quantity`, `selectors_header_container`. Nothing in the theme
+   matched them, so the page title and the result counter kept MELI's `#333`
+   (1.6:1 on the dark page).
+
+   They are also easy to mistake for generic names, so each one is written out
+   in full rather than derived from a prefix pattern. */
+.header_title,
+.header_subtitle,
+.results-quantity,
+.selectors_header_container,
+[class="header_title"],
+[class="header_subtitle"],
+[class="results-quantity"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.header_subtitle,
+.results-quantity {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+.selectors_header_container {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* Variation labels on the offer cards ("Talla M", "Color negro"), which are
+   rgba(0,0,0,.55) and sit inside the poly-* card system. */
+.poly-component__variations-text,
+[class*="poly-component__variations"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+
+/* ---- Category index (/categorias) --------------------------------------
+   Yet another prefix-free vocabulary: `categories__*` and
+   `categories-container__*`. Measured literals on the real page:
+     .categories__title-link          rgb(51,51,51)      32 nodes
+     .categories__subtitle-title      rgba(0,0,0,.45)   437 nodes
+     .categories-container__title     rgb(74,74,74)
+   437 is the largest single count seen anywhere in this theme, so the page was
+   almost entirely unreadable while every other rule applied normally.
+
+   Both properties are set: this page also paints with fill-color, and `color`
+   alone leaves the glyphs dark. */
+.categories__title-link,
+.categories-container__title,
+[class*="categories__title"],
+[class*="categories-container__title"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.categories__subtitle-title,
+[class*="categories__subtitle"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+.categories__title-link:hover,
+[class*="categories__title"]:hover {
+  color: var(--ml-blue, #5b9bff) !important;
+  -webkit-text-fill-color: var(--ml-blue, #5b9bff) !important;
+}
+[class*="categories"] a,
+[class*="categories"] a * {
+  color: inherit;
+}

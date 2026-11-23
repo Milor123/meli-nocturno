@@ -1,0 +1,215 @@
+/* ===========================================================================
+   89-andes-ui.css — "andes-ui-*" generation, on the HOST page
+   ===========================================================================
+
+   MELI is migrating from `andes-*` (the classic design system this theme was
+   written against) to a newer, differently-named generation: `andes-ui-*`.
+   Earlier passes only met it inside an iframe (the address picker, see
+   99-iframes.css), so it was handled there as a widget concern.
+
+   It is now rendering directly on normal host pages. `/ayuda` is the measured
+   case: it is built entirely from this generation and had NOT A SINGLE rule
+   applying to it — the pages looked untouched, not merely imperfect. Adding it
+   as its own file, rather than patching each page, is the same decision made
+   for every other subsystem in this theme.
+
+   MEASURED ON /ayuda (light theme):
+     .template.bg_primary                      rgb(237,237,237) page shell
+     .andes-ui-card(--default)                 rgb(255,255,255) cards
+     .folder-module__card                      white
+     .page-content__card                       white
+     .contact-module                           white
+     .andes-ui-typography                      rgba(0,0,0,.9)    text
+     .andes-ui-structured-item-content__title  rgba(0,0,0,.9)    titles
+     .option-help                              rgba(0,0,0,.9)    nav label
+
+   NOTE ON PREFIXES: `[class^="andes-ui"]` / `[class*=" andes-ui"]` are safe
+   anchors here (the token is at a class boundary), unlike the substring
+   wildcards that caused the hero-image bug documented in 92-landings.css.
+   =========================================================================== */
+
+/* ---- Page shell --------------------------------------------------------- */
+.template,
+[class*="bg_primary"],
+[class*="bg-secondary"] {
+  background-color: var(--ml-surface-0, #12151a) !important;
+  background-image: none !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Cards of this generation ------------------------------------------ */
+[class^="andes-ui-card"],
+[class*=" andes-ui-card"],
+[class*="folder-module__card"],
+[class*="page-content__card"],
+[class*="contact-module"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* ---- Typography primitives --------------------------------------------- */
+/* These carry the colour themselves at rgba(0,0,0,.9) / .55, so inheritance
+   never reaches them. */
+[class^="andes-ui-typography"],
+[class*=" andes-ui-typography"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="structured-item-content__title"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="structured-item-content__description"],
+[class*="structured-item-content__subtitle"],
+[class*="andes-ui-typography-body"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+/* Headings inside this generation are bold body text, not h1/h2 semantics. */
+[class*="andes-ui-typography-heading"],
+[class*="andes-ui-typography--type-head"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Links and buttons -------------------------------------------------- */
+[class^="andes-ui"] a,
+[class*=" andes-ui"] a {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+[class*="andes-ui-button"] {
+  border-color: var(--ml-border, #2f3742) !important;
+}
+[class*="andes-ui-button"][class*="secondary"],
+[class*="andes-ui-button"][class*="neutral"],
+[class*="andes-ui-button"][class*="outline"],
+[class*="andes-ui-button"][class*="tertiary"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Inputs / search ---------------------------------------------------- */
+[class^="andes-ui"] :is(input, textarea, select),
+[class*=" andes-ui"] :is(input, textarea, select) {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border, #2f3742) !important;
+}
+[class^="andes-ui"] :is(input, textarea)::placeholder,
+[class*=" andes-ui"] :is(input, textarea)::placeholder {
+  color: var(--ml-text-disabled, #5a6472) !important;
+}
+
+/* ---- Dividers, list rows, sheets --------------------------------------- */
+[class^="andes-ui"],
+[class*=" andes-ui"] {
+  border-color: var(--ml-border-subtle, #242a33);
+}
+[class*="structured-item"],
+[class*="folder-module"],
+[class*="page-content"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* ---- Header entry point ------------------------------------------------- */
+/* The help link in the navbar belongs to the OLD header but points here; its
+   label was the only other dark text left on the page. */
+.option-help,
+.nav-header .option-help a {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Colour modifiers of this generation win on specificity -------------
+   The measured element carries THREE classes, all from this generation:
+     class="andes-ui-typography andes-ui-structured-item-content__title
+            andes-ui-typography--color-primary"
+   `[class^="andes-ui-typography"]` matches it, but MELI's own modifier
+   (`.andes-ui-typography--color-primary`) is declared later with the same
+   specificity, so it re-asserts rgba(0,0,0,.9).
+
+   `[class*="…"]` would match the token anywhere in the attribute, which is
+   the wildcard shape that caused the hero-image bug; `~=` is different — it
+   matches a WHOLE class token and cannot swallow content classes. These rules
+   therefore use the modifier token as the anchor, which is both specific and
+   scoped by construction. */
+[class*="andes-ui-typography--color-primary"],
+[class*="andes-ui-typography--color-body"],
+[class*="andes-ui-typography--color-default"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="andes-ui-typography--color-secondary"],
+[class*="andes-ui-typography--color-tertiary"],
+[class*="andes-ui-typography--color-muted"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+[class*="andes-ui-typography--color-link"],
+[class*="andes-ui-typography--color-action"] {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+/* Any remaining title/heading token on its own. */
+[class*="structured-item-content__title"],
+[class*="structured-item-content__title"] * {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* Same modifier, but the competitor is more specific than one attribute
+   selector: MELI combines the colour modifier with a size/weight class
+   (`--color-primary` + `--type-body` + `--size-large` + `-body-large-default`).
+   Requiring BOTH the typography AND the colour token raises our specificity to
+   0,2,0 without touching anything outside this generation. */
+[class*="andes-ui-typography"][class*="--color-primary"],
+[class*="andes-ui-typography"][class*="--color-body"],
+[class*="andes-ui-typography"][class*="--color-default"],
+[class*="structured-item-content__title"][class*="andes-ui"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="andes-ui-typography"][class*="--color-secondary"],
+[class*="andes-ui-typography"][class*="--color-tertiary"],
+[class*="andes-ui-typography"][class*="--color-muted"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+
+/* ---- -webkit-text-fill-color overrides `color` --------------------------
+   Root cause of "my colour rule matches but the text stays black":
+
+   This generation paints text with `-webkit-text-fill-color`, which WINS over
+   `color` for the visible glyphs, no matter how specific or how `!important`
+   the `color` declaration is. Measured: a `html body div[...][...][...]
+   { color: rgb(1,1,1) !important }` rule and an `@layer` variant BOTH left the
+   rendered colour at rgba(0,0,0,.9), because only `color` was being contested.
+
+   So every text rule for this generation must set BOTH properties. The same
+   trap can hit any subsystem that uses fill-color; when a "colour rule does
+   nothing" case appears, check `-webkit-text-fill-color` on the computed style
+   before touching specificity. */
+[class*="andes-ui-typography"],
+[class*="andes-ui-typography"] *,
+[class*="structured-item-content__title"],
+[class*="structured-item-content__title"] * {
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="andes-ui-typography"][class*="--color-secondary"],
+[class*="andes-ui-typography"][class*="--color-tertiary"],
+[class*="andes-ui-typography"][class*="--color-muted"],
+[class*="structured-item-content__description"] {
+  -webkit-text-fill-color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+[class*="andes-ui-typography"][class*="--color-link"],
+[class*="andes-ui-typography"][class*="--color-action"] {
+  -webkit-text-fill-color: var(--ml-blue, #5b9bff) !important;
+}
+
+/* `andes-ui-header` primitive: a white bar by default. Used by the floating
+   chat popup on /ayuda and available to any other MELI surface, so it is
+   themed once here instead of per widget. */
+.andes-ui-header,
+[class*="andes-ui-header__content_wrapper"],
+[class*="andes-ui-header__content"] {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.andes-ui-header [class*="title"],
+.andes-ui-header h1,
+.andes-ui-header h2 {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}

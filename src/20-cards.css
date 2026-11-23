@@ -1,0 +1,218 @@
+/* ============================================================================
+   20-cards.css — every container surface in MELI's design system.
+   `.andes-card` is the primitive: 86–127 instances per page, and the result
+   card `.poly-card` is itself an `.andes-card`. Styling the family covers
+   pages that do not exist yet.
+   ========================================================================== */
+
+/* ---- Andes card family -------------------------------------------------- */
+.andes-card,
+.andes-card--primary,
+.andes-card--flat,
+.andes-card--elevated,
+.andes-card__content,
+.andes-card__header,
+.andes-card__footer,
+.andes-card--padding-0,
+.andes-card--padding-8,
+.andes-card--padding-16,
+.andes-card--padding-24,
+.andes-card__overlap {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+.andes-card {
+  border-color: var(--ml-border-subtle) !important;
+  box-shadow: none !important;
+}
+.andes-card--elevated {
+  box-shadow: var(--ml-shadow-card) !important;
+}
+.andes-card__header--border,
+.andes-card__footer--border {
+  border-color: var(--ml-border-subtle) !important;
+}
+.andes-card__header-title,
+.andes-card__footer--common,
+.andes-card__footer--link {
+  color: var(--ml-text-primary) !important;
+}
+.andes-card__footer-arrow {
+  color: var(--ml-text-muted) !important;
+}
+
+/* Nested containers painted white by MELI inside a card must go transparent,
+   not "surface-1", so they blend instead of stacking rectangles. */
+.andes-card__content > div,
+.andes-card__content > section,
+.andes-card__content > ul {
+  background-color: transparent !important;
+}
+
+/* ---- Product card: results grid and lists -------------------------------- */
+.poly-card,
+.poly-card--CORE,
+.poly-card--CPG,
+.poly-card--grid-card,
+.poly-card--list,
+.poly-card--list-card,
+.poly-card--xlarge,
+.poly-card--large,
+.poly-card--medium,
+.poly-card--no-highlight,
+.poly-card--highlight-component,
+.recos-polycard,
+.poly-card__content,
+.poly-card__portada {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+.poly-card {
+  transition: background-color 0.12s ease, box-shadow 0.12s ease;
+}
+.poly-card:hover {
+  background-color: var(--ml-surface-2) !important;
+  box-shadow: var(--ml-shadow-card) !important;
+}
+
+/* Disabled / unavailable listing */
+.poly-card--disabled {
+  background-color: var(--ml-surface-1) !important;
+  opacity: 0.55;
+}
+
+/* Image area: a slightly recessed well so photos read as "inside" the card.
+   Photos themselves are only dimmed by --ml-img-dim in base.css. */
+.poly-card__portada {
+  background-color: var(--ml-surface-2) !important;
+}
+.poly-component__image-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 8, 11, 0) 55%,
+    rgba(6, 8, 11, 0.35) 100%
+  ) !important;
+}
+
+/* Colour-dot widget on the image corner */
+.poly-variations-compacted__circle {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+
+/* ---- Cart / checkout cards (`cl-*` is a different subsystem) ------------- */
+.cl-grouped-card,
+.cl-grouped-card__content,
+.cl-card-header,
+.cl-card-header__coupon-card {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.cl-image-label {
+  background-color: var(--ml-surface-3) !important;
+}
+/* `cl-image-label__overlay` is NOT a panel: it is the translucent scrim that
+   sits ON TOP of the product photo behind the "AGOTADO" / "QUEDAN N" badge.
+   It was accidentally included in the opaque panel list above, which painted a
+   112x112 rectangle of --ml-surface-1 over the whole thumbnail of every
+   labelled product. Only those products lost their photo, which is exactly the
+   reported "en el carrito solo con los que dicen agotado se pierde la imagen".
+   Measured: overlay box 112x112, background rgb(24,28,34) — my surface-1.
+   A scrim must stay translucent; it exists to darken the photo, never hide it. */
+.cl-image-label__overlay,
+[class*="cl-image-label__overlay"] {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+.cl-grouped-card + .cl-grouped-card {
+  border-top-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Seller hub modules (vendedores.mercadolibre.com.co) ------------------ */
+.module-card,
+.module-card__header,
+.module-card__content,
+.tasks-card__subcard,
+.control-panel__segment,
+.recommendation-card-desktop,
+.filter-recommendation-card,
+.recommendation-card__card,
+.recommendation_transition_card,
+.seller-monitor__loading-card,
+.seller-monitor__loading-list {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* The seller hub paints its own canvas rgb(231,233,243). */
+.no-href,
+.andes-layout,
+.main-container,
+.page-container {
+  background-color: transparent !important;
+}
+
+/* ---- Modeless mini-modals / popovers ------------------------------------ */
+.modeless-box,
+.modeless-box-scroll-rail,
+.price-filter__value {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+}
+
+/* ---- Tables and the striped spec table on the PDP ----------------------- */
+.andes-table,
+.andes-table__row,
+.andes-table__column,
+.andes-table__header,
+.andes-table__header__container,
+.ui-vpp-striped-specs,
+.ui-vpp-striped-specs__row,
+.ui-vpp-striped-specs__row__column {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.andes-table__header,
+.andes-table__header--left {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* Striped rows: the light theme alternates #fff / #f5f5f5. */
+.ui-vpp-striped-specs__row:nth-child(odd),
+.andes-table__row:nth-child(even) {
+  background-color: var(--ml-surface-2) !important;
+}
+
+/* ---- Editorial / SEO blocks that MELI injects into listings ------------- */
+.seo-ui-card-blog-entry-container,
+.seo-ui-card-blog-entry,
+.seo-ui-card-blog-entry__content {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Carousels ---------------------------------------------------------- */
+.andes-carousel-snapped__control,
+.andes-carousel-snapped__control--size-small,
+.andes-carousel-snapped__control--size-large {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+  box-shadow: var(--ml-shadow-card) !important;
+}
+.andes-carousel-snapped__control:hover:not(.andes-carousel-snapped__control--disabled) {
+  background-color: var(--ml-surface-4) !important;
+}
+.andes-carousel-snapped__control--disabled {
+  opacity: 0.35;
+}
+.ui-search-carousel__item-generic-card {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}

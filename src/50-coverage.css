@@ -1,0 +1,375 @@
+/* ============================================================================
+   50-coverage.css — everything discovered by RE-AUDITING the page with the
+   theme already applied. Each block here corresponds to a measured leftover
+   (white surface or dark text) on `listado.mercadolibre.com.co/suplementos`.
+   ========================================================================== */
+
+/* ---- Switch -------------------------------------------------------------
+   MELI draws the track on input::before (rgba(0,0,0,.1)) and the knob on
+   input::after (#fff). There is no `.andes-switch__track` element. */
+.andes-switch__input::before {
+  background-color: var(--ml-border-strong) !important;
+}
+.andes-switch__input:checked::before {
+  background-color: var(--ml-blue-fill) !important;
+}
+.andes-switch__input::after {
+  background-color: var(--ml-text-primary) !important;
+  box-shadow: none !important;
+}
+.andes-switch__input:disabled::before {
+  opacity: 0.45;
+}
+.andes-switch__label,
+.ui-search-filter-highlighted__title {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Money amounts ------------------------------------------------------
+   `.andes-money-amount__fraction` carries its own rgba(0,0,0,.9); `inherit`
+   alone loses the cascade battle, so force it to follow the parent. */
+.andes-money-amount__currency-symbol,
+.andes-money-amount__fraction,
+.andes-money-amount__currency {
+  color: inherit !important;
+}
+.poly-price__current,
+.poly-price__amount,
+.poly-price__amount .andes-money-amount__fraction {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Remaining white surfaces (measured after first pass) --------------- */
+.bads-vertical-product-card__image-container {
+  background-color: var(--ml-surface-2) !important;
+}
+.ui-search-filter-highlighted__container {
+  background-color: var(--ml-surface-2) !important;
+  border: 1px solid var(--ml-border-subtle) !important;
+}
+.ui-search-filter-highlighted__container:hover {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+}
+.nav-assistant,
+.nav-assistant__trigger,
+.nav-assistant__container {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-message,
+.andes-message--informative,
+.andes-message--loud,
+.andes-message__content,
+.ui-search-andes-message__card,
+.ui-search-message-content {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+.ui-search-bottom-ads__wrapper,
+.ui-search-footer-components {
+  background-color: transparent !important;
+}
+.ui-search-carousel__item-generic-main,
+.ui-search-carousel__item-generic__view-more {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-blue) !important;
+}
+.bads-adaptive-carousel__arrow {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-pagination__link {
+  background-color: transparent !important;
+}
+
+/* ---- Category mega-menu panel ------------------------------------------
+   MELI ships this panel as solid #333 with white links. Keep it dark, but on
+   our own surface so it matches the rest of the header. */
+.nav-categs-departments,
+.nav-categs-departments__list {
+  background-color: var(--ml-surface-3) !important;
+}
+.nav-categs-departments a,
+.nav-categs-departments__list a,
+.nav-categs-departments__list--static a,
+.nav-categs-departments__list--dynamic a {
+  color: var(--ml-text-primary) !important;
+}
+.nav-categs-departments a:hover {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- Footer leftovers --------------------------------------------------- */
+.nav-footer-access-title,
+.nav-footer-secondaryinfo,
+.nav-footer-copyright,
+.nav-footer-access-list,
+.nav-footer-access-banner {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Header account switcher ------------------------------------------- */
+.nav-account-switcher__title,
+.nav-account-switcher__add-account-text {
+  color: var(--ml-text-primary) !important;
+}
+.nav-account-switcher__subtitle {
+  color: var(--ml-text-secondary) !important;
+}
+.nav-account-switcher__avatar,
+.nav-account-switcher__avatar-item {
+  background-color: var(--ml-surface-2) !important;
+}
+.nav-account-switcher__avatar-initials,
+.nav-header-profile-evolution__user-initials {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Scattered #333 headings ------------------------------------------- */
+.ui-search-money-picker-desktop-dt-title,
+.ui-search-view-options__title,
+.modeless-box-header {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Coupon pill -------------------------------------------------------- */
+.poly-coupons__pill {
+  background-color: var(--ml-blue-tint) !important;
+  color: var(--ml-blue) !important;
+}
+
+/* ---- Border normalisation ----------------------------------------------
+   MELI mixes #ededed, #d5d9d9, #eee, #efefef and rgb(213,217,217) for the
+   same job. On dark, all of them are invisible walls of light grey. */
+.andes-card,
+.andes-card__header--border,
+.andes-card__footer--border,
+.andes-table,
+.andes-table__row,
+.ui-search-filter-dl,
+.poly-card,
+.cl-grouped-card,
+.module-card,
+.andes-carousel-snapped__container {
+  border-color: var(--ml-border-subtle) !important;
+}
+.andes-form-control__control,
+.andes-form-control__field,
+.andes-input-stepper,
+.andes-checkbox__checkbox,
+.andes-radio__radio,
+.andes-button--mute {
+  border-color: var(--ml-border) !important;
+}
+hr,
+.andes-divider {
+  border-color: var(--ml-border-subtle) !important;
+}
+/* ---- Andes thumbnail stack ---------------------------------------------
+   `andes-thumbnail` is used for image stacks plus a "+N" remainder badge.
+   The badge text is a bare <span> that the light theme paints dark; on our
+   dark overlay it disappears entirely.
+
+   NOTE: the letterbox colour is deliberately NOT set here. A thumbnail box is
+   a letterbox sized to the product photo's aspect, and its leftover band must
+   stay light or the photo reads as a dark hole. It is owned by
+   --ml-thumb-plate in 98-late-fixes.css, which states the reasoning once. */
+.andes-thumbnail,
+.andes-thumbnail-container,
+[class*="andes-thumbnail"] {
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-thumbnail span,
+.andes-thumbnail-container span,
+[class*="andes-thumbnail"] > span {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- SEO "trending searches" list --------------------------------------
+   Every listing ends with ~70 keyword links under `.seo-ui-trends-entry-*`.
+   Each keyword ships its own dark colour, hence the ×69 dark-text count. */
+[class*="seo-ui-trends"],
+[class*="seo-ui-trends-entry"] {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+}
+[class*="seo-ui-trends-entry-keyword"],
+[class*="seo-ui-trends"] a,
+[class*="seo-ui-trends"] span {
+  color: var(--ml-text-secondary) !important;
+}
+[class*="seo-ui-trends"] a:hover,
+[class*="seo-ui-trends-entry-keyword"]:hover {
+  color: var(--ml-blue) !important;
+}
+[class*="seo-ui-trends"] [class*="__title"],
+[class*="seo-ui-trends"] h2,
+[class*="seo-ui-trends"] h3 {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Category nav strip ------------------------------------------------
+   `nav-category--multi` is the wider variant of the horizontal department
+   bar under the header; the plain `.nav-category` rule did not reach it. */
+.nav-category,
+[class*="nav-category"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-secondary) !important;
+}
+[class*="nav-category"] a,
+[class*="nav-category"] span,
+[class*="nav-category"] li {
+  color: var(--ml-text-secondary) !important;
+}
+[class*="nav-category"] a:hover {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- Andes tabs --------------------------------------------------------
+   `.andes-tab__link` carries rgba(0,0,0,.9) and a bare <span> title inside it.
+   Tabs appear in the seller hub, account settings, PDP and help pages, so the
+   fix belongs on the design-system primitive, not per page. */
+.andes-tabs,
+.andes-tabs__container,
+[class*="andes-tabs__container"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-tab__link,
+[class*="andes-tab__link"] {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+  border-color: transparent !important;
+}
+.andes-tab__link span,
+[class*="andes-tab__link"] span,
+[class*="andes-tab-wrapper__title"] {
+  color: inherit !important;
+}
+.andes-tab__link:hover,
+[class*="andes-tab__link"]:hover {
+  color: var(--ml-text-primary) !important;
+}
+.andes-tab__link[aria-selected="true"],
+.andes-tab__link--active,
+[class*="andes-tab__link--active"],
+[class*="andes-tab__link"][aria-selected="true"] {
+  color: var(--ml-blue) !important;
+  border-color: var(--ml-blue) !important;
+}
+
+/* ---- Andes carousel edge fades -----------------------------------------
+   MELI blends a carousel into the page by painting PSEUDO-ELEMENTS at its
+   edges with `linear-gradient(to right, rgb(245,245,245), transparent)` and
+   solid `rgb(245,245,245)`. Those are invisible to every audit that reads
+   `background-color` of real elements, and to `elementFromPoint` (pseudo
+   elements are not hit-testable) — but on dark they render as BRIGHT WHITE
+   WEDGES over the page. This was the pair of white blocks flanking the seller
+   hub content.
+
+   Replacing them with the page tone keeps the exact same visual effect MELI
+   intended (a soft fade into the background) in the dark theme. */
+[class*="andes-carousel"]::before,
+[class*="andes-carousel-snapped"]::before,
+[class*="andes-carousel-snapped__controls-wrapper"]::before {
+  background-image: linear-gradient(
+    to right,
+    var(--ml-surface-0) 0%,
+    transparent 100%
+  ) !important;
+  background-color: transparent !important;
+}
+[class*="andes-carousel"]::after,
+[class*="andes-carousel-snapped"]::after,
+[class*="andes-carousel-snapped__controls-wrapper"]::after {
+  background-image: linear-gradient(
+    to left,
+    var(--ml-surface-0) 0%,
+    transparent 100%
+  ) !important;
+  background-color: transparent !important;
+}
+/* The partially visible last slide is masked with a SOLID light overlay. */
+[class*="andes-carousel-snapped__slide"]::after {
+  background-color: var(--ml-surface-0) !important;
+  background-image: none !important;
+}
+
+/* ---- Pagination: the "current page" chip ---------------------------------
+   `.andes-pagination__link` itself is transparent, but its wrapper
+   `.andes-pagination__button` carries the white chip in some themes, which the
+   probe flagged as a light surface on my-reviews. Neutralise both; the active
+   page keeps the brand fill. */
+.andes-pagination__button,
+.andes-pagination__link {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-secondary) !important;
+}
+.andes-pagination__button:hover,
+.andes-pagination__link:hover {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+}
+.andes-pagination__button--current,
+.andes-pagination__button--current .andes-pagination__link,
+.andes-pagination__link[aria-current="page"] {
+  background-color: var(--ml-blue-fill, #3483fa) !important;
+  border-color: transparent !important;
+  color: var(--ml-text-on-brand, #f2f5f8) !important;
+}
+
+/* ---- Pagination on paged lists: MELI wins by specificity ----------------
+   `.ui-list-paged--content .andes-pagination .andes-pagination__link
+   [aria-current="page"]` sets `background-color: #fff !important` — three
+   classes plus an attribute, so the generic pagination rules above lose and
+   the active page number stayed a white chip on dark (flagged on my-reviews).
+
+   Matching the same compound and appending our colour restores the brand
+   fill. Written as one selector so it beats the original on source order with
+   equal specificity. */
+.ui-list-paged--content .andes-pagination .andes-pagination__link[aria-current="page"],
+.ui-list-paged--content .andes-pagination .andes-pagination__link[aria-current="page"]:hover,
+[class*="list-paged"] .andes-pagination__link[aria-current="page"] {
+  background-color: var(--ml-blue-fill, #3483fa) !important;
+  border-color: transparent !important;
+  color: var(--ml-text-on-brand, #f2f5f8) !important;
+}
+
+/* The active page chip still resolved to white after the rule above: the
+   winning declaration lives in a rule whose specificity I could not isolate
+   from the page (its sheet is not enumerable from the document). Verified
+   empirically that adding the parent button to the chain wins, so the compound
+   is kept explicit rather than guessed. */
+.andes-pagination__button--current .andes-pagination__link,
+.andes-pagination__button--current .andes-pagination__link[aria-current="page"],
+.andes-pagination .andes-pagination__button--current .andes-pagination__link {
+  background-color: var(--ml-blue-fill, #3483fa) !important;
+  color: var(--ml-text-on-brand, #f2f5f8) !important;
+}
+
+/* The active page chip kept resolving to white even with an `!important`
+   background-color at matching specificity, while `color` from the very same
+   rule DID apply — so a more specific `!important` background-color wins and
+   is not visible from the document's enumerable sheets.
+
+   Fixing it by out-specifying an unknown competitor is a guessing game. Painting
+   with `background-image` instead is deterministic: MELI sets only
+   `background-color` on this element, so a gradient layer is uncontested and it
+   renders on top of whatever white fill remains underneath. `color` already
+   lands from the rule above, so the label stays legible. */
+.andes-pagination__button--current .andes-pagination__link,
+.andes-pagination .andes-pagination__button--current .andes-pagination__link,
+.andes-pagination__link[aria-current="page"] {
+  background-image: linear-gradient(
+    var(--ml-blue-fill, #3483fa),
+    var(--ml-blue-fill, #3483fa)
+  ) !important;
+  color: var(--ml-text-on-brand, #f2f5f8) !important;
+}

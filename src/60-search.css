@@ -1,0 +1,293 @@
+/* ============================================================================
+   60-search.css — results listing (listado.mercadolibre.com.co paths), its
+   chrome (sort bar, breadcrumb, pagination) and the whole filter sidebar.
+
+   Selectors come from the measured map in NOTAS-mercadolibre-dark.md §7.1
+   (result card anatomy) and §7.4 (filter sidebar). Nothing here is guessed.
+   Families whose suffix MELI renames between deploys (`ui-search-sort*`,
+   `ui-search-carousel*`, `ui-search-applied-filters*`) are matched on the
+   class *family* through [class^=]/[class*=] instead of a fixed descendant
+   chain, which is what keeps this file alive across MELI updates (S4).
+
+   Already dark elsewhere — intentionally not repeated here:
+     card surface, hover .......... 20-cards.css   (.poly-card, .andes-card)
+     `.ui-search-carousel__item-generic-card`
+       surface .................... 20-cards.css
+     `.ui-search-carousel__item-generic-main`,
+       `__view-more` ............... 50-coverage.css
+     `.ui-search-carousel__item-generic-card__title`
+       ............................ 30-text.css
+     prices / shipping / labels ... 30-text.css
+     filter name + group title .... 30-text.css
+     quick-filter title ........... 50-coverage.css
+     money-picker + view-options
+       titles ..................... 50-coverage.css
+     message cards, bottom ads .... 50-coverage.css
+     dropdown / switch / inputs ... 40-forms.css
+     breadcrumb + pagination text . 10-header.css / 30-text.css
+   ========================================================================== */
+
+/* ---- Listing shell ------------------------------------------------------
+   Page, layout column and results container are #f5f5f5 / #fff in the light
+   theme. They have to dissolve into the page, not stack rectangles. */
+.ui-search-main,
+.ui-search-layout,
+.ui-search-results,
+.ui-search-results--without-disclaimer {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Filter sidebar -----------------------------------------------------
+   aside > section.ui-search-filter-groups > div.ui-search-filter-dl >
+   ul > li.ui-search-filter-container (measured, §7.4). */
+aside.ui-search-sidebar,
+section.ui-search-filter-groups {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-search-filter-dl {
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--ml-border-subtle) !important;
+}
+.ui-search-filter-dt-title {
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-search-filter-container {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-search-filter-container:hover {
+  background-color: var(--ml-surface-2) !important;
+}
+/* A checked filter option: the light theme marks it with the blue tint and a
+   blue name. `.ui-search-filter-name`'s *base* colours are in 30-text.css; this
+   is only the selected state, which that file does not cover. */
+.ui-search-filter-container--selected,
+.ui-search-filter-container[aria-checked="true"],
+.ui-search-filter-container:has(.andes-checkbox__input:checked) {
+  background-color: var(--ml-blue-tint) !important;
+}
+.ui-search-filter-container--selected .ui-search-filter-name,
+.ui-search-filter-container[aria-checked="true"] .ui-search-filter-name,
+.ui-search-filter-container:has(.andes-checkbox__input:checked) .ui-search-filter-name {
+  color: var(--ml-text-primary) !important;
+}
+
+/* Quick filters ("Envío gratis", "Ahora 12"…): pill rows above the tree. */
+.ui-search-filter-highlighted {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border: 1px solid var(--ml-border-subtle) !important;
+}
+.ui-search-filter-highlighted:hover {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+}
+.ui-search-filter-highlighted__title {
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* Price picker rows (money picker) and the colour swatch strip. */
+.ui-search-money-picker-desktop__li {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-search-money-picker-desktop-dt-title {
+  border-color: var(--ml-border-subtle) !important;
+}
+/* "$" … "a" … "$" separator between the two price inputs. Its grey is set in
+   30-text.css; on dark it also draws a #d5d9d9 rule that has to go. */
+.ui-search-range-filter__separator {
+  border-color: var(--ml-border-subtle) !important;
+  background-color: transparent !important;
+}
+.ui-search-filter-colors {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* Grid / list switcher: two icon buttons that MELI paints #fff. */
+.ui-search-view-options__item {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+  border: 1px solid transparent !important;
+}
+.ui-search-view-options__item:hover {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+}
+.ui-search-view-options__item--selected,
+.ui-search-view-options__item[aria-pressed="true"],
+.ui-search-view-options__item[class*="--active"] {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+
+/* ---- Applied filter chips ("Limpiar filtros" row) ----------------------- */
+.ui-search-applied-filters {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-search-applied-filters__pill {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border: 1px solid var(--ml-border) !important;
+}
+.ui-search-applied-filters__pill:hover {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+
+/* ---- Sort bar -----------------------------------------------------------
+   "Ordenar por" is #666 next to an andes dropdown; the dropdown panel,
+   trigger and items are already dark from 40-forms.css. Only the bar's own
+   label text needs work, so this block stays deliberately small. */
+.ui-search-sort,
+[class^="ui-search-sort"],
+[class*=" ui-search-sort"] {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class^="ui-search-sort"] label,
+[class*=" ui-search-sort"] label,
+[class^="ui-search-sort"] .andes-dropdown__display-values,
+[class*=" ui-search-sort"] .andes-dropdown__display-values {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Carousels ("Ofertas", sponsored rows, related searches) ------------
+   Only the rail root is reset here, on purpose: the generic-card surface,
+   its title and its "ver más" tile are already dark in 20-cards.css /
+   50-coverage.css / 30-text.css, so a blanket `[class*="ui-search-carousel"]`
+   reset in this later file would win on equal specificity and strip them. */
+.ui-search-carousel {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-search-carousel > h2,
+.ui-search-carousel > header h2,
+.ui-search-carousel > header h3 {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- "Búsquedas relacionadas" pills ------------------------------------- */
+.ui-search-top-keywords__item {
+  background-color: var(--ml-surface-2) !important;
+  border: 1px solid var(--ml-border) !important;
+}
+.ui-search-top-keywords__item:hover {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+.ui-search-top-keywords__item:hover .ui-search-top-keywords__link {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Breadcrumb ---------------------------------------------------------
+   Link/item/chevron colours live in 10-header.css (shared with the PDP);
+   only the strip itself needs to stop being white. */
+.ui-search-breadcrumb,
+.andes-breadcrumb {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Result count line ("1.234 resultados") -----------------------------
+   Colour is secondary from 30-text.css; this only removes the divider MELI
+   paints below it in #ededed. */
+.ui-search-search-result__quantity-results {
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Pagination ---------------------------------------------------------
+   Buttons, current page, dots and arrows are already dark from 40-forms.css
+   and 30-text.css. What is left is the disabled/edge state, where MELI keeps
+   a white button with #999 text. Mapping: disabled drops to the recessed
+   --ml-surface-1 and keeps --ml-text-muted, which still clears 4.5:1 (4.68:1)
+   on that surface — the muted token on the normal --ml-surface-2 button would
+   only reach 4.27:1 and fail. */
+.andes-pagination {
+  border-color: var(--ml-border-subtle) !important;
+}
+.andes-pagination__button--disabled,
+.andes-pagination__button[disabled] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.andes-pagination__button--disabled .andes-pagination__link,
+.andes-pagination__button[disabled] .andes-pagination__link {
+  color: var(--ml-text-muted) !important;
+}
+
+/* ---- Message cards / bottom ads ----------------------------------------
+   `.ui-search-message-content`, `.ui-search-andes-message__card` and
+   `.ui-search-bottom-ads__wrapper` are already handled in 50-coverage.css —
+   not repeated here on purpose. */
+/* ---- Filter sidebar: structural safety net -----------------------------
+   MELI ships at least two different markups for this column depending on the
+   A/B bucket, and the class-based rules above only cover the bucket I could
+   measure. In a real-user session the group titles ("Tipo de promoción",
+   "Categorías") and the facet list still rendered as `#333` / `#666` on the
+   dark page — 1.7:1 and 3.2:1, i.e. effectively unreadable.
+
+   These rules do NOT depend on MELI's class names: they anchor on the sidebar
+   container and reach its headings and links structurally, with literal
+   fallbacks so the colour is correct even if a token fails to resolve. */
+aside,
+[class*="ui-search-sidebar"],
+[class*="ui-search-filter-groups"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+/* Group titles and any heading inside the facet column. */
+aside h2,
+aside h3,
+aside h4,
+aside dt,
+[class*="ui-search-sidebar"] h2,
+[class*="ui-search-sidebar"] h3,
+[class*="ui-search-sidebar"] h4,
+[class*="ui-search-filter"] h2,
+[class*="ui-search-filter"] h3,
+[class*="ui-search-filter"] h4,
+[class*="filter-dt-title"],
+[class*="filter-title"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+/* Facet entries: label + count, whatever the wrapper class is. */
+aside li,
+aside li a,
+aside li label,
+aside li span,
+[class*="ui-search-filter"] li,
+[class*="ui-search-filter"] li a,
+[class*="ui-search-filter"] li label,
+[class*="ui-search-filter"] li span,
+[class*="filter-name"] {
+  color: var(--ml-text-facet, #c2cbdb) !important;
+}
+/* Keep the interaction feedback: hover and the applied facet go bright/blue. */
+aside li:hover,
+aside li a:hover,
+[class*="ui-search-filter"] li:hover,
+[class*="ui-search-filter"] li:hover a,
+[class*="ui-search-filter"] li:hover span {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+aside li[class*="selected"],
+aside li[class*="active"],
+[class*="ui-search-filter"] li[class*="--selected"],
+[class*="ui-search-filter"] li[class*="active"] {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+/* Result count / "N productos" line, which sits in the same column. */
+[class*="result-count"],
+[class*="ui-search-title"],
+[class*="ui-search-results-count"] {
+  color: var(--ml-text-facet, #c2cbdb) !important;
+}

@@ -1,0 +1,181 @@
+/* ===========================================================================
+   91-home.css — home-page "ecosystem" widgets
+   ===========================================================================
+
+   The landing page is built from yet another set of components, separate from
+   the `ui-*` search stack (60-search), the `poly-*` cards (20-cards) and the
+   `andes-landings-*` campaign shell (92-landings). Nothing in the earlier
+   passes matched any of the prefixes below, which is why they rendered as
+   dark-on-dark and white-on-dark patches:
+
+     advertising-square*              promo tile (also the white block that
+                                      appears to the right of the hero)
+     dynamic-access-card-ecosistemic* "Medios de pago", "Menos de $40.000",
+                                      "Más vendidos", "Compra protegida"
+     card-grid-anchor                 department grid titles
+     card-item__title                 carousel card titles
+     section-header(__title)          section headings
+     row-container(--white)           section shell marked "white"
+     loyalty-widget-v2*               loyalty / shipping banner
+     site-shopping-info               "Paga con tarjeta o en efectivo" strip
+
+   Every literal here was measured on the live home page: `rgba(0,0,0,.9)` for
+   titles and body, `rgb(255,255,255)` for the shells, `rgb(75,75,75)` for the
+   small promo caption.
+
+   Hard rule inherited from 92-landings.css: never widen a `[class*="…"]`
+   substring so that it can swallow a content class. `advertising-square__info`
+   and `advertising-square` are both surfaces, but `…__image` / `…__thumbnail`
+   are media and stay untouched; selectors below name the exact classes.
+   =========================================================================== */
+
+/* ---- Section shells that are hard-coded white --------------------------- */
+.row-container,
+.row-container--white,
+.section-header,
+.site-shopping-info,
+.loyalty-widget-v2,
+.loyalty-widget-v2__body,
+.loyalty-widget-v2__body__coupon,
+.advertising-square {
+  background-color: transparent !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* The page itself carries the tone; these shells only need to stop painting
+   white over it. Where a shell genuinely needs a raised surface (the promo
+   tile), give it the card tone instead of transparency. */
+.advertising-square {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+.loyalty-widget-v2,
+.loyalty-widget-v2__body,
+.site-shopping-info {
+  background-color: var(--ml-surface-1, #181c22) !important;
+}
+
+/* ---- Headings ----------------------------------------------------------- */
+.section-header__title,
+.section-header h1,
+.section-header h2,
+.section-header h3,
+.section-header__link,
+.card-grid-anchor,
+.card-item__title {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* "Mostrar todas las ofertas" and friends sit next to the heading. */
+.section-header__link,
+.section-header a {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+
+/* ---- "Ecosystem" access cards (Medios de pago / Más vendidos / …) ------- */
+.dynamic-access-card-ecosistemic,
+.dynamic-access-card-ecosistemic__container,
+.dynamic-access-card-ecosistemic__body {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+.dynamic-access-card-ecosistemic__title {
+  color: var(--ml-text-primary, #e3e8ef) !important; /* was rgba(0,0,0,.9) */
+}
+.dynamic-access-card-ecosistemic__description {
+  color: var(--ml-text-secondary, #a9b3c1) !important; /* was rgba(0,0,0,.9) */
+}
+/* The card ships a blue CTA; it must keep its fill and its label. */
+.dynamic-access-card-ecosistemic a,
+.dynamic-access-card-ecosistemic button {
+  border-color: var(--ml-border, #2f3742) !important;
+}
+
+/* ---- Promo tile caption ------------------------------------------------- */
+/* `HASTA 40% OFF` is rgb(75,75,75) at 10px/600 — 1.6:1 on the dark tile. */
+.advertising-square__info,
+.advertising-square__info--title,
+.advertising-square__info--text {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.advertising-square__info--text {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+
+/* ---- Carousel cards inside the home sections ---------------------------- */
+/* `card-item__title` is the home carousel card; the product cards on listings
+   are `poly-*` and were already handled in 20-cards.css. */
+.card-item,
+.card-item__content,
+.card-item__body {
+  background-color: transparent !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.card-item__price,
+.card-item .andes-money-amount,
+.card-item .andes-money-amount__fraction {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Department grid ---------------------------------------------------- */
+.card-grid-anchor:hover {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+/* ---- "Paga con tarjeta o en efectivo" strip ------------------------------
+   Inside `.site-shopping-info` MELI renders `.info-slide` with a bare
+   `<h2>`, `<p>` and `<a>` — no classes at all — at rgb(75,75,75) and
+   rgba(0,0,0,.65). Class-based coverage can never reach them, so these
+   rules anchor on the container and go structural. */
+.site-shopping-info .info-slide h2,
+.site-shopping-info .info-slide h3,
+.site-shopping-info .info-slide strong,
+.site-shopping-info [class^="info-slide"] :is(h2, h3, strong) {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.site-shopping-info .info-slide p,
+.site-shopping-info .info-slide span,
+.site-shopping-info .info-slide li,
+.site-shopping-info [class^="info-slide"] :is(p, span, li) {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+.site-shopping-info .info-slide a,
+.site-shopping-info [class^="info-slide"] a {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+
+/* ---- Category block + back-navigation row ------------------------------- */
+/* `categories-new-design > row > wrapper` and `navigation > row container
+   history` are both plain `<div>` shells hard-coded white. */
+.categories-new-design,
+.categories-new-design .row,
+.categories-new-design .wrapper,
+[class^="categories-new"],
+[class^="categories-new"] .row,
+[class^="categories-new"] .wrapper,
+.navigation .row,
+.navigation [class*="history"],
+[class*="row"][class*="container"] {
+  background-color: transparent !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.navigation [class*="history"] :is(h1, h2, h3, h4, span, p, a, div) {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Carousel page dots ------------------------------------------------- */
+/* The snapped carousel renders page markers as `<button>` pills painted #fff;
+   on a dark page they look like stray white commas. */
+.andes-carousel-snapped__container button,
+.andes-carousel-snapped button,
+[class^="andes-carousel-snapped"] li > button {
+  background-color: var(--ml-border-strong, #3d4653) !important;
+  border-color: transparent !important;
+}
+.andes-carousel-snapped__container button[aria-selected="true"],
+.andes-carousel-snapped button[aria-selected="true"],
+[class^="andes-carousel-snapped"] li > button[class*="active"],
+[class^="andes-carousel-snapped"] li > button[aria-current="true"] {
+  background-color: var(--ml-blue, #5b9bff) !important;
+}

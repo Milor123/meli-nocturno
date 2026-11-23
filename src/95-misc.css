@@ -1,0 +1,363 @@
+/* ============================================================================
+   95-misc.css — everything that does not belong to a page: Meli Ads units,
+   promo pills, shortcut hints, the leftover andes-* primitives (toast,
+   progress, spinner, tooltip wrapper, carousel dots) and the tags MELI's own
+   design system paints white with no page context.
+
+   HARD RULE for this file: `.polylabel-fw-*` and `.polylabel-fs-*` are
+   font-weight / font-size utilities, NOT colour classes. Setting colour on
+   them breaks typography everywhere. Only `.polylabel-*` *pill* variants are
+   coloured here.
+
+   Ads and product imagery are never dimmed, filtered or opacitied in this
+   file: dimming belongs to --ml-img-dim in base.css (S3).
+
+   Already dark elsewhere — intentionally not repeated here:
+     .bads-vertical-product-card__image-container .......... 50-coverage.css
+     .bads-vertical-product-card__title/price/subtitle ..... 30-text.css
+     .bads-adaptive-carousel__arrow ........................ 50-coverage.css
+     .andes-tooltip*, .andes-modal*, .andes-snackbar*,
+       .andes-toast (surface + text) ....................... 40-forms.css
+     .shortcut-key (surface) ............................... 10-header.css
+     .modeless-box* surfaces ............................... 20-cards.css
+     .poly-variations-compacted__circle .................... 20-cards.css
+     .ui-label-builder text ................................ 30-text.css
+   `.image-option` / `.image-option-select`, `.andes-progress*`,
+   `.andes-spinner*` and `.andes-carousel-snapped__dot` are styled nowhere else,
+   so this file owns them completely.
+   ========================================================================== */
+
+/* ---- Meli Ads -----------------------------------------------------------
+   `.bads-vertical-product-card` is a real ad card: keep it as a distinct
+   panel so it reads as an ad, never as organic content. The photo inside is
+   untouched (only --ml-img-dim applies).
+   The family reset sets NO background and NO colour on purpose: 50-coverage.css
+   already paints `.bads-vertical-product-card__image-container`
+   (--ml-surface-2) and `.bads-adaptive-carousel__arrow` (--ml-surface-3), and
+   30-text.css already owns the card's title / price / subtitle colours. A
+   blanket background/colour here would win on equal specificity simply by
+   being later in the bundle and wipe both. */
+[class^="bads-"],
+[class*=" bads-"] {
+  border-color: var(--ml-border-subtle) !important;
+}
+.bads-vertical-product-card {
+  background-color: var(--ml-surface-1) !important;
+  border: 1px solid var(--ml-border-subtle) !important;
+}
+/* The image well keeps a recessed surface so white studio shots do not glare.
+   `.bads-vertical-product-card__image-container` itself is already painted in
+   50-coverage.css; only the unmeasured `*image*` siblings are caught here. */
+[class^="bads-"][class*="image"]:not(.bads-vertical-product-card__image-container),
+[class*=" bads-"][class*="image"]:not(.bads-vertical-product-card__image-container) {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* Adaptive carousel rail: transparent so it sits on whatever page hosts it. */
+.bads-adaptive-carousel,
+[class^="bads-adaptive-carousel"],
+[class*=" bads-adaptive-carousel"] {
+  background-color: transparent !important;
+}
+/* Carousel navigation arrows (the base rule is in 50-coverage.css). Hover
+   raises them to the top layer; disabled drops one layer AND keeps
+   --ml-text-secondary (7.35:1 on surface-2) rather than --ml-text-muted, so the
+   only difference is depth + a weaker border, never a sub-4.5:1 label. */
+.bads-adaptive-carousel__arrow:hover {
+  background-color: var(--ml-surface-4) !important;
+  border-color: var(--ml-border-strong) !important;
+  color: var(--ml-text-primary) !important;
+}
+.bads-adaptive-carousel__arrow--disabled {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-secondary) !important;
+}
+/* "Publicidad" / sponsored micro-label under the unit. */
+[class^="bads-"][class*="label"],
+[class*=" bads-"][class*="label"],
+.bads-vertical-product-card__ads-promotions {
+  color: var(--ml-text-muted) !important;
+}
+
+/* ---- Promo pills (`polylabel-*`) --------------------------------------
+   ONLY the pill variants. `.polylabel-fw-*`/`.polylabel-fs-*` are excluded on
+   purpose and must stay untouched.
+   `.polylabel-pill` already gets the brand green fill + off-white text from
+   40-forms.css. Every variant below therefore restates BOTH its surface and
+   its text, otherwise a `color`-only override would put green text on a green
+   fill, or pink text on a green fill. */
+.polylabel-pill {
+  border-color: var(--ml-border-subtle) !important;
+}
+/* Discount / "-25%" pill: tinted green surface, lightened green text. */
+.polylabel-pill--discount,
+.polylabel-price--discount,
+[class*="polylabel-pill"][class*="discount"] {
+  background-color: var(--ml-green-tint) !important;
+  color: var(--ml-green) !important;
+}
+/* Promo / campaign pill, pink surface on light. */
+.polylabel-pill--promo,
+.polylabel-pill--offer,
+[class*="polylabel-pill"][class*="promo"] {
+  background-color: var(--ml-pink-tint) !important;
+  color: var(--ml-pink) !important;
+}
+/* Scarcity / last-units pill, peach surface on light. */
+.polylabel-pill--scarcity,
+[class*="polylabel-pill"][class*="scarcity"] {
+  background-color: var(--ml-peach-tint) !important;
+  color: var(--ml-orange) !important;
+}
+
+/* ---- Swatch / option tiles ---------------------------------------------
+   `.image-option` and `.image-option-select` are the white-bordered pickers
+   (colour/photo variants). Surface for `.image-option` is 20-cards.css. */
+.image-option,
+.image-option-select {
+  border-color: var(--ml-border) !important;
+}
+.image-option:hover,
+.image-option-select:hover {
+  border-color: var(--ml-border-strong) !important;
+}
+.image-option--selected,
+.image-option-select--selected,
+.image-option[aria-checked="true"],
+.image-option-select[aria-checked="true"] {
+  border-color: var(--ml-blue) !important;
+  background-color: var(--ml-surface-2) !important;
+}
+
+/* ---- Keyboard shortcut hints ------------------------------------------
+   Surface + text are in 10-header.css / 30-text.css; the inner `<kbd>` and the
+   divider between hint fragments are not. */
+.shortcut-key kbd,
+.shortcut-key__key {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+/* The separator sits on the --ml-surface-2 key chip (10-header.css);
+   --ml-text-secondary is used instead of --ml-text-muted, which only reaches
+   4.27:1 against that surface. */
+.shortcut-key__separator {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Modeless boxes ---------------------------------------------------
+   Surfaces are 20-cards.css (`.modeless-box`, `.modeless-box-scroll-rail`) and
+   the header text colour is 50-coverage.css; neither is restated here. What is
+   left is the header/footer band edges and the close affordance. */
+.modeless-box-header,
+.modeless-box-footer {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.modeless-box__close,
+.modeless-box-close {
+  color: var(--ml-text-secondary) !important;
+}
+.modeless-box__close:hover,
+.modeless-box-close:hover {
+  background-color: var(--ml-surface-4) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Andes tooltip / modal / snackbar / toast -------------------------
+   All surfaces are dark from 40-forms.css. Only the pieces that file does not
+   name are here: tooltip arrow, modal header border, snackbar action link. */
+.andes-tooltip__arrow,
+.andes-tooltip__arrow::before {
+  background-color: var(--ml-surface-4) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-modal__header,
+.andes-dialog__header {
+  border-bottom: 1px solid var(--ml-border-subtle) !important;
+}
+.andes-modal__footer,
+.andes-dialog__footer {
+  border-top: 1px solid var(--ml-border-subtle) !important;
+}
+.andes-snackbar__action,
+.andes-toast__action {
+  color: var(--ml-blue) !important;
+}
+.andes-snackbar__close,
+.andes-toast__close {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Carousel dots ---------------------------------------------------- */
+.andes-carousel-snapped__dot {
+  background-color: var(--ml-border-strong) !important;
+  border-color: transparent !important;
+}
+.andes-carousel-snapped__dot--active,
+.andes-carousel-snapped__dot[aria-current="true"] {
+  background-color: var(--ml-blue) !important;
+}
+
+/* ---- Progress / spinner ----------------------------------------------- */
+.andes-progress {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.andes-progress__bar,
+.andes-progress__value,
+.andes-progress-bar {
+  background-color: var(--ml-blue-fill) !important;
+}
+.andes-progress-container,
+.andes-progress-track {
+  background-color: var(--ml-surface-3) !important;
+}
+.andes-spinner,
+.andes-spinner__icon {
+  color: var(--ml-blue) !important;
+}
+.andes-spinner__circle,
+.andes-spinner__ring {
+  border-color: var(--ml-border-strong) !important;
+  border-top-color: var(--ml-blue) !important;
+}
+
+/* ---- Misc leftovers --------------------------------------------------- */
+.ui-label-builder {
+  background-color: transparent !important;
+}
+.poly-variations-compacted__circle--selected,
+.poly-variations-compacted__circle[aria-checked="true"] {
+  border-color: var(--ml-blue) !important;
+  box-shadow: 0 0 0 1px var(--ml-blue) !important;
+}
+/* ---- Coupons page (/cupones) -------------------------------------------
+   The coupon card is its own small vocabulary with NO prefix at all, so
+   nothing in this theme matched it:
+
+     .coupon-card
+       .top-row                        --ml-green-tint (dark since my remap)
+         .text-label                   rgba(0,0,0,.55)   393 nodes
+         .subtitles                     already fixed by generic rules
+       .die-cut                        rgb(255,255,255)  102 nodes
+       .bottom-row.expiration-date      --ml-green-tint
+         .expiration-text              rgba(0,0,0,.55)    78 nodes
+
+   Two distinct defects:
+     1. MELI's black 55% text sits on MY dark green band, not on white, so it
+        is invisible. The tidied text must go light now that the band is dark.
+     2. `.die-cut` is the perforated separator strip painted pure white — the
+        white line cutting each card in half on the user's screenshot.
+
+   Counts came from the probe at 753 problems on this one page, the second
+   largest single-page figure measured for this theme. */
+.coupon-card .text-label,
+.coupon-card .subtitles,
+.coupon-card .expiration-text,
+.coupon-card .top-row,
+.coupon-card .bottom-row,
+.coupon-card span:not([class]),
+.coupon-card p {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* Secondary lines (the "Compra minima / Tope de" wording) sit one step down
+   so the headline amount still leads the eye. */
+.coupon-card .text-label,
+.coupon-card .expiration-text {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+
+/* The perforated strip: was pure white, must be the dark band. A dashed
+   border keeps the "tear here" affordance after the white is gone. */
+.coupon-card .die-cut,
+[class*="coupon-card"] .die-cut {
+  background-color: var(--ml-green-tint, #14261d) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #242a33) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.coupon-card .die-cut > *,
+[class*="coupon-card"] .die-cut * {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* The big "10% OFF" / "$ 50.000 OFF" amount is the card's anchor and MELI
+   paints it green; on a dark green band the green needs more luminance. */
+.coupon-card [class*="title"],
+.coupon-card strong,
+.coupon-card b {
+  color: var(--ml-green, #34d17a) !important;
+  -webkit-text-fill-color: var(--ml-green, #34d17a) !important;
+}
+
+/* Screen-reader-only nodes are reported by the probe but paint nothing. */
+.coupon-card .sr-only,
+.sr-only {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* ---- Purchase history (/gz/home/navigation) ----------------------------
+   Fifth namespace that never had a pass of its own: `ui-navigation-*`.
+
+     ui-navigation-month-label                         52 nodes
+     ui-navigation-component-list__item(.__month-label) 49 nodes
+     ui-navigation-header__lgpd__title / __content
+     ui-navigation__collapsible* , ui-navigation-icon
+
+   Measured defects on the live page:
+
+     .ui-navigation-month-label            rgba(0,0,0,.55)  "Noviembre"
+     .ui-navigation-header__lgpd__title    rgba(0,0,0,.9)   "Tu historial"
+     .ui-navigation-header__lgpd__content  a light surface
+
+   The per-item status line ("Publicación finalizada", "Compra cancelada",
+   "Vencida") reuses `ui-navigation-component-list__item` and inherits the same
+   light-theme black, which is the reported "esa font quedó negra y casi no se
+   lee". Both properties are set because this page also has fill-color cases. */
+[class*="ui-navigation-month-label"],
+[class*="ui-navigation-component-list__item"],
+[class*="ui-navigation-header__lgpd__title"],
+[class*="ui-navigation__collapsible"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+/* Month labels are a header, so they stay one step softer than item titles. */
+[class*="ui-navigation-month-label"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+/* Any descendant that MELI painted black inside a history row. */
+[class*="ui-navigation-component-list__item"] *,
+[class*="ui-navigation__collapsible"] * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+/* The LGPD notice is a light card with a dark title. */
+[class*="ui-navigation-header__lgpd"],
+[class*="ui-navigation-header__lgpd__content"],
+[class*="ui-navigation-header__lgpd__switch-wrapper"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #242a33) !important;
+}
+[class*="ui-navigation__container"],
+[class*="ui-navigation-v2"],
+[class*="ui-navigation__collapsible-content"] {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+/* Status punctuation stays meaningful: cancelled/expired uses the danger tone,
+   finished uses the muted tone. Matching is on the visible word, which is the
+   only stable hook these rows offer. */
+[class*="ui-navigation-component-list__item"] [class*="status"],
+[class*="ui-navigation-component-list__item"] [class*="state"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary, #a9b3c1) !important;
+}

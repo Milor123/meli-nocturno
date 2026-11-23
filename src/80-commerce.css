@@ -1,0 +1,290 @@
+/* ============================================================================
+   80-commerce.css — cart (…/gz/cart*) and checkout.
+
+   Two subsystems meet here:
+   • `cl-*` — the cart/checkout layout cards.
+   • `poly-*` / `andes-*` — the product rows and controls inside them, which
+     come from the same design system as the results grid.
+
+   The measured map (NOTAS §7.1/§7.3) names the cart primitives only at family
+   level: `cl-grouped-card*`, `cl-card-header*`, `cl-image-label*`,
+   `andes-input-stepper*`, `poly-coupons__pill`, and `checkout-*` /
+   coupon / delivery / totals as *families*. Leaf names inside those families
+   are not measured, so they are matched as families
+   (`[class^="x"], [class*=" x"]`) instead of being invented as BEM leaves —
+   that is also what makes the file survive a MELI rename (S4).
+
+   Already dark elsewhere — intentionally not repeated here:
+     .cl-grouped-card*, .cl-card-header*, .cl-image-label* ... 20-cards.css
+     .poly-card* surfaces + hover ........................... 20-cards.css
+     .poly-card--checkbox / --list / --list-card /
+       --disabled / --no-highlight / --highlight-component .. 20-cards.css
+     .andes-input-stepper* (container, wrapper, content,
+       button, value, helper, disabled) ..................... 40-forms.css
+     .andes-money-amount*, .andes-badge* .................... 30-text.css /
+                                                             40-forms.css
+     .andes-button--loud (checkout CTA) ..................... 40-forms.css
+     .poly-coupons__pill .................................... 50-coverage.css
+     .ui-box ................................................ 70-pdp.css
+   ========================================================================== */
+
+/* ---- Cart rows ---------------------------------------------------------
+   Each item is a `.cl-grouped-card` (surface from 20-cards.css). The row
+   bodies and action strips inside are re-painted #fff by MELI, and the
+   divider between items is #ededed. */
+[class^="cl-grouped-card"],
+[class*=" cl-grouped-card"] {
+  border-color: var(--ml-border-subtle) !important;
+}
+[class^="cl-grouped-card"] > div,
+[class*=" cl-grouped-card"] > div,
+[class^="cl-grouped-card"] > section,
+[class*=" cl-grouped-card"] > section,
+[class^="cl-grouped-card"] > ul,
+[class*=" cl-grouped-card"] > ul {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Cart header -------------------------------------------------------
+   `.cl-card-header` is a white band holding the group title. */
+[class^="cl-card-header"],
+[class*=" cl-card-header"] {
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class^="cl-card-header"] h2,
+[class*=" cl-card-header"] h2,
+[class^="cl-card-header"] h3,
+[class*=" cl-card-header"] h3 {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Image labels on cart thumbnails ("Última unidad", scarcity) -------
+   Surface, background and text colour are already set by 20-cards.css, which
+   is why this file does NOT restate them. Nothing to add: the label is a
+   self-contained overlay and its own `color` is inherited from the card. */
+
+/* ---- Quantity stepper: only what 40-forms.css leaves open --------------
+   The `<input>` itself is not covered there, and it is what keeps the middle
+   of the stepper white. */
+.andes-input-stepper input {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: transparent !important;
+}
+
+/* ---- Coupon field and coupon rows --------------------------------------
+   The input is an `.andes-form-control` (40-forms.css); its wrapper and the
+   applied-coupon rows are not. Applied coupons are a mint surface on light,
+   so they become --ml-green-tint and keep green money text (NOT text-green
+   on a green fill — the tint is a surface, the text is --ml-green). */
+[class^="coupon"],
+[class*=" coupon"],
+[class^="cl-coupon"],
+[class*=" cl-coupon"] {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+[class^="coupon"] [class*="row"],
+[class*=" coupon"] [class*="row"],
+[class^="cl-coupon"] [class*="row"],
+[class*=" cl-coupon"] [class*="row"],
+[class^="coupon"][class*="applied"],
+[class*=" coupon"][class*="applied"] {
+  background-color: var(--ml-green-tint) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class^="coupon"] [class*="row"] .andes-money-amount,
+[class*=" coupon"] [class*="row"] .andes-money-amount,
+[class^="cl-coupon"] [class*="row"] .andes-money-amount,
+[class*=" cl-coupon"] [class*="row"] .andes-money-amount,
+[class^="coupon"] .andes-money-amount,
+[class*=" coupon"] .andes-money-amount {
+  color: var(--ml-green) !important;
+}
+
+/* ---- Shipping / delivery option rows -----------------------------------
+   Radio + label pairs in a white well; the selected one gets a blue border.
+   The radio control itself is 40-forms.css, so only the row is touched. */
+[class*="shipping-option"],
+[class*="delivery-option"],
+[class^="checkout-shipping"],
+[class*=" checkout-shipping"],
+[class^="checkout-delivery"],
+[class*=" checkout-delivery"] {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class*="shipping-option"]:hover,
+[class*="delivery-option"]:hover {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+/* Selected row — MELI's own pattern is the blue tint + blue border pair. */
+[class*="shipping-option"][class*="--selected"],
+[class*="delivery-option"][class*="--selected"],
+[class*="shipping-option"] [aria-checked="true"],
+[class*="delivery-option"] [aria-checked="true"] {
+  background-color: var(--ml-blue-tint) !important;
+  border-color: var(--ml-blue) !important;
+}
+
+/* ---- Checkout shell and steps ------------------------------------------
+   `[class^="checkout-"], [class*=" checkout-"]` is a family reset, so it sits
+   BEFORE the component rules below and every component rule carries one more
+   compound than it (`.checkout-*--card`, `.checkout-*[class*="payment"]`), so
+   source order never decides the outcome. */
+[class^="checkout-"],
+[class*=" checkout-"] {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* Where a `.checkout-*` panel is a real card, MELI marks it by modifier; those
+   get the card surface instead of dissolving. */
+[class^="checkout-"][class*="--card"],
+[class*=" checkout-"][class*="--card"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* Step indicator strip + current step. */
+[class^="checkout-"] [class*="progress"],
+[class*=" checkout-"] [class*="progress"],
+[class*="step-indicator"],
+[class*="step"][class*="--current"] {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class*="step"][class*="--completed"] {
+  color: var(--ml-green) !important;
+}
+
+/* ---- Payment method cards ----------------------------------------------
+   Each method is a selectable card; selected = blue outline, same primitive
+   as the delivery rows. Compound specificity beats the family reset above. */
+[class^="checkout-"] [class*="payment"],
+[class*=" checkout-"] [class*="payment"] {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+[class^="checkout-"] [class*="payment"]:hover,
+[class*=" checkout-"] [class*="payment"]:hover {
+  background-color: var(--ml-surface-2) !important;
+}
+[class^="checkout-"] [class*="payment"][class*="--selected"],
+[class*=" checkout-"] [class*="payment"][class*="--selected"],
+[class^="checkout-"] [class*="payment"][aria-checked="true"],
+[class*=" checkout-"] [class*="payment"][aria-checked="true"] {
+  background-color: var(--ml-blue-tint) !important;
+  border-color: var(--ml-blue) !important;
+}
+
+/* ---- Totals ----------------------------------------------------------------
+   The summary the user is about to pay: subtotal, shipping, total. Money text
+   must never be dimmed here — rows are transparent so amounts inherit primary
+   and the struck/previous price keeps its muted styling from 30-text.css.
+   The panel and the row reset are two compounds apart in specificity
+   (`[class*="totals"]` vs `[class*="totals"][class*="container"]`), so source
+   order never flattens the panel. */
+[class*="totals"][class*="container"],
+[class*="totals"][class*="--card"],
+[class*="totals-summary"],
+[class^="cl-summary"][class*="--card"],
+[class*=" cl-summary"][class*="--card"] {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class*="totals"],
+[class^="cl-summary"],
+[class*=" cl-summary"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class*="totals"] [class*="label"] {
+  color: var(--ml-text-secondary) !important;
+}
+[class*="totals"] [class*="--total"],
+[class*="totals"] [class*="grand"] {
+  border-top: 1px solid var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+/* Free shipping inside the summary keeps the brand green, not muted grey. */
+[class*="totals"] [class*="free"] {
+  color: var(--ml-green) !important;
+}
+
+/* ---- Empty cart --------------------------------------------------------- */
+[class^="cl-empty"],
+[class*=" cl-empty"] {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+}
+/* ============================================================================
+   Cart verification pass — measured on `/gz/cart/v2` with the theme applied.
+   Note on the cart URL: `/gz/cart/v2` is MELI's internal route ("gz" gateway,
+   "v2" of the cart app). It is the canonical cart URL; nothing to normalise.
+   ========================================================================== */
+
+/* Selected-attributes line ("Color: Negro") inside the cart row. */
+.poly-attributes_selected,
+.poly-attributes_selected__item,
+.poly-attributes,
+.poly-component__attributes-selected,
+.poly-component__attributes {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* Coupon discount label on the price line ("con Cupón"). */
+.cl-price__discount-label,
+.cl-price__discount,
+[class*="cl-price__discount"] {
+  color: var(--ml-green) !important;
+}
+.cl-price,
+.cl-price__value,
+.cl-price__amount {
+  color: var(--ml-text-primary) !important;
+}
+
+/* Recommendations rail under the cart. */
+.recommendations-wrapper,
+[class*="recommendations-wrapper"] {
+  background-color: var(--ml-surface-0) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* Header user menu: "Compras" shortcut rows and the older account block.
+   `.user-menu--hidden` is measured markup, not a mistake: MELI keeps it in the
+   DOM and flips its visibility. Styling it costs nothing and prevents a white
+   flash when the menu opens. */
+.user-menu__shortcuts,
+.user-menu__shortcuts a,
+.user-menu__shortcuts li a,
+.user-menu__shortcuts-tag,
+.user-menu__old,
+.user-menu__old a,
+.nav-header-user-layer a {
+  color: var(--ml-text-primary) !important;
+}
+.user-menu__old,
+.nav-header-user-layer {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* Category panel header ("Tecnología") — the div carries no class at all, so
+   the only handle is the parent's namespace. */
+.nav-categs-detail__header,
+.nav-categs-detail__header div,
+.nav-categs-detail__header span,
+.nav-categs-detail > div {
+  color: var(--ml-text-primary) !important;
+}

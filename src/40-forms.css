@@ -1,0 +1,409 @@
+/* ============================================================================
+   40-forms.css — buttons, inputs, checkboxes, switches, steppers, badges,
+   dropdowns, tooltips, modals, snackbars. Everything that has a native or
+   design-system control affordance.
+   ========================================================================== */
+
+/* ---- Buttons ------------------------------------------------------------ */
+.andes-button {
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  color: var(--ml-text-primary) !important;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+/* Primary / loud: brand blue fill stays, text is off-white. */
+.andes-button--loud,
+.andes-button--primary {
+  background-color: var(--ml-blue-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+.andes-button--loud:hover,
+.andes-button--primary:hover {
+  background-color: #4a90fb !important;
+}
+.andes-button--loud:disabled,
+.andes-button--loud[disabled] {
+  background-color: var(--ml-border-strong) !important;
+  color: var(--ml-text-muted) !important;
+}
+
+/* Secondary / mute: a real dark surface, never white. */
+.andes-button--mute {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+.andes-button--mute:hover {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+
+/* Quiet: tinted blue, blue text — the "Agregar al carrito" look. */
+.andes-button--quiet,
+.andes-button--secondary {
+  background-color: var(--ml-blue-tint) !important;
+  border-color: transparent !important;
+  color: var(--ml-blue) !important;
+}
+.andes-button--quiet:hover,
+.andes-button--secondary:hover {
+  background-color: var(--ml-blue-tint-strong) !important;
+}
+
+/* Link-style */
+.andes-button--link,
+.andes-button--text {
+  background-color: transparent !important;
+  color: var(--ml-blue) !important;
+}
+.andes-button--link:hover,
+.andes-button--text:hover {
+  color: var(--ml-blue-fill) !important;
+  text-decoration: underline;
+}
+
+/* Legacy MELI button classes still in the wild */
+.button-primary,
+.btn-primary {
+  background-color: var(--ml-blue-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+.button-secondary,
+.btn-secondary {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Text inputs / selects ---------------------------------------------- */
+.andes-form-control,
+.andes-form-control__control,
+.andes-form-control__field,
+.andes-form-control--textfield input,
+.andes-form-control--textfield select,
+.andes-form-control--textfield textarea,
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+  box-shadow: none !important;
+}
+.andes-form-control__field:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--ml-blue) !important;
+  box-shadow: 0 0 0 1px var(--ml-blue) !important;
+}
+.andes-form-control__label,
+.andes-form-control__helper,
+.andes-form-control__message {
+  color: var(--ml-text-secondary) !important;
+}
+.andes-form-control--error .andes-form-control__control,
+.andes-form-control__control--error {
+  border-color: var(--ml-red) !important;
+}
+.andes-form-control__message--error {
+  color: var(--ml-red) !important;
+}
+select option {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Checkbox ----------------------------------------------------------- */
+.andes-checkbox__checkbox {
+  background-color: transparent !important;
+  border-color: var(--ml-border-strong) !important;
+}
+.andes-checkbox__icon {
+  color: var(--ml-text-on-brand) !important;
+}
+.andes-checkbox__input:checked + .andes-checkbox__checkbox,
+.andes-checkbox__input:checked ~ .andes-checkbox__checkbox {
+  background-color: var(--ml-blue-fill) !important;
+  border-color: var(--ml-blue-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+.andes-checkbox__label,
+.andes-checkbox--label-right .andes-checkbox__label {
+  color: var(--ml-text-primary) !important;
+}
+.andes-checkbox--disabled {
+  opacity: 0.5;
+}
+
+/* ---- Radio -------------------------------------------------------------- */
+.andes-radio__radio {
+  border-color: var(--ml-border-strong) !important;
+  background-color: transparent !important;
+}
+.andes-radio__input:checked + .andes-radio__radio {
+  border-color: var(--ml-blue) !important;
+  color: var(--ml-blue) !important;
+}
+.andes-radio__label {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Switch (quick filters) --------------------------------------------- */
+.andes-switch__input + .andes-switch__track,
+.andes-switch__track {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+.andes-switch__input:checked + .andes-switch__track,
+.andes-switch__input:checked ~ .andes-switch__track {
+  background-color: var(--ml-blue-fill) !important;
+  border-color: var(--ml-blue-fill) !important;
+}
+.andes-switch__input + .andes-switch__track::after,
+.andes-switch__track::after {
+  background-color: var(--ml-text-primary) !important;
+}
+.andes-switch__label {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Quantity stepper (cart) -------------------------------------------- */
+.andes-input-stepper,
+.andes-input-stepper__container,
+.andes-input-stepper__wrapper,
+.andes-input-stepper__content {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+.andes-input-stepper__button {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-input-stepper__button:hover:not([disabled]) {
+  background-color: var(--ml-surface-3) !important;
+}
+.andes-input-stepper__button[disabled] {
+  color: var(--ml-text-disabled) !important;
+}
+.andes-input-stepper__value {
+  color: var(--ml-text-primary) !important;
+}
+.andes-input-stepper__helper {
+  color: var(--ml-text-muted) !important;
+}
+
+/* ---- Badges ------------------------------------------------------------- */
+.andes-badge {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+}
+.andes-badge--accent {
+  background-color: var(--ml-blue-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+.andes-badge--accent--quiet {
+  background-color: var(--ml-blue-tint) !important;
+  color: var(--ml-blue) !important;
+}
+.andes-badge--gray {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+}
+.andes-badge--gray--quiet {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-secondary) !important;
+}
+.andes-badge--success {
+  background-color: var(--ml-green-tint) !important;
+  color: var(--ml-green) !important;
+}
+.andes-badge--warning {
+  background-color: var(--ml-peach-tint) !important;
+  color: var(--ml-orange) !important;
+}
+.andes-badge--danger,
+.andes-badge--error {
+  background-color: var(--ml-red-tint) !important;
+  color: var(--ml-red) !important;
+}
+.andes-badge__content {
+  color: inherit !important;
+}
+
+/* MELI "polylabel" pills: green shipping pill and its variants. */
+.polylabel-pill {
+  background-color: var(--ml-green-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+.polylabel-pill--quiet {
+  background-color: var(--ml-green-tint) !important;
+  color: var(--ml-green) !important;
+}
+
+/* ---- Dropdown / listbox ------------------------------------------------- */
+.andes-dropdown,
+.andes-dropdown__popover,
+.andes-dropdown__menu,
+.andes-list,
+.andes-list__item {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+}
+.andes-list__item:hover,
+.andes-list__item--selected {
+  background-color: var(--ml-surface-4) !important;
+}
+.andes-dropdown__trigger,
+.andes-dropdown__display-values {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Pagination --------------------------------------------------------- */
+.andes-pagination__button {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-pagination__button:hover {
+  background-color: var(--ml-surface-3) !important;
+}
+.andes-pagination__button--current {
+  background-color: var(--ml-blue-fill) !important;
+  border-color: var(--ml-blue-fill) !important;
+}
+.andes-pagination__dot {
+  background-color: var(--ml-text-muted) !important;
+}
+.andes-pagination__arrow-title {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Tooltip / snackbar / modal ----------------------------------------- */
+.andes-tooltip__content,
+.andes-tooltip {
+  background-color: var(--ml-surface-4) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+}
+.andes-snackbar,
+.andes-snackbar__content,
+.andes-toast {
+  background-color: var(--ml-surface-4) !important;
+  color: var(--ml-text-primary) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+}
+.andes-modal__mask,
+.andes-modal-background,
+.andes-overlay {
+  background-color: var(--ml-overlay) !important;
+}
+.andes-modal__container,
+.andes-modal__body,
+.andes-modal__header,
+.andes-modal__footer,
+.andes-dialog,
+.andes-dialog__container {
+  background-color: var(--ml-surface-4) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-modal__close,
+.andes-dialog__close {
+  color: var(--ml-text-secondary) !important;
+}
+/* ---- Modal: single-dash variant ----------------------------------------
+   MELI ships the same dialog under two naming schemes. The rules above use the
+   BEM form (`.andes-modal__container`), but real overlays — the address picker
+   is the measured case — use `.andes-modal-dialog` / `.andes-modal--loose`
+   with no double underscore at all. That variant stayed pure white and was
+   reported as "el modal de cambiar dirección sale todo blanco". */
+.andes-modal-dialog,
+.andes-modal--loose,
+.andes-modal-content,
+.modal-dialog,
+.modal-content {
+  background-color: var(--ml-surface-4, #2e3540) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border, #2f3742) !important;
+}
+.andes-modal-dialog :is(h1, h2, h3, h4, h5, p, span, label, li, strong),
+.andes-modal--loose :is(h1, h2, h3, h4, h5, p, span, label, li, strong) {
+  color: inherit !important;
+}
+.andes-modal-dialog a,
+.andes-modal--loose a {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+/* Sticky footer of the dialog: a white bar under a dark panel. */
+.andes-modal-dialog [class*="footer"],
+.andes-modal--loose [class*="footer"],
+.andes-modal-dialog footer,
+.andes-modal--loose footer {
+  background-color: var(--ml-surface-4, #2e3540) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+/* Backdrop stays a scrim, never a solid. */
+.andes-modal-bg {
+  background-color: var(--ml-overlay, rgba(6, 8, 11, 0.72)) !important;
+}
+
+/* ---- Modal: the bare `.andes-modal` root ---------------------------------
+   Measured on the "Medios de pago" overlay (#show-modal), the largest dialog
+   MELI builds. Its root is `<div class="andes-modal modal andes-modal--large">`
+   — no `__container`, no `-dialog`, just `.andes-modal`. Every modal rule in
+   this file keyed off a longer name, so this root kept its default white and
+   the dialog rendered as a white sheet with a dark header sitting on top of
+   it: the reported "panel blanco con el contenido oscuro".
+
+   `.andes-modal-bg` / `.andes-modal__overlay` are the two scrims MELI uses;
+   both must stay a translucent dark scrim, never a solid surface. */
+.andes-modal,
+.andes-modal--large,
+.andes-modal--medium,
+.andes-modal--small,
+.andes-modal--full {
+  background-color: var(--ml-surface-4, #2e3540) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border, #2f3742) !important;
+}
+.andes-modal__overlay,
+.andes-modal__mask--dark,
+.andes-modal-bg {
+  background-color: var(--ml-overlay, rgba(6, 8, 11, 0.78)) !important;
+}
+/* Children inherit from the root so nothing inside can re-assert #333 or
+   rgba(0,0,0,.9) on its own; the exceptions below re-tint deliberately. */
+.andes-modal :is(h1, h2, h3, h4, h5, h6, p, span, div, li, dt, dd, strong, em) {
+  color: inherit !important;
+}
+.andes-modal a,
+.andes-modal a * {
+  color: var(--ml-blue, #5b9bff) !important;
+}
+/* Sticky header/footer bars inside the large dialog. */
+.andes-modal__header,
+.andes-modal__footer,
+.andes-modal [class*="modal__header"],
+.andes-modal [class*="modal__footer"] {
+  background-color: var(--ml-surface-4, #2e3540) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+/* Media slots: the payment-method cards draw white logos on white tiles. Keep
+   the tile a raised surface, never pure white, and never dim the logo. */
+.andes-modal img,
+.andes-modal [class*="thumbnail"],
+.andes-modal [class*="logo"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+}

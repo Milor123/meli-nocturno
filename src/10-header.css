@@ -1,0 +1,223 @@
+/* ============================================================================
+   10-header.css — top navigation, search field, suggestions, user menu,
+   category mega-menu, footer. MELI's header is white (nav-header-plus) or
+   brand yellow depending on the variant; both become dark here.
+   ========================================================================== */
+
+.nav-header,
+.nav-header-plus,
+.nav-header-wrapper,
+#nav-header.nav-header-plus {
+  background-color: var(--ml-surface-1) !important;
+  border-bottom: 1px solid var(--ml-border-subtle) !important;
+  box-shadow: none !important;
+}
+
+/* The classic yellow band variant: keep a brand hint, but dark. */
+.nav-header:not(.nav-header-plus) {
+  background-color: var(--ml-surface-1) !important;
+}
+
+/* ---- search field ------------------------------------------------------- */
+.nav-search-input,
+.nav-search .nav-search-input {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border: 1px solid var(--ml-border) !important;
+  box-shadow: none !important;
+}
+.nav-search-input::placeholder {
+  color: var(--ml-text-disabled) !important;
+}
+.nav-search-btn,
+.nav-search .nav-icon-search,
+button.nav-search-btn {
+  background-color: transparent !important;
+  color: var(--ml-text-secondary) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- search suggestions (opens under the field) ------------------------- */
+.sb-suggestions,
+.sb-suggestions__list,
+.sb-suggestions__item,
+.nav-search-suggestions {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+}
+.sb-suggestions__item:hover,
+.sb-suggestions__item--highlighted {
+  background-color: var(--ml-surface-4) !important;
+}
+.sb-suggestions__item,
+.sb-suggestions__title {
+  color: var(--ml-text-primary) !important;
+}
+.sb-suggestions__footer,
+.sb-suggestions__hint {
+  color: var(--ml-text-muted) !important;
+}
+
+/* ---- category mega-menu ------------------------------------------------- */
+.nav-categs-detail,
+.nav-categs-detail__container,
+.nav-categs-detail__content,
+.nav-categs-detail .nav-categs-detail__item {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+}
+.nav-categs-detail__title,
+.nav-categs-detail__link,
+.nav-categs-detail__item a {
+  color: var(--ml-text-primary) !important;
+}
+.nav-categs-detail__item:hover,
+.nav-categs-detail__link:hover {
+  background-color: var(--ml-surface-4) !important;
+  color: var(--ml-blue) !important;
+}
+
+/* ---- user dropdown ------------------------------------------------------ */
+.user-menu,
+.user-menu__one-column,
+.nav-header-user-layer,
+.nav-header-profile-evolution__container,
+.nav-account-switcher {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+  color: var(--ml-text-primary) !important;
+}
+.user-menu__item,
+.user-menu__link,
+.nav-menu-item-link,
+.nav-menu-link-cp,
+.nav-menu-categories-link,
+.option-purchases,
+.bookmarks-text {
+  color: var(--ml-text-primary) !important;
+}
+.user-menu__item:hover,
+.user-menu__link:hover,
+.nav-menu-item-link:hover,
+.option-purchases:hover {
+  background-color: var(--ml-surface-4) !important;
+}
+.user-menu__divider,
+.nav-menu-divider {
+  border-color: var(--ml-border-subtle) !important;
+}
+.user-menu__shortcuts-tag,
+.nav-link-tag {
+  background-color: var(--ml-blue-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+
+/* ---- header text, badges, cart ------------------------------------------ */
+.nav-header-username,
+.nav-menu-cp,
+.nav-menu-cp-logged,
+.nav-menu-cp-send,
+.nav-header-cp-anchor,
+.nav-header-user-myml {
+  color: var(--ml-text-primary) !important;
+}
+.nav-header-notifications-badge,
+.nav-cart .nav-header-notifications-badge {
+  background-color: var(--ml-blue-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+.nav-cart {
+  color: var(--ml-text-primary) !important;
+}
+.nav-cart:hover {
+  background-color: var(--ml-surface-2) !important;
+}
+
+/* ---- Icon font ---------------------------------------------------------
+   MELI's header icons are NOT svg: they are empty <i class="nav-icon-cart">
+   elements whose glyph lives in ::before as a private-use codepoint
+   (e.g. content: "\ea1f") and is painted with `color`. MELI's own rule wins
+   over a bare `.nav-cart` (element+class beats class), so the selector below
+   is element + class + attribute. Measured dark glyphs: nav-icon-search,
+   nav-menu-cp, nav-icon-notifications, nav-icon-cart, nav-icon-chevron-up. */
+.nav-header i[class^="nav-icon-"],
+.nav-header i[class*=" nav-icon-"],
+header i[class^="nav-icon-"],
+header i[class*=" nav-icon-"],
+.nav-header .nav-cart i,
+.nav-header .option-notifications i,
+/* Global fallback: every MELI icon-font glyph is a dark codepoint, so any of
+   them must be light regardless of which header variant renders it. */
+i[class^="nav-icon-"],
+i[class*=" nav-icon-"] {
+  color: var(--ml-text-primary) !important;
+}
+/* MELI ALSO sets the colour on the pseudo-element itself, e.g.
+   `.nav-icon-cart:before { color: rgba(0,0,0,.898) }`. An !important on the
+   element does not reach it, so the glyph needs its own rule. `inherit`
+   keeps this generic: the glyph always follows whatever colour the element
+   resolved to, including the per-context overrides below. */
+i[class^="nav-icon-"]::before,
+i[class*=" nav-icon-"]::before,
+i[class^="nav-icon-"]::after,
+i[class*=" nav-icon-"]::after {
+  color: inherit !important;
+}
+.nav-header .nav-cart:hover i,
+.nav-header .option-notifications:hover i {
+  color: var(--ml-blue) !important;
+}
+/* The search magnifier sits on a raised field: keep it secondary, not white. */
+.nav-search i[class^="nav-icon-"],
+.nav-search i[class*=" nav-icon-"],
+.nav-search .nav-icon-search {
+  color: var(--ml-text-secondary) !important;
+}
+/* Location pin + its label pulse on the left of the header. */
+.nav-header .nav-menu-cp,
+.nav-header .nav-menu-cp i,
+.nav-header .nav-header-cp-anchor {
+  color: var(--ml-text-primary) !important;
+}
+.shortcut-name,
+.shortcut-key {
+  color: var(--ml-text-primary) !important;
+}
+.shortcut-key {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- footer ------------------------------------------------------------- */
+.nav-footer,
+.nav-footer-wrapper,
+footer[role="contentinfo"] {
+  background-color: var(--ml-surface-1) !important;
+  border-top: 1px solid var(--ml-border-subtle) !important;
+}
+.nav-footer-title,
+.nav-footer-link,
+.nav-footer a {
+  color: var(--ml-text-secondary) !important;
+}
+.nav-footer a:hover {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- breadcrumb (shared between search and PDP) ------------------------- */
+.andes-breadcrumb__link,
+.andes-breadcrumb__item,
+.ui-search-breadcrumb__title,
+.ui-search-breadcrumb__link {
+  color: var(--ml-text-secondary) !important;
+}
+.andes-breadcrumb__link:hover {
+  color: var(--ml-blue) !important;
+}
+.andes-breadcrumb__chevron {
+  color: var(--ml-text-muted) !important;
+}

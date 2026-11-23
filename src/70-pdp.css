@@ -1,0 +1,512 @@
+/* ============================================================================
+   70-pdp.css — product detail page (www.mercadolibre.com.co/.../p/MCO*).
+
+   Measured namespaces on the PDP (§7.2): ui-pdp 804, ui-review 348,
+   ui-vpp 284, ui-recommendations 45, ui-video 42, ui-seller 39, ui-box 5,
+   ui-vip 1. Families whose leaf names change between deploys are matched by
+   class family ([class^=]/[class*=]) so a renamed leaf cannot unstyle a block.
+
+   Rules followed here:
+   • Product photos are NEVER filtered, dimmed or recoloured in this file.
+     Photo brightness is owned by --ml-img-dim in base.css.
+   • Brand identity is kept: blue fills for primary actions (40-forms.css),
+     green for savings / free shipping, yellow only for brand marks.
+   • High-specificity + !important because MELI ships inline styles here.
+
+   Already dark elsewhere — intentionally not repeated here:
+     cards / carousels / specs stripes .. 20-cards.css
+     andes-table* surfaces + stripes .... 20-cards.css
+     title, price, description, review
+       and Q&A text ..................... 30-text.css
+     andes-button*, badges, steppers ... 40-forms.css
+     recos-polycard surface ............ 20-cards.css
+   ========================================================================== */
+
+/* ---- Gallery -----------------------------------------------------------
+   MELI ships white figures. They become a recessed well so the photo still
+   reads as an object on a dark surface. No filter: see base.css. */
+.ui-pdp-gallery,
+.ui-pdp-gallery__figure {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-pdp-gallery__figure {
+  border: 1px solid var(--ml-border-subtle) !important;
+}
+.ui-pdp-gallery__thumbnail {
+  background-color: var(--ml-surface-2) !important;
+  border: 1px solid var(--ml-border) !important;
+}
+.ui-pdp-gallery__thumbnail:hover {
+  border-color: var(--ml-border-strong) !important;
+}
+.ui-pdp-gallery__thumbnail--selected,
+.ui-pdp-gallery__thumbnail[aria-current="true"],
+.ui-pdp-gallery__thumbnail[class*="--active"] {
+  border-color: var(--ml-blue) !important;
+}
+.ui-pdp-gallery__zoom {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- Page shell --------------------------------------------------------- */
+.ui-pdp-main {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+}
+.ui-pdp-container {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-pdp-header {
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Price block -------------------------------------------------------
+   Second line, struck original value, subtle/disclaimer and installments are
+   coloured in 30-text.css. Only the discount label is new here. */
+.ui-pdp-price__discount {
+  color: var(--ml-green) !important;
+}
+.ui-pdp-price__disclaimer {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Buy box -----------------------------------------------------------
+   Colour-only on the family: the CTA buttons inside are `.andes-button*` and
+   must keep their own brand fills from 40-forms.css. */
+[class^="ui-pdp-buybox"],
+[class*=" ui-pdp-buybox"] {
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* Benefits strip ("Compra Protegida", trust/benefit marks). The indigo icon
+   colour is set in 30-text.css; here the strip stops painting #fff. */
+[class^="ui-pdp-benefits"],
+[class*=" ui-pdp-benefits"] {
+  background-color: transparent !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Variations (size, storage, colour) --------------------------------
+   Pills are white with a #d5d9d9 outline in the light theme. Selected state
+   is matched through the ARIA/state attributes MELI already ships plus their
+   `--selected` modifier, so no leaf name is assumed. */
+[class^="ui-pdp-variations"],
+[class*=" ui-pdp-variations"] {
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class^="ui-pdp-variations"] select,
+[class*=" ui-pdp-variations"] select {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+[class^="ui-pdp-variations"] [class*="--selected"]:not(.andes-button),
+[class*=" ui-pdp-variations"] [class*="--selected"]:not(.andes-button),
+[class^="ui-pdp-variations"] [aria-checked="true"],
+[class*=" ui-pdp-variations"] [aria-checked="true"],
+[class^="ui-pdp-variations"] [aria-pressed="true"],
+[class*=" ui-pdp-variations"] [aria-pressed="true"] {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-blue) !important;
+}
+
+/* Colour swatches: a dot on a white ring. */
+[class^="ui-pdp-color-variation-picker"],
+[class*=" ui-pdp-color-variation-picker"] {
+  color: var(--ml-text-secondary) !important;
+  border-color: var(--ml-border) !important;
+}
+[class^="ui-pdp-color-variation-picker"] [class*="--selected"],
+[class*=" ui-pdp-color-variation-picker"] [class*="--selected"],
+[class^="ui-pdp-color-variation-picker"] [aria-checked="true"],
+[class*=" ui-pdp-color-variation-picker"] [aria-checked="true"] {
+  border-color: var(--ml-blue) !important;
+}
+
+/* ---- Seller / shipping / pickup / warranty -----------------------------
+   Small info cards around the buy box. Background only: their text colours
+   are owned by 30-text.css and must not be flattened here. */
+[class^="ui-pdp-seller"],
+[class*=" ui-pdp-seller"],
+[class^="ui-pdp-shipping"],
+[class*=" ui-pdp-shipping"],
+[class^="ui-pdp-pickup"],
+[class*=" ui-pdp-pickup"],
+[class^="ui-pdp-warranty"],
+[class*=" ui-pdp-warranty"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-pdp-seller {
+  background-color: var(--ml-surface-1) !important;
+}
+/* Free-shipping wording inside the delivery calculator keeps the brand green
+   affordance; the `.shipping-free` / `.andes-money-amount--free` primitives
+   themselves are coloured once in 30-text.css, not re-declared here. */
+[class^="ui-pdp-shipping"] .shipping-free,
+[class*=" ui-pdp-shipping"] .shipping-free {
+  color: var(--ml-green) !important;
+}
+
+/* ---- Description -------------------------------------------------------- */
+[class^="ui-pdp-description"],
+[class*=" ui-pdp-description"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class^="ui-pdp-description"] h2,
+[class*=" ui-pdp-description"] h2,
+[class^="ui-pdp-description"] h3,
+[class*=" ui-pdp-description"] h3,
+[class^="ui-pdp-description"] h4,
+[class*=" ui-pdp-description"] h4 {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Technical specs (striped table) -----------------------------------
+   `.andes-table*`, `.ui-vpp-striped-specs*` rows/columns, their surfaces and
+   the odd/even striping are done in 20-cards.css and not repeated here. What
+   that file leaves open is the muted "id" column MELI renders in #666. */
+.ui-vpp-striped-specs__row__column--id {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Reviews -----------------------------------------------------------
+   Comment text, titles, dates and the rating average are coloured in
+   30-text.css. Star/bar fills are the brand mark: they are left exactly as
+   MELI draws them (yellow on dark is the recognised affordance). */
+[class^="ui-review"],
+[class*=" ui-review"],
+[class^="ui-reviews"],
+[class*=" ui-reviews"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class^="ui-review"] progress,
+[class*=" ui-review"] progress,
+[class^="ui-reviews"] progress,
+[class*=" ui-reviews"] progress {
+  background-color: var(--ml-surface-3) !important;
+  /* `accent-color`, not `color`: this is the star/bar fill (the one place
+     --ml-yellow is allowed — it is a brand mark, not text) and it needs to
+     override the UA light-theme accent, not paint a label. */
+  accent-color: var(--ml-yellow) !important;
+  color: var(--ml-yellow) !important;
+}
+
+/* ---- Questions & answers ------------------------------------------------ */
+[class^="ui-pdp-questions"],
+[class*=" ui-pdp-questions"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-pdp-questions__thread {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border: 1px solid var(--ml-border-subtle) !important;
+}
+
+/* ---- Product video -----------------------------------------------------
+   Framed on a dark well. NEVER filtered, dimmed or opacitied (S3). */
+[class^="ui-video"],
+[class*=" ui-video"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- Recommendations ("Productos relacionados", ui-vip) ----------------
+   `.recos-polycard` and the list/grid card surfaces are already dark from
+   20-cards.css; this only neutralises the rails and headers. */
+[class^="ui-recommendations"],
+[class*=" ui-recommendations"] {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+[class^="ui-recommendations"] h2,
+[class*=" ui-recommendations"] h2,
+[class^="ui-vip"],
+[class*=" ui-vip"] {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Generic MELI box --------------------------------------------------
+   `.ui-box` is the small white panel used for shipping/warranty summaries on
+   the PDP and the cart. Styled once here, reused by 80-commerce.css. */
+.ui-box {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* ============================================================================
+   PDP colour leftovers — measured on a real /p/MCO* page AFTER the first pass.
+   MELI has a `ui-pdp-color--<NAME>` modifier family (like BEM + a palette),
+   which is a stable hook: map the suffix instead of chasing leaves.
+   ========================================================================== */
+
+/* Family hook: ui-pdp-color--BLACK / --GRAY / --DARK are literal light-theme
+   text colours (rgba(0,0,0,.9) and rgba(0,0,0,.55)). */
+[class*="ui-pdp-color--BLACK"],
+[class*="ui-pdp-color--DARK"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="ui-pdp-color--GRAY"],
+[class*="ui-pdp-color--GREY"] {
+  color: var(--ml-text-secondary) !important;
+}
+
+.ui-pdp-subtitle,
+.ui-pdp-review__rating,
+.ui-pdp-review__amount,
+.ui-pdp-review__label,
+.ui-pdp-promotions-pill-label__text,
+.ui-pdp-stock-information,
+.ui-pdp-stock-information__label,
+[class*="ui-pdp-stock"] {
+  color: var(--ml-text-secondary) !important;
+}
+
+.ui-pdp-related-search__item,
+.ui-pdp-related-search__link,
+.ui-pdp-outside_variations__title__label,
+.ui-pdp-outside_variations__title__value,
+.ui-pdp-products__label,
+.ui-vpp-striped-specs__header,
+.ui-vpp-striped-specs__header__text,
+.ui-recommendations-font-color--BLACK {
+  color: var(--ml-text-primary) !important;
+}
+.ui-recommendations-font-color--GRAY {
+  color: var(--ml-text-muted) !important;
+}
+
+/* The benefits list under the buybox ("Devolución gratis", "Compra Protegida")
+   is a set of links, so it gets the link colour, not grey. */
+.ui-pdp-action-modal__link,
+[class*="ui-pdp-benefits"] a,
+[class*="ui-pdp-benefits"] .ui-pdp-action-modal__link {
+  color: var(--ml-blue) !important;
+}
+
+/* Decorative diamond/separator above the promotions box is painted white. */
+.ui-pdp-promotions-pill,
+.ui-pdp-promotions-pill__label,
+.ui-pdp-promotions-pill__container {
+  background-color: var(--ml-green-tint) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-pdp-promotions-pill::before,
+.ui-pdp-promotions-pill__label::before,
+.ui-pdp-promotions-pill__container::before,
+.ui-pdp-promotions-pill::after,
+.ui-pdp-promotions-pill__label::after {
+  background-color: var(--ml-green-tint) !important;
+  border-color: var(--ml-green-tint) !important;
+}
+
+/* ---- Second PDP pass: reviews, variation pills, buybox meta -------------
+   Measured with the theme applied. The review subsystem is its own namespace
+   (348 nodes) and has its own titles/labels/dates. */
+.ui-review-capability__header__title,
+.ui-review-capability__reviews-carousel__title,
+.ui-review-capability__summary__description__title,
+.ui-review-capability__summary__plain_text__sum,
+.ui-review-capability-comments__comment__content,
+.ui-review-capability-comments__comment__title,
+.ui-review-comments__comment__content,
+.ui-review-capability__rating__average,
+.ui-review-capability__rating__label,
+.total-opinion,
+.ui-reviews-label-icon,
+.ui-review-capability-comments__comment__date,
+.ui-review-capability-comments__comment__meta {
+  color: var(--ml-text-primary) !important;
+}
+.ui-review-capability-comments__comment__date,
+.ui-review-capability-comments__comment__meta,
+.ui-review-capability__summary__description__text,
+.ui-review-capability__status__text {
+  color: var(--ml-text-muted) !important;
+}
+/* Rating histogram — NO VENDOR PSEUDO-ELEMENTS HERE.
+   An earlier pass assumed MELI rendered each star row as <progress> and wrote
+   ::-webkit-progress-value / ::-moz-progress-bar rules. That was wrong: the
+   histogram is a <div> track plus a <span> fill painted with a gradient, and
+   the `.ui-review-capability__rating__progress` class those rules targeted does
+   not exist in the DOM at all (verified: 0 <progress> and 0 <meter> on every
+   page measured). The real styling lives in 98-late-fixes.css under
+   `li.ui-review-capability-rating__level`.
+
+   The dead rules were also the source of the Stylus editor warning: any rule
+   mentioning a vendor pseudo-element trips its "Unexpected prefix" linter even
+   when the selector can never match. Removed rather than split. */
+/* Star glyphs are an icon font too; they must follow the yellow, not the text. */
+[class*="ui-review-capability__rating"] i[class*="star"],
+[class*="ui-review-capability__rating"] [class^="ui-review-star"],
+[class^="ui-review-star"],
+[class*=" ui-review-star"],
+.ui-pdp-review__stars i,
+.ui-pdp-review__stars svg {
+  color: var(--ml-yellow) !important;
+  fill: var(--ml-yellow) !important;
+}
+
+/* Variation pills: unselected are dark text on dark; selected is brand blue. */
+[class*="ui-pdp-variations"] button,
+[class*="ui-pdp-variations"] [role="radio"],
+[class*="ui-pdp-outside_variations"] button,
+[class*="ui-pdp-outside_variations"] [role="radio"],
+.ui-pdp-variations__picker button,
+.ui-pdp-variations__picker span {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class*="ui-pdp-variations"] [aria-checked="true"],
+[class*="ui-pdp-variations"] [aria-selected="true"],
+[class*="ui-pdp-variations"] [class*="--selected"],
+[class*="ui-pdp-outside_variations"] [class*="--selected"] {
+  background-color: var(--ml-blue-fill) !important;
+  border-color: var(--ml-blue-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+.ui-pdp-variations__title,
+.ui-pdp-outside_variations__title {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* "Stock disponible" + the Full line under it. */
+.ui-pdp-stock-information,
+.ui-pdp-stock-information__title,
+[class*="ui-pdp-stock"] ,
+.ui-pdp-promotions-pill-label,
+.ui-pdp-promotions-pill-label__text,
+.ui-pdp-promotions-pill__label,
+.ui-pdp-promotions-pill__label-title,
+.ui-pdp-promotions-pill__label-text {
+  color: var(--ml-text-secondary) !important;
+}
+.ui-pdp-promotions-pill__label b,
+.ui-pdp-promotions-pill__label strong {
+  color: var(--ml-text-primary) !important;
+}
+
+/* Seller sales counter ("+100 mil ventas"). */
+.ui-pdp-seller__sales,
+.ui-pdp-seller__sales-description,
+[class*="ui-seller"] [class*="sales"] {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* Other-sellers list ("29 productos nuevos desde …"). */
+.ui-pdp-other-sellers-item__tag,
+.ui-pdp-other-sellers-item__title,
+[class*="ui-pdp-other-sellers"] {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+.ui-box-component__title,
+.ui-box__title {
+  color: var(--ml-text-primary) !important;
+}
+.nav-assistant-heading {
+  color: var(--ml-text-primary) !important;
+}
+/* The gallery thumbnails are letterboxes too: their leftover band must stay
+   light, otherwise the photo reads as a dark hole. Colour lives in
+   --ml-thumb-plate (98-late-fixes.css). */
+.ui-pdp-gallery__zoom-container,
+.ui-pdp-thumbnail__picture {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+.andes-thumbnail,
+.andes-thumbnail--circle {
+  border-color: var(--ml-border) !important;
+}
+[class*="ui-pdp"] button {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- "Opiniones" hub (my-reviews) ---------------------------------------
+   This page reuses the `ui-reviews-*` namespace but adds a COLOUR MODIFIER as
+   a second class: `ui-reviews-color--handes-green-500`. That modifier has
+   higher specificity than the namespace rule above, and it sets the light
+   theme's green/grey, so labels stayed at rgba(0,0,0,.55) — the reported
+   "los títulos y las fechas de las opiniones no se leen".
+
+   Note the typo is MELI's own: `handes-` (an `andes-` + `h` typo) is shipped in
+   production, so it must be matched literally. */
+[class*="ui-reviews-color--handes-green"],
+[class*="ui-reviews-color--andes-green"],
+[class*="ui-reviews-color--green"] {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}
+/* Titles inside the pending-review cards are content, not metadata. */
+[class*="ui-reviews"] [class*="--title"],
+[class*="ui-reviews"] h1,
+[class*="ui-reviews"] h2,
+[class*="ui-reviews"] h3,
+[class*="ui-reviews"] h4,
+[class*="ui-reviews"] [class*="product-title"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+/* Dates and counters are deliberately quieter than titles. */
+[class*="ui-reviews"] [class*="--date"],
+[class*="ui-reviews"] [class*="--subtitle"],
+[class*="ui-reviews"] [class*="--count"] {
+  color: var(--ml-text-muted, #7c8794) !important;
+}
+
+/* ---- Pending-review star selector --------------------------------------
+   The star row is NOT an icon font and NOT <progress>: it is a 5-item
+   `andes-list` where each item holds an inline `<svg>` whose `<path>` is
+   `fill="currentColor"` and whose computed `color` is rgba(0,0,0,.25) — a
+   near-black wash meant for the white theme. On the dark card it collapsed
+   into a solid dark blob, exactly as reported ("el widget de estrellas es un
+   manchón oscuro").
+
+   `fill=currentColor` means re-tinting `color` is enough; no per-path rule is
+   needed and the icons stay crisp vectors. */
+ul[class*="rating-select"] li svg,
+ul[class*="rating-select"] svg,
+[class*="rating-select__item"] svg {
+  color: var(--ml-border-strong, #3d4653) !important; /* empty star */
+}
+/* A rated item marks the filled stars; they keep MELI's yellow (brand mark). */
+ul[class*="rating-select"] li:not([class*="unselected"]) svg,
+[class*="rating-select__item"]:not([class*="unselected"]) svg {
+  color: var(--ml-yellow, #ffe600) !important;
+}
+/* Hover preview must read as "this many stars". */
+ul[class*="rating-select"] li:hover svg {
+  color: var(--ml-yellow, #ffe600) !important;
+}
+
+/* ---- my-reviews pending cards: `ui-card-pending-*` ----------------------
+   A fourth namespace on the same page. The purchase date lives in
+   `ui-card-pending-product-date > .ui-reviews-label` and keeps the light
+   theme's rgba(0,0,0,.55), so it rendered at 2.1:1 on the dark row. */
+[class^="ui-card-pending"],
+[class*=" ui-card-pending"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+[class*="ui-card-pending-product-date"],
+[class*="ui-card-pending"] [class*="--date"] {
+  color: var(--ml-text-muted, #7c8794) !important;
+}
+[class*="ui-card-pending"] [class*="product-date"] .ui-reviews-label,
+[class*="ui-card-pending"] [class*="product-date"] span {
+  color: var(--ml-text-muted, #7c8794) !important;
+}

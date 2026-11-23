@@ -1,0 +1,317 @@
+/* ============================================================================
+   98-late-fixes.css — third verification pass.
+   Everything here was measured on a real `/p/MCO*` page AFTER 70-pdp.css and
+   95-misc.css were applied: the SEO footer at the bottom of long pages, the
+   review summary/translation prefix, the bare <a> elements inside the category
+   mega-menu, and MELI's *semantic* colour-modifier family.
+   ========================================================================== */
+
+/* MELI's ui-pdp-color--* family is not only BLACK/GRAY: it also uses semantic
+   suffixes (TEXT_PRIMARY, TEXT_SECONDARY, LINK). Mapping the semantics is the
+   most durable of all the hooks, because it expresses intent, not a palette. */
+[class*="ui-pdp-color--TEXT_PRIMARY"],
+[class*="ui-pdp-color--BLACK"],
+[class*="ui-pdp-color--DARK"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="ui-pdp-color--TEXT_SECONDARY"],
+[class*="ui-pdp-color--GRAY"],
+[class*="ui-pdp-color--GREY"] {
+  color: var(--ml-text-secondary) !important;
+}
+[class*="ui-pdp-color--LINK"],
+[class*="ui-pdp-color--ACTION"] {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- SEO footer / "Destacado en …" link farm ----------------------------
+   MELI appends a large link menu at the end of listing and PDP pages. It is a
+   separate namespace (seo-ui-*) with its own title/link/anchor levels. */
+.seo-ui-extended-menu,
+.seo-ui-extended-menu__container,
+.seo-ui-extended-menu__group,
+.seo-ui-extended-menu__group__content {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.seo-ui-extended-menu__header__title,
+.seo-ui-extended-menu__group__title,
+.seo-ui-extended-menu__group__title__link {
+  color: var(--ml-text-primary) !important;
+}
+.seo-ui-extended-menu__anchor,
+.seo-ui-extended-menu__link {
+  color: var(--ml-text-secondary) !important;
+}
+.seo-ui-extended-menu__anchor:hover,
+.seo-ui-extended-menu__link:hover {
+  color: var(--ml-blue) !important;
+}
+.nav-footer-access-content {
+  background-color: transparent !important;
+}
+
+/* ---- Review summary ----------------------------------------------------
+   "Resumen de opiniones generado por IA" + the "Traducido" prefix were the
+   two leaves still rendering rgba(0,0,0,.9) / .55. */
+.ui-review-capability__summary__plain_text__summary_container,
+.ui-review-capability__summary__plain_text__sum,
+.ui-review-capability__summary__plain_text,
+.ui-review-capability__summary__description__text,
+.ui-review-capability__summary__description__title {
+  color: var(--ml-text-primary) !important;
+}
+.ui-review-capability-comments__comment__content__see-original-prefix,
+.ui-review-capability-comments__comment__content__see-original {
+  color: var(--ml-text-secondary) !important;
+}
+.ui-review-capability__summary {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Category mega-menu: elements without a class ----------------------
+   The panel header ("Tecnología") and the <li><a> rows carry no class at all,
+   so they can only be reached structurally. */
+.nav-categs-detail__header,
+.nav-categs-detail__title {
+  color: var(--ml-text-primary) !important;
+}
+.nav-categs-detail li a,
+.nav-categs-detail__content li a,
+.nav-categs-detail__item li a {
+  color: var(--ml-text-secondary) !important;
+}
+.nav-categs-detail li a:hover,
+.nav-categs-detail__content li a:hover {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- Footer catch-all --------------------------------------------------
+   Last resort for the plain <a> elements MELI writes without classes. */
+footer a,
+.nav-footer a,
+[class*="nav-footer-access"] a {
+  color: var(--ml-text-secondary) !important;
+}
+footer a:hover,
+.nav-footer a:hover {
+  color: var(--ml-blue) !important;
+}
+/* ---- Rating histogram ("5 ★ … 1 ★") ------------------------------------
+   The bars are NOT <progress>: they are a div (track) and a span (fill) painted
+   with a background-image gradient, which is why neither `background-color` nor
+   `::-webkit-progress-*` rules had any effect. Element type is the discriminator:
+   div = track, span = fill. */
+li.ui-review-capability-rating__level div[class*="progress"],
+li.ui-review-capability-rating__level [class*="__progress-container"] {
+  background-color: var(--ml-surface-3) !important;
+  background-image: none !important;
+  border-radius: 4px !important;
+}
+li.ui-review-capability-rating__level span[class*="progress"],
+li.ui-review-capability-rating__level [class*="__progress-fill"] {
+  background-color: var(--ml-yellow) !important;
+  background-image: none !important;
+  border-radius: 4px !important;
+}
+li.ui-review-capability-rating__level [class*="__value"],
+li.ui-review-capability-rating__level [class*="__value"] span {
+  color: var(--ml-text-secondary) !important;
+}
+li.ui-review-capability-rating__level [class*="__column"],
+li.ui-review-capability-rating__level [class*="__column"] span,
+ul.ui-review-capability-rating {
+  color: var(--ml-text-primary) !important;
+}
+/* Star glyph next to each level number: ASCII star (U+2605) or an injected
+   icon, either way it must be brand yellow, not body text. */
+li.ui-review-capability-rating__level [class*="__column"]::after,
+li.ui-review-capability-rating__level [class*="__level-star"],
+li.ui-review-capability-rating__level svg {
+  color: var(--ml-yellow) !important;
+  fill: var(--ml-yellow) !important;
+}
+
+/* ---- Footer accessibility switch ---------------------------------------
+   `#nav-footer-access-switch` is a classless <button> ("Más información") in
+   the footer accessibility band; the only handle is its id. */
+#nav-footer-access-switch,
+.nav-footer-access button,
+[class*="nav-footer-access"] button {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+.nav-footer-access,
+[class*="nav-footer-access"] {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-secondary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Andes money amounts must always inherit ---------------------------
+   `.andes-money-amount`, `__currency-symbol`, `__fraction` and `__cents` each
+   carry their own `rgba(0,0,0,.9)`. MELI's own intent is that the amount takes
+   the colour of its container (blue inside a price, muted inside a struck
+   original value). Several DIFFERENT pricing components wrap it —
+   `.poly-price` on cards, `.ui-search-price` on CPG/supermarket listings — so
+   rule-per-component kept missing variants. Forcing `inherit` on the
+   primitive is simpler and more durable.
+
+   MEASURED TRAP: `inherit` alone is not enough. MELI inserts a CLASSLESS
+   `<span>` at `rgb(117,117,117)` between the price container and the amount,
+   which cuts inheritance and re-darkens the price. That span must be
+   neutralised too, otherwise the fix appears to work on PDPs and fails on
+   listings. This lives in the last-pass file so nothing re-colours it after. */
+.andes-money-amount,
+.andes-money-amount__currency,
+.andes-money-amount__currency-symbol,
+.andes-money-amount__fraction,
+.andes-money-amount__cents,
+[class*="andes-money-amount__fraction"],
+[class*="andes-money-amount__currency-symbol"] {
+  color: inherit !important;
+}
+[class*="poly-price__label"] span,
+[class*="poly-price__labels"] span,
+[class*="ui-search-price__second-line"] span,
+[class*="ui-search-price__part"] span {
+  color: inherit !important;
+}
+
+/* The unit/derived price keeps its secondary treatment. */
+.poly-price__label,
+.polylabel-price,
+[class*="poly-price__label"],
+[class*="polylabel-price"],
+[class*="unit-price"],
+[class*="price-per-unit"] {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* CPG lead-time / availability label ("Disponible en 14 días"). */
+.poly-component__manufacturing-time,
+[class*="manufacturing-time"],
+[class*="poly-component__availability"] {
+  color: var(--ml-text-muted) !important;
+}
+
+/* SEO info box below listings. */
+[class*="seo-ui-info-text-box"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-secondary) !important;
+}
+[class*="seo-ui-info-text-box"] [class*="__title"],
+[class*="seo-ui-info-text-box"] h2,
+[class*="seo-ui-info-text-box"] h3 {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Offer countdown ---------------------------------------------------
+   `poly-countdown` renders each digit in its own box plus a ":" separator.
+   The light theme paints the digits dark on a white box; once the box goes
+   dark the digits vanish. Both the box and the glyph need the dark-theme
+   pairing, and the separator must follow too or the clock reads as "0 0". */
+.poly-countdown,
+[class*="poly-countdown"] {
+  color: var(--ml-text-primary) !important;
+}
+.poly-countdown__digit,
+[class*="poly-countdown__digit"] {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+.poly-countdown__separator,
+[class*="poly-countdown__separator"] {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- CPG (supermarket) product pages -----------------------------------
+   `ui-cpg-*` is the Consumer-Packaged-Goods subsystem used by every
+   /up/MCOU* product page (arroz, bebidas, aseo, farmacia). It ships its own
+   reset and its own department side menu, which is why it survives the
+   generic `.ui-pdp-*` rules: 47 department links + 7 link names stayed dark. */
+.ui-cpg--reset,
+[class*="ui-cpg--reset"] {
+  background-color: var(--ml-surface-0) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class*="ui-cpg__department-menu"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.ui-cpg__department-menu-list-item-link,
+[class*="ui-cpg__department-link-name"],
+[class*="ui-cpg__department-menu-list-item"] a,
+[class*="ui-cpg__department-menu"] a {
+  color: var(--ml-text-secondary) !important;
+}
+.ui-cpg__department-link-name,
+[class*="ui-cpg__department-link-name"] {
+  color: var(--ml-text-primary) !important;
+}
+[class*="ui-cpg__department-menu"] a:hover,
+[class*="ui-cpg__department-link-name"]:hover {
+  color: var(--ml-blue) !important;
+}
+/* The department menu heading ("Departamentos"). */
+[class*="ui-cpg__department"] [class*="__title"],
+[class*="ui-cpg__department-menu"] h2,
+[class*="ui-cpg__department-menu"] h3 {
+  color: var(--ml-text-primary) !important;
+}
+/* Remaining generic paragraphs inside the CPG shell. */
+[class*="ui-cpg"] p,
+[class*="ui-cpg"] li {
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Product thumbnail letterbox: must NOT be our dark surface ---------
+   Root cause of three separate reports that looked unrelated:
+
+     /preguntas/comprador  .andes-thumbnail--48 around img.sc-basic-information__img
+     /my_purchases/list    .andes-thumbnail--32 around img styles__Image-*
+     /gz/cart/v2           .cl-image-label__overlay over the photo
+
+   A thumbnail is a LETTERBOX: MELI sizes the box to the product image's aspect
+   and paints the leftover area white. Product photos are shot on white, so the
+   box must stay light or the photo stops reading as a product and starts
+   reading as a hole — which is precisely "las miniaturas se ven negras".
+
+   Measured on /preguntas: img box 48x64 inside a 50x50 box with
+   `overflow: hidden`. My `[class*="andes-thumbnail"] { background-color:
+   var(--ml-surface-2) }` painted that leftover band near-black (#1f242c), so
+   every thumbnail became a dark rectangle with a thin sliver of photo.
+
+   Fix: thumbnails keep a light letterbox, in a softened off-white so it does
+   not become a lightbulb on a dark page. The photo is never recoloured; only
+   the empty band around it is light, exactly as MELI intended. */
+.andes-thumbnail,
+.andes-thumbnail-container,
+[class*="andes-thumbnail"],
+[class*="styles__Thumbnail"],
+.cl-image-label__container {
+  background-color: #e9edf2 !important;
+  background-image: none !important;
+}
+
+/* Inside a BEM thumbnail the image already carries its own white plate; make
+   the primitive's own plate match so no seam appears. */
+.andes-thumbnail__image,
+[class*="andes-thumbnail"] > img {
+  background-color: #e9edf2 !important;
+}
+
+/* The photos themselves are never filtered here — dimming is owned by
+   --ml-img-dim in base.css and applies to card hero images, not thumbnails,
+   where a 30-50 px box cannot afford the loss of contrast. */
+.andes-thumbnail img,
+[class*="andes-thumbnail"] img,
+[class*="styles__Thumbnail"] img {
+  filter: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}

@@ -1,0 +1,241 @@
+/* ============================================================================
+   90-account.css — seller hub (vendedores.mercadolibre.com.co), my account,
+   purchases, messages, favourites. These pages are *panel* pages: a tinted
+   lavender canvas (rgb(231,233,243)) with white `.module-card` tiles on top.
+
+   Measured surface primitives used below: `.module-card*`, `.tasks-card__subcard`,
+   `.control-panel__segment`, `.recommendation-card-desktop`,
+   `.filter-recommendation-card`, `.recommendation_transition_card`,
+   `.recommendation-card__card`, `.seller-monitor__*`, plus the shared
+   `.andes-layout`, `.andes-table*`, `.andes-list*`, `.andes-badge--gray*`.
+
+   Already dark elsewhere — intentionally not repeated here:
+     .module-card*, .tasks-card__subcard, .control-panel__segment,
+       .recommendation-card-desktop, .filter-recommendation-card,
+       .recommendation-card__card, .recommendation_transition_card,
+       .seller-monitor__loading-card / __loading-list ......... 20-cards.css
+     .andes-table* surfaces + stripes ........................ 20-cards.css
+     .andes-badge, --accent, --gray, --gray--quiet,
+       --success, --warning, --danger ......................... 40-forms.css
+     .andes-list / __item + hover ............................ 40-forms.css
+   What remains is the canvas (which 20-cards.css only neutralises to
+   `transparent`, letting MELI's lavender body colour through), the panel chrome
+   MELI re-paints white *inside* a card, the interactive states of the segment
+   tabs, the seller-monitor tiles, and the account list/table row states.
+   ========================================================================== */
+
+/* ---- Seller hub / account canvas ---------------------------------------
+   base.css already sets `body` and `#root-app` to --ml-surface-0; what it does
+   not touch is the seller hub's own `.andes-layout*` canvas, which MELI ships
+   as rgb(231,233,243) — the lavender tint. On the rest of the site the same
+   wrappers carry #f5f5f5. Both land on the page surface here so the white
+   module tiles keep a visible edge. This is a deliberate one-level override of
+   20-cards.css, which only sets `.andes-layout` to `transparent` and therefore
+   leaves MELI's own canvas colour showing through. */
+.andes-layout,
+.andes-layout__main,
+.andes-layout__content,
+.andes-layout__wrapper {
+  background-color: var(--ml-surface-0) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Module cards: panel chrome ----------------------------------------
+   The surface is 20-cards.css. Inside a card MELI paints the header band
+   lavender (rgb(231,233,243)) and the content area #fff.
+   `.filter-recommendation-card` and `.recommendation_transition_card` are
+   deliberately NOT listed: they are complete surfaces in 20-cards.css and
+   restating them here would be an exact duplicate. */
+[class^="module-card"],
+[class*=" module-card"],
+.tasks-card,
+.control-panel,
+[class^="recommendation-card"],
+[class*=" recommendation-card"],
+[class^="seller-monitor"],
+[class*=" seller-monitor"] {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* Header band: the lavender tint, on dark. */
+[class^="module-card"] [class*="header"],
+[class*=" module-card"] [class*="header"],
+.tasks-card__subcard [class*="header"],
+[class^="seller-monitor"] [class*="header"],
+[class*=" seller-monitor"] [class*="header"] {
+  background-color: var(--ml-lavender-tint) !important;
+  color: var(--ml-text-primary) !important;
+  /* --ml-lavender-tint (#171a21) is darker than the card surface it sits on,
+     so the band needs an edge to read as a header rather than a hole. */
+  border-bottom: 1px solid var(--ml-border-subtle) !important;
+}
+/* Nested white body sections dissolve into the card they sit in. */
+[class^="module-card"] > div,
+[class*=" module-card"] > div,
+[class^="module-card"] > section,
+[class*=" module-card"] > section,
+[class^="recommendation-card"] > div,
+[class*=" recommendation-card"] > div {
+  background-color: transparent !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+
+/* ---- Seller monitor (the metric cards / charts strip) ------------------
+   Rows, tiles and the empty state are white on lavender in the light theme;
+   the loading card/list are already handled in 20-cards.css. */
+[class^="seller-monitor"],
+[class*=" seller-monitor"] {
+  border-color: var(--ml-border-subtle) !important;
+}
+[class^="seller-monitor"] [class*="card"]:not([class*="loading"]),
+[class*=" seller-monitor"] [class*="card"]:not([class*="loading"]),
+[class^="seller-monitor"] [class*="tile"],
+[class*=" seller-monitor"] [class*="tile"],
+[class^="seller-monitor"] [class*="row"]:not([class*="loading"]),
+[class*=" seller-monitor"] [class*="row"]:not([class*="loading"]) {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* Metric labels are secondary, the numbers stay primary so they read at a
+   glance. Never colour the value with an accent: it is data, not brand. */
+[class^="seller-monitor"] [class*="label"],
+[class*=" seller-monitor"] [class*="label"],
+[class^="seller-monitor"] [class*="caption"],
+[class*=" seller-monitor"] [class*="caption"] {
+  color: var(--ml-text-secondary) !important;
+}
+[class^="seller-monitor"] [class*="value"],
+[class*=" seller-monitor"] [class*="value"],
+[class^="seller-monitor"] [class*="metric"],
+[class*=" seller-monitor"] [class*="metric"] {
+  color: var(--ml-text-primary) !important;
+}
+/* Trend deltas: arrow + percentage. Up is green, down is red; both are text
+   uses, so they get the lightened tokens, not the #f23d4f / #00a650 fills. */
+[class^="seller-monitor"] [class*="positive"],
+[class*=" seller-monitor"] [class*="positive"],
+[class^="seller-monitor"] [class*="--up"],
+[class*=" seller-monitor"] [class*="--up"] {
+  color: var(--ml-green) !important;
+}
+[class^="seller-monitor"] [class*="negative"],
+[class*=" seller-monitor"] [class*="negative"],
+[class^="seller-monitor"] [class*="--down"],
+[class*=" seller-monitor"] [class*="--down"] {
+  color: var(--ml-red) !important;
+}
+/* Chart / progress track must not be a white block. */
+[class^="seller-monitor"] progress,
+[class*=" seller-monitor"] progress,
+[class^="seller-monitor"] [class*="bar"],
+[class*=" seller-monitor"] [class*="bar"] {
+  background-color: var(--ml-surface-3) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- Recommendation cards ---------------------------------------------
+   `.recommendation-card-desktop`, `.recommendation-card__card`,
+   `.filter-recommendation-card` and `.recommendation_transition_card` are
+   surfaces in 20-cards.css. Their text is the part that needs fixing here. */
+.recommendation-card-desktop h2,
+.recommendation-card-desktop h3,
+.recommendation-card-desktop h4,
+.recommendation-card__card h2,
+.recommendation-card__card h3,
+.recommendation-card__card h4,
+.filter-recommendation-card h2,
+.filter-recommendation-card h3,
+.recommendation_transition_card h2,
+.recommendation_transition_card h3 {
+  color: var(--ml-text-primary) !important;
+}
+.recommendation-card-desktop p,
+.recommendation-card__card p,
+.filter-recommendation-card p,
+.recommendation_transition_card p,
+.recommendation-card-desktop [class*="description"],
+.recommendation-card__card [class*="description"],
+.filter-recommendation-card [class*="description"] {
+  color: var(--ml-text-secondary) !important;
+}
+.recommendation-card-desktop:hover,
+.recommendation-card__card:hover,
+.filter-recommendation-card:hover,
+.recommendation_transition_card:hover {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- Control panel segments (tabs / range pills) ----------------------
+   The base segment surface is 20-cards.css. Only the interactive states are
+   added here, and each one carries the compound (`--active` / `:hover` /
+   `[aria-selected]`) that keeps it above that base rule. */
+.control-panel__segment:hover {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+}
+.control-panel__segment--active,
+.control-panel__segment--selected,
+.control-panel__segment[aria-selected="true"],
+.control-panel__segment[class*="--active"] {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+
+/* ---- My-account tables -------------------------------------------------
+   `.andes-table*` surfaces/stripes and `.andes-list*` are handled already;
+   the account tables add a #fff hover and link styling of their own. */
+.andes-table__row:hover,
+.andes-table__row--clickable:hover {
+  background-color: var(--ml-surface-2) !important;
+}
+.andes-table__column a,
+.andes-table__row a {
+  color: var(--ml-blue) !important;
+}
+.andes-table__column a:hover {
+  color: var(--ml-blue-fill) !important;
+  text-decoration: underline;
+}
+.andes-table__cell--highlight,
+.andes-table__row--highlight {
+  background-color: var(--ml-blue-tint) !important;
+}
+
+/* ---- My-account lists (purchases, favourites, saved searches) ----------
+   A list row is a white block with a #ededed divider; hover is rgba(0,0,0,.04)
+   which is invisible on dark.
+   `.andes-list__item` chrome, hover and selected state are 40-forms.css and are
+   deliberately NOT overridden here — that primitive is also the drop-down
+   picker, and an account file must not shift its interaction colours. Only the
+   #ededed divider is refined, plus the muted sub-line text. */
+.andes-list__item {
+  border-color: var(--ml-border-subtle) !important;
+}
+.andes-list__item [class*="subtitle"],
+.andes-list__item [class*="description"] {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Gray badges on these panels --------------------------------------
+   `.andes-badge--gray` and `--gray--quiet` are already dark from 40-forms.css.
+   Only the variant that sits *on* the lavender header band needs a slightly
+   lighter surface to stay distinguishable from its parent. */
+[class^="module-card"] [class*="header"] .andes-badge--gray,
+[class*=" module-card"] [class*="header"] .andes-badge--gray,
+[class^="seller-monitor"] [class*="header"] .andes-badge--gray,
+[class*=" seller-monitor"] [class*="header"] .andes-badge--gray {
+  background-color: var(--ml-surface-3) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class^="module-card"] [class*="header"] .andes-badge--gray--quiet,
+[class*=" module-card"] [class*="header"] .andes-badge--gray--quiet,
+[class^="seller-monitor"] [class*="header"] .andes-badge--gray--quiet,
+[class*=" seller-monitor"] [class*="header"] .andes-badge--gray--quiet {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-secondary) !important;
+}

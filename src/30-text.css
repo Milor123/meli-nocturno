@@ -1,0 +1,235 @@
+/* ============================================================================
+   30-text.css — text colours, derived from the measured census.
+   Every selector below exists because the audit proved it carries a literal
+   light-theme colour. IMPORTANT: `.polylabel-fw-*` and `.polylabel-fs-*` are
+   font utilities, NOT colour classes — never set colour on them.
+   ========================================================================== */
+
+/* ---- MELI's semantic typography classes --------------------------------- */
+.andes-typography {
+  color: var(--ml-text-primary) !important;
+}
+.andes-typography--color-primary {
+  color: var(--ml-text-primary) !important; /* was rgba(0,0,0,.9) */
+}
+.andes-typography--color-secondary {
+  color: var(--ml-text-secondary) !important; /* was rgba(0,0,0,.55) */
+}
+.andes-typography--color-link,
+.andes-typography--color-action {
+  color: var(--ml-blue) !important;
+}
+
+/* ---- Generic text utility MELI uses everywhere --------------------------- */
+.ui-label-builder {
+  color: var(--ml-text-secondary) !important; /* was #666 */
+}
+
+/* ---- Listing: card text -------------------------------------------------- */
+.poly-component__title,
+.poly-component__title-wrapper a,
+a.poly-component__title {
+  color: var(--ml-text-primary) !important; /* was rgba(0,0,0,.9) */
+}
+.poly-component__title:hover {
+  color: var(--ml-blue) !important;
+}
+.polylabel-label {
+  color: var(--ml-text-primary) !important; /* was rgba(0,0,0,.9) / #737373 */
+}
+.poly-component__review-compacted .polylabel-label {
+  color: var(--ml-text-secondary) !important;
+}
+.poly-component__seller,
+.poly-component__attributes,
+.poly-component__cpg {
+  color: var(--ml-text-muted) !important;
+}
+
+/* Price: base text is primary; the struck "previous" price is muted. */
+.poly-price__amount,
+.poly-price__current,
+.andes-money-amount {
+  color: inherit;
+}
+.andes-money-amount--previous,
+.andes-money-amount--previous .andes-money-amount__fraction,
+.andes-money-amount--previous .andes-money-amount__currency-symbol {
+  color: var(--ml-text-muted) !important;
+  text-decoration-color: var(--ml-text-muted) !important;
+}
+.andes-money-amount__discount,
+.poly-price__discount-polylabel {
+  color: var(--ml-green) !important;
+}
+.poly-price__installments,
+.poly-price__installments .andes-money-amount,
+.andes-money-amount--cents-comma {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* Green semantic text: shipping. Literal #00a650 lives on these containers. */
+.poly-shipping-v2__item,
+.poly-component__shipping-v2,
+.poly-component__shipping,
+.ui-search-item__shipping,
+.ui-search-item__shipping__item,
+.shipping-free,
+.andes-money-amount--free {
+  color: var(--ml-green) !important;
+}
+
+/* Sponsored label ("Ad") */
+.poly-component__ads-promotions {
+  color: var(--ml-text-muted) !important; /* was rgba(0,0,0,.55) */
+}
+
+/* ---- Listing: filters, breadcrumb, pagination --------------------------- */
+.ui-search-filter-dt-title {
+  color: var(--ml-text-primary, #e3e8ef) !important; /* was #333 (1.7:1 on dark) */
+}
+.ui-search-filter-name,
+.ui-search-filter-container label,
+.ui-search-filter-container .ui-search-filter-name {
+  /* Facet links are 13-14px regular: --ml-text-secondary (#a9b3c1) measured
+     fine numerically but reads as washed-out grey at that size, reported as
+     "las letras apenas se leen". --ml-text-facet lifts them ~1.4 stops. */
+  color: var(--ml-text-facet, #c2cbdb) !important; /* was #666 */
+}
+.ui-search-filter-container:hover .ui-search-filter-name {
+  color: var(--ml-text-primary) !important;
+}
+.ui-search-top-keywords__link,
+.ui-search-top-keywords__item {
+  color: var(--ml-text-secondary) !important; /* was #333 */
+}
+.ui-search-search-result__quantity-results,
+.ui-search-search-result__title {
+  color: var(--ml-text-secondary) !important;
+}
+.andes-pagination__link,
+.andes-pagination__button {
+  color: var(--ml-text-secondary) !important; /* was rgba(0,0,0,.55) */
+}
+.andes-pagination__button--current .andes-pagination__link {
+  color: var(--ml-text-on-brand) !important;
+}
+.ui-search-carousel__item-generic-card__title {
+  color: var(--ml-text-primary) !important; /* was #666 */
+}
+.ui-search-range-filter__separator {
+  color: var(--ml-text-muted) !important; /* was #999 */
+}
+
+/* ---- PDP ----------------------------------------------------------------- */
+.ui-pdp-title,
+.ui-pdp-price__second-line .andes-money-amount__fraction,
+.ui-pdp-price__second-line .andes-money-amount__currency-symbol,
+.ui-pdp-price__original-value .andes-money-amount,
+.ui-pdp-seller__link-trigger,
+.ui-pdp-description__content,
+.ui-pdp-attachment__title,
+.ui-pdp-questions__title {
+  color: var(--ml-text-primary) !important;
+}
+.ui-pdp-price__subtle,
+.ui-pdp-price__disclaimer,
+.ui-pdp-seller__label-sold,
+.ui-pdp-description__text,
+.ui-pdp-attachment__text {
+  color: var(--ml-text-secondary) !important;
+}
+.ui-pdp-price__original-value {
+  color: var(--ml-text-muted) !important;
+}
+.ui-pdp-color-variation-picker__label,
+.ui-pdp-variations__title {
+  color: var(--ml-text-secondary) !important;
+}
+.ui-review-capability__rating__average,
+.ui-review-capability__rating__label {
+  color: var(--ml-text-primary) !important;
+}
+.ui-review-comment,
+.ui-review-comment-content__title,
+.ui-review-comment-content__body {
+  color: var(--ml-text-primary) !important;
+}
+.ui-review-comment-content__date,
+.ui-review-capability__status__text {
+  color: var(--ml-text-muted) !important;
+}
+
+/* ---- Editorial / SEO blocks --------------------------------------------- */
+.seo-ui-card-blog-entry-title {
+  color: var(--ml-text-primary) !important;
+}
+.seo-ui-card-blog-entry-description {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Ads ---------------------------------------------------------------- */
+.bads-vertical-product-card__title {
+  color: var(--ml-text-primary) !important;
+}
+.bads-vertical-product-card__price,
+.bads-vertical-product-card__subtitle {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Trust / benefit marks (indigo on light) ---------------------------- */
+.ui-pdp-benefits__item,
+.ui-pdp-buybox__label,
+.ui-pdp-buybox__label-text,
+.ui-vip-section-header__label {
+  color: var(--ml-text-primary) !important;
+}
+.ui-pdp-benefits__item svg,
+.ui-pdp-buybox__label svg {
+  color: var(--ml-indigo) !important;
+}
+
+/* ---- Links -------------------------------------------------------------- */
+a {
+  color: inherit;
+}
+a.ui-search-link,
+.ui-search-link,
+a.andes-typography--color-link {
+  color: var(--ml-blue) !important;
+}
+a.ui-search-link:hover,
+.ui-search-link:hover {
+  color: var(--ml-blue-fill) !important;
+  text-decoration: underline;
+}
+
+/* ---- Placeholders ------------------------------------------------------- */
+::placeholder {
+  color: var(--ml-text-disabled) !important;
+  opacity: 1;
+}
+/* ---- Classless <span> inside andes-typography ---------------------------
+   MELI repeatedly breaks inheritance by wrapping a fragment of a sentence in
+   a <span> with NO class and an explicit `color: rgba(0,0,0,.55)` or `.9`.
+   Because the span has no class, no class-based rule can reach it, and because
+   it sets its own colour it never inherits ours.
+
+   Measured cases: the instalment label ("48 cuotas") in the payments-methods
+   dialog, and the unit-price wrapper on listings. The rule below restores
+   inheritance for exactly that shape — an unclassed span that is a descendant
+   of an andes type primitive — and nothing wider. */
+.andes-typography span:not([class]),
+.andes-typography--type-body span:not([class]),
+[class*="andes-typography--type-"] span:not([class]) {
+  color: inherit !important;
+}
+/* Where the fragment is deliberately secondary (dates, captions, counts) the
+   parent keeps its own tone, so inheriting is still correct: the parent is
+   already --ml-text-secondary by the rules above. */
+
+/* Same shape one level up: unclassed spans inside the dialog's body text. */
+.andes-modal span:not([class]),
+.andes-modal-dialog span:not([class]) {
+  color: var(--ml-text-secondary, #a9b3c1) !important;
+}

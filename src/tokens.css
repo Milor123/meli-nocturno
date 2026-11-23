@@ -1,0 +1,58 @@
+/* ============================================================================
+   tokens.css — single source of truth for the palette.
+   Change a value here and the whole theme follows.
+   In the UserCSS build every token below is also exposed as an @var.
+   ========================================================================== */
+
+:root {
+  /* ---- surfaces: low-chroma blue-grey ramp, never pure black ------------ */
+  --ml-surface-0: #12151a; /* page background                        */
+  --ml-surface-1: #181c22; /* cards, panels                          */
+  --ml-surface-2: #1f242c; /* inputs, chips, hover                   */
+  --ml-surface-3: #262c35; /* popovers, dropdowns, tooltips          */
+  --ml-surface-4: #2e3540; /* modals, top-most layer                 */
+
+  /* ---- text ------------------------------------------------------------ */
+  --ml-text-primary: #e3e8ef;   /* never #fff: avoids halation        */
+  --ml-text-secondary: #a9b3c1; /* was rgba(0,0,0,.55)                */
+  --ml-text-muted: #7c8794;     /* was #666 / #737373                 */
+  /* Facet/sidebar text: 13-14px regular weight on the page tone needs more
+     luminance than --ml-text-secondary to stay comfortable. Reported as
+     "las letras apenas se leen" in the listing filter column. */
+  --ml-text-facet: #c2cbdb;
+  --ml-text-disabled: #5a6472;  /* was #999: placeholders             */
+  --ml-text-on-brand: #f2f5f8;  /* text over brand fills              */
+
+  /* ---- borders --------------------------------------------------------- */
+  --ml-border-subtle: #242a33;  /* was #ededed (dividers)             */
+  --ml-border: #2f3742;         /* was #d5d9d9 (inputs, outlines)     */
+  --ml-border-strong: #3d4653;  /* was rgba(0,0,0,.1)                 */
+
+  /* ---- brand + semantic ------------------------------------------------ */
+  --ml-green: #34d17a;          /* was #00a650, lightened for text    */
+  --ml-green-fill: #00a650;     /* keep brand fills                   */
+  --ml-green-tint: #14261d;     /* was rgb(229,246,237)               */
+  --ml-blue: #5b9bff;           /* was #3483fa, lightened for text    */
+  --ml-blue-fill: #3483fa;      /* keep brand fills                   */
+  --ml-blue-tint: rgba(91, 155, 255, 0.12); /* was rgba(65,137,230,.1) */
+  --ml-blue-tint-strong: rgba(91, 155, 255, 0.2);
+  --ml-blue-vivid: #6b6bff;     /* was #1717ff                        */
+  --ml-yellow: #ffe600;         /* brand; dark text on it             */
+  --ml-yellow-soft: #ffec7a;    /* was #fff059                        */
+  --ml-red: #ff6b7a;            /* text use                           */
+  --ml-red-fill: #d92f41;       /* fill use                           */
+  --ml-red-tint: #3a1219;
+  --ml-pink: #ff4d94;           /* was #e60063                        */
+  --ml-pink-tint: #33202a;      /* was rgb(255,238,245)               */
+  --ml-orange: #ff8a4c;         /* was rgb(255,119,51) / rgb(230,84,11) */
+  --ml-peach-tint: #3a2a22;     /* was rgb(255,228,214)               */
+  --ml-indigo: #8b90ff;         /* was rgb(67,76,228)                 */
+  --ml-lavender-tint: #171a21;  /* was rgb(231,233,243) seller hub    */
+
+  /* ---- effects --------------------------------------------------------- */
+  --ml-overlay: rgba(6, 8, 11, 0.72);
+  --ml-scrim: rgba(6, 8, 11, 0.55);
+  --ml-shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --ml-shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --ml-img-dim: 0.88; /* brightness applied to product photos           */
+}

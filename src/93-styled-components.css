@@ -1,0 +1,147 @@
+/* ============================================================================
+   93-styled-components.css — pages built with styled-components
+   (`myaccount.mercadolibre.com.co/my_purchases`, `.../favorites`, account
+   settings, and other newer "My Meli" surfaces).
+
+   THE PROBLEM: these pages emit hashed class names, e.g.
+     styles__Paragraph-sc-14jk16e-0 bUzBAV
+     sc-gsMGyr hztILC
+   The `sc-<hash>` segment and the trailing hash CHANGE ON EVERY DEPLOY. Any
+   rule that names them is dead on the next build.
+
+   THE STABLE PART is the component name in the `styles__<Name>-sc-<hash>`
+   prefix — "Paragraph", "Button", "Card", "Page" — because it comes from the
+   developer's styled(Component) call, not from the build hash. Selectors below
+   only ever use `[class*="styles__<Name>"]`, which survives redeploys.
+
+   Measured component bases on /my_purchases:
+     Wrapper 170 · Button 65 · Paragraph 35 · Image 21 · ListItem 19
+     ListItemChildren 19 · ChildrenWrapper 19 · Thumbnail 6 · Typography 3
+     List 3 · Page 1 · Card 1 · SearchBox 1 · FloatingMenu 1
+   Only `Paragraph` carried dark text (30 nodes, both .9 and .55 alpha).
+   ========================================================================== */
+
+/* ---- Text ---------------------------------------------------------------
+   Every Paragraph variant is dark, so default them all to primary. Hierarchy
+   flattens a little, but legibility wins; per-variant refinement would require
+   the hashes and is not worth the fragility. */
+[class*="styles__Paragraph"],
+[class*="styles__Typography"],
+[class*="styles__ListItemChildren"],
+[class*="styles__ChildrenWrapper"],
+[class*="styles__CardContent"],
+[class*="styles__AdvertisingContent"] {
+  color: var(--ml-text-primary) !important;
+}
+
+/* Links and muted meta keep their distinction through the semantic wrappers
+   rather than the hashed class. */
+[class*="styles__Paragraph"] a,
+[class*="styles__Paragraph"] strong a {
+  color: var(--ml-blue) !important;
+}
+[class*="styles__ListItem"] [class*="styles__Paragraph"]:last-child {
+  color: var(--ml-text-secondary) !important;
+}
+
+/* ---- Surfaces ---------------------------------------------------------- */
+[class*="styles__Page"],
+[class*="styles__FloxPageStyle"],
+[class*="styles__Card"]:not([class*="styles__CardContent"]),
+[class*="styles__ContentWrapper"],
+[class*="styles__SearchBoxWrapper"] {
+  background-color: var(--ml-surface-0) !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+/* `styles__Wrapper` is the single most generic styled-component name MELI
+   ships: it is used BOTH for page layout containers AND for the hover/overlay
+   layers stacked on top of a product photo. Painting it opaque was a defect
+   with a very confusing symptom:
+
+     gamut inspection of one 80x80 thumbnail on /my_purchases/list showed
+     TWO div.styles__Wrapper elements ABOVE the <img> in the hit-test stack,
+     each with background rgb(18,21,26) — my --ml-surface-0 — so the photo was
+     rendered and simply covered by two opaque rectangles.
+
+   `elementsFromPoint` is what exposed it; getComputedStyle on the <img> looked
+   perfectly healthy (naturalWidth 200, opacity 1, filter none, 80x80 box).
+
+   A generic wrapper must inherit, never paint. The page surface underneath is
+   already dark, so transparent wrappers give the same look without ever
+   covering content. */
+[class*="styles__Wrapper"] {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+[class*="styles__Card"]:not([class*="styles__CardContent"]),
+[class*="styles__ListItem"],
+[class*="styles__ChildrenWrapper"] {
+  background-color: var(--ml-surface-1) !important;
+}
+[class*="styles__ListItem"]:hover {
+  background-color: var(--ml-surface-2) !important;
+}
+
+/* ---- Buttons ----------------------------------------------------------- */
+[class*="styles__Button"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class*="styles__Button"]:hover {
+  background-color: var(--ml-surface-3) !important;
+}
+/* A primary/loud styled button keeps the brand blue. */
+[class*="styles__Button"][class*="__primary"],
+[class*="styles__Button"][class*="--primary"],
+[class*="styles__Button"][class*="loud"] {
+  background-color: var(--ml-blue-fill) !important;
+  color: var(--ml-text-on-brand) !important;
+}
+
+/* ---- Search box, date picker and floating menu ------------------------- */
+[class*="styles__SearchBox"],
+[class*="styles__MenuDatePicker"],
+[class*="styles__FloatingMenu"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
+[class*="styles__FloatingMenu"] {
+  background-color: var(--ml-surface-3) !important;
+  box-shadow: var(--ml-shadow-pop) !important;
+}
+[class*="styles__IconContainer"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+}
+/* `styles__Thumbnail` is the product letterbox on /my_purchases: its colour is
+   owned by --ml-thumb-plate (98-late-fixes.css), because a dark band around a
+   white-background product photo makes the photo disappear. */
+[class*="styles__Thumbnail"] {
+  border-color: var(--ml-border) !important;
+}
+
+/* ---- Advertising blocks inside the purchase list ----------------------- */
+[class*="styles__AdvertisingContainer"] {
+  background-color: var(--ml-surface-1) !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* ---- Raw styled() wrappers without a `styles__` name -------------------
+   Some wrappers are plain `styled.div` calls, so their class is ONLY
+   `sc-<hash> <hash>` with no component name at all — there is nothing stable
+   to hook. This is the one place where a structural attribute is the reliable
+   anchor: the search wrapper carries `role="search"`. */
+[role="search"],
+div[role="search"] {
+  background-color: var(--ml-surface-1) !important;
+  color: var(--ml-text-primary) !important;
+}
+/* Andes search-box control on those pages. */
+.andes-form-control--search-box,
+[class*="andes-form-control--search-box"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border) !important;
+  color: var(--ml-text-primary) !important;
+}
