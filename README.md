@@ -1,258 +1,269 @@
 # MercadoLibre Dark (comfort)
 
-**English** · [Español](README.es.md)
+[English](README.en.md) · **Español**
 
-A dark theme for MercadoLibre that is actually comfortable to read for hours.
+Un tema oscuro para MercadoLibre pensado para leer cómodo durante horas.
 
-Not an inverted page. Not a `filter: invert(1)`. A real palette applied
-component by component.
+No es una página invertida. No es un `filter: invert(1)`. Es una paleta real
+aplicada componente por componente.
 
-- **No pure black** surfaces — a low-chroma blue-grey ramp from `#12151a` to `#2e3540`
-- **No pure white** text — off-white `#e3e8ef`, which avoids the halation that makes
-  bright text on dark backgrounds feel harsh
-- **Brand colours preserved** — MELI's green, blue, yellow and pink stay recognisable
-- **Product photos untouched** — never recoloured, never inverted, only slightly dimmed
-- Covers **18 MercadoLibre countries** from a single stylesheet
-
----
-
-## ⚠️ Read this before configuring anything in Stylus
-
-**Do not set the "Applies to" / "Applies to everything" option for this style.**
-
-The stylesheet is **self-contained**. It already declares exactly which sites it
-applies to through its own `@-moz-document` rule covering every MercadoLibre
-country domain.
-
-If you configure "Applies to" in Stylus, Stylus overrides that rule and starts
-injecting the sheet into arbitrary documents. The classic symptom is a theme
-that appears to be *half applied*: the navbar is dark on one page and light on
-another, with the same sheet installed. That is not a CSS bug — the sheet is not
-arriving at all.
-
-If you see the theme working on some pages but not others, **clear the "Applies
-to" setting first**. That fixes it in almost every case.
+- **Sin negro puro** en superficies — una rampa azul grisácea de bajo croma, de
+  `#12151a` a `#2e3540`
+- **Sin blanco puro** en el texto — blanco roto `#e3e8ef`, que evita la
+  halación que hace que el texto brillante sobre fondo oscuro canse la vista
+- **Colores de marca intactos** — el verde, azul, amarillo y rosa de MELI siguen
+  siendo reconocibles
+- **Fotos de producto sin tocar** — nunca recoloreadas, nunca invertidas, apenas
+  atenuadas
+- Cubre **los 18 países de MercadoLibre** con una sola hoja de estilos
 
 ---
 
-## Install
+## ⚠️ Leé esto antes de configurar nada en Stylus
 
-### Stylus (recommended)
+**No configures la opción "Applies to" (o "Se aplica a") para este estilo.**
 
-1. Install [Stylus](https://addons.mozilla.org/firefox/addon/styl-us/) for Firefox
-   or [for Chrome](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne).
-2. Open the Stylus manager and choose **Write new style** → **Import**.
-3. Drag in `dist/mercadolibre-dark.user.css`, or paste its contents.
-4. Make sure the **UserCSS** toggle is on if you paste manually. Without it,
-   Stylus reads `@-moz-document` as nested CSS and reports
+La hoja de estilos es **autocontenida**. Ya declara exactamente a qué sitios
+aplica mediante su propia regla `@-moz-document`, que cubre todos los dominios
+de MercadoLibre.
+
+Si configurás "Applies to" en Stylus, Stylus anula esa regla y empieza a
+inyectar la hoja en documentos arbitrarios. El síntoma clásico es un tema que
+parece **aplicado a medias**: la barra de navegación oscura en una página y
+clara en otra, con la misma hoja instalada. Eso no es un bug del CSS — la hoja
+no está llegando.
+
+Si ves que el tema funciona en algunas páginas y en otras no, **primero borrá la
+configuración de "Applies to"**. En casi todos los casos eso lo resuelve.
+
+---
+
+## Instalación
+
+### Stylus (recomendado)
+
+1. Instalá [Stylus](https://addons.mozilla.org/firefox/addon/styl-us/) para
+   Firefox o [para Chrome](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne).
+2. Abrí el gestor de Stylus y elegí **Write new style** → **Import**.
+3. Arrastrá `dist/mercadolibre-dark.user.css`, o pegá su contenido.
+4. Si pegás a mano, asegurate de que el interruptor **UserCSS** esté activado.
+   Sin él, Stylus lee `@-moz-document` como CSS anidado y reporta
    *"Nested @document produces broken code"*.
-5. Leave **Applies to** empty. See the warning above.
+5. Dejá **Applies to** vacío. Ver la advertencia de arriba.
 
-The style is also published on [userstyles.world][usw], which handles updates
-for you.
+El estilo también está publicado en [userstyles.world][usw], que maneja las
+actualizaciones por vos.
 
-### Plain CSS
+### CSS plano
 
-`dist/mercadolibre-dark.css` is the same theme without the UserCSS metadata
-block. It is unscoped, so it applies to any document you inject it into — useful
-for other injectors, or for a single-site setup where you control scoping
-yourself.
+`dist/mercadolibre-dark.css` es el mismo tema sin el bloque de metadatos
+UserCSS. No tiene scoping, así que se aplica a cualquier documento donde lo
+inyectes — útil para otros inyectores, o para un setup de un solo sitio donde
+vos controlás el scoping.
 
 ---
 
-## Customisation
+## Personalización
 
-Every colour is a token, exposed as a Stylus `@var` so it appears in the
-extension's UI:
+Cada color es un token, expuesto como `@var` de Stylus para que aparezca en la
+interfaz de la extensión:
 
-| Variable | Default | Role |
+| Variable | Por defecto | Rol |
 | --- | --- | --- |
-| `ml-surface-0` | `#12151a` | Page background |
-| `ml-surface-1` | `#181c22` | Cards and panels |
+| `ml-surface-0` | `#12151a` | Fondo de página |
+| `ml-surface-1` | `#181c22` | Tarjetas y paneles |
 | `ml-surface-2` | `#1f242c` | Inputs, chips, hover |
-| `ml-surface-3` | `#262c35` | Dropdowns and tooltips |
-| `ml-text-primary` | `#e3e8ef` | Primary text |
-| `ml-text-secondary` | `#a9b3c1` | Secondary text |
-| `ml-text-muted` | `#7c8794` | Muted text |
-| `ml-border` | `#2f3742` | Borders |
-| `ml-green` | `#34d17a` | Price / shipping green |
-| `ml-blue` | `#5b9bff` | Links and accents |
-| `ml-blue-fill` | `#3483fa` | Brand button fill |
-| `ml-yellow` | `#ffe600` | Brand yellow |
-| `ml-red` | `#ff6b7a` | Danger red |
-| `ml-pink` | `#ff4d94` | Promo pink |
-| `ml-img-dim` | `0.88` | Product photo brightness |
+| `ml-surface-3` | `#262c35` | Desplegables y tooltips |
+| `ml-text-primary` | `#e3e8ef` | Texto principal |
+| `ml-text-secondary` | `#a9b3c1` | Texto secundario |
+| `ml-text-muted` | `#7c8794` | Texto atenuado |
+| `ml-border` | `#2f3742` | Bordes |
+| `ml-green` | `#34d17a` | Verde de precio / envío |
+| `ml-blue` | `#5b9bff` | Enlaces y acentos |
+| `ml-blue-fill` | `#3483fa` | Relleno de botón de marca |
+| `ml-yellow` | `#ffe600` | Amarillo de marca |
+| `ml-red` | `#ff6b7a` | Rojo de peligro |
+| `ml-pink` | `#ff4d94` | Rosa promocional |
+| `ml-img-dim` | `0.88` | Brillo de fotos de producto |
 
-`ml-img-dim` is the only one worth adjusting per taste. If product photos look
-dim to you, set it to `1` (as shot). If you browse at night and want the least
-glare, `0.78`.
+`ml-img-dim` es el único que vale la pena ajustar al gusto. Si las fotos te
+parecen apagadas, ponelo en `1` (tal cual la foto). Si navegás de noche y querés
+el mínimo brillo, `0.78`.
 
-To change the palette in the source rather than in Stylus, edit `src/tokens.css`
-and rebuild.
+Para cambiar la paleta en el código fuente y no en Stylus, editá
+`src/tokens.css` y reconstruí.
 
 ---
 
-## Screenshots
+## Capturas
 
-Home — the carousel banner keeps its own artwork and colour:
+Home — el banner del carrusel conserva su arte y su color:
 
 ![Home](docs/images/01-home.jpeg)
 
-Search results — filter sidebar, brand ads and prices intact:
+Resultados de búsqueda — barra de filtros, anuncios de marca y precios intactos:
 
-![Search results](docs/images/02-listado.jpeg)
+![Resultados de búsqueda](docs/images/02-listado.jpeg)
 
-Product page — product photo, brand blue button, seller box:
+Página de producto — foto del producto, botón azul de marca, caja del vendedor:
 
-![Product page](docs/images/03-producto.jpeg)
+![Página de producto](docs/images/03-producto.jpeg)
 
-Cart — product thumbnails visible, stock labels readable:
+Carrito — miniaturas visibles, etiquetas de stock legibles:
 
-![Cart](docs/images/04-carrito.jpeg)
+![Carrito](docs/images/04-carrito.jpeg)
 
-Coupons — the perforated band is dark with a dashed edge, not a white strip:
+Cupones — la banda perforada es oscura con borde punteado, no una tira blanca:
 
-![Coupons](docs/images/05-cupones.jpeg)
-
----
-
-## What it covers
-
-Verified page by page against `mercadolibre.com.co`:
-
-- Home, category landing pages, `/categorias`
-- Search results and listings, including the filter sidebar
-- Product detail pages: title, price, seller box, reviews, rating histogram
-- Cart, checkout steps, `/cupones`
-- My account: `/my_purchases/list`, `/preguntas`, `/my-reviews`, favourites,
-  subscriptions, billing
-- Purchase history (`/gz/home/navigation`)
-- `/ayuda` and its floating chat widget
-- Seller hub: `/publicaciones`, `/resumen`
-- Notification and address dropdowns and modals
-- Supermarket and `/ofertas`
-- Search suggestions, mega-menu, footer
+![Cupones](docs/images/05-cupones.jpeg)
 
 ---
 
-## Known limitations
+## Qué cubre
 
-These are real boundaries, not a to-do list.
+Verificado página por página contra `mercadolibre.com.co`:
 
-**Seller hub microfrontends use Shadow DOM.** Two of the panels in the seller
-dashboard render inside shadow roots. External CSS cannot cross that boundary,
-and only CSS custom properties inherit through it — which MercadoLibre does not
-define. Fixing this needs a userscript that walks `shadowRoot`, not a
-stylesheet. Those panels keep their light theme.
-
-**Mercado Pago is out of scope.** It is a separate product with its own design
-system, and it is not covered here. The stylesheet does not target it.
-
-**Some embedded iframes are cross-origin.** A few checkout and payment views are
-served from different origins. Where the iframe is same-origin it is themed;
-where it is not, it cannot be reached from the parent document.
-
-**MercadoLibre redeploys constantly.** Selectors here are built on design-system
-component names (`andes-*`, `poly-*`, `ui-*`, `sbc-*`, `ui-navigation-*`) rather
-than page-specific class chains, which is what makes them survive redesigns.
-When a deploy renames a component family, that area needs a patch. Please report
-it.
+- Home, páginas de categoría, `/categorias`
+- Resultados de búsqueda y listados, incluida la barra lateral de filtros
+- Página de producto: título, precio, caja del vendedor, opiniones, histograma
+  de puntuaciones
+- Carrito, pasos de checkout, `/cupones`
+- Mi cuenta: `/my_purchases/list`, `/preguntas`, `/my-reviews`, favoritos,
+  suscripciones, facturación
+- Historial de compras (`/gz/home/navigation`)
+- `/ayuda` y su widget de chat flotante
+- Central de vendedores: `/publicaciones`, `/resumen`
+- Desplegables y modales de notificaciones y direcciones
+- Supermercado y `/ofertas`
+- Sugerencias de búsqueda, mega-menú, footer
 
 ---
 
-## How it works
+## Límites conocidos
 
-The theme is built in layers instead of page by page, because MercadoLibre
-renders the same components on every page:
+Son límites reales, no una lista de pendientes.
+
+**Los microfrontends de la central de vendedores usan Shadow DOM.** Dos de los
+paneles del panel de vendedor se renderizan dentro de shadow roots. El CSS
+externo no puede cruzar esa frontera, y por ella solo heredan las propiedades
+personalizadas de CSS — que MercadoLibre no define. Arreglar esto requiere un
+userscript que recorra `shadowRoot`, no una hoja de estilos. Esos paneles
+conservan su tema claro.
+
+**Mercado Pago queda fuera de alcance.** Es un producto separado con su propio
+sistema de diseño, y no está cubierto. La hoja no lo apunta.
+
+**Algunos iframes embebidos son cross-origin.** Algunas vistas de checkout y
+pago se sirven desde otros orígenes. Donde el iframe es same-origin se tematiza;
+donde no lo es, no se puede alcanzar desde el documento padre.
+
+**MercadoLibre redeploya constantemente.** Los selectores acá están construidos
+sobre nombres de componentes del sistema de diseño (`andes-*`, `poly-*`, `ui-*`,
+`sbc-*`, `ui-navigation-*`) en vez de cadenas de clases específicas de página,
+que es lo que los hace sobrevivir a los rediseños. Cuando un deploy renombra una
+familia de componentes, esa zona necesita un parche. Reportalo.
+
+---
+
+## Cómo funciona
+
+El tema está construido en capas en vez de página por página, porque
+MercadoLibre renderiza los mismos componentes en todas las páginas:
 
 ```
-src/tokens.css              palette — single source of truth
-src/base.css                document root, scrollbars, selection, colour-scheme
-src/10-header.css           top navigation, search field, user menu
-src/20-cards.css            product cards, listing grid
-src/30-text.css             text hierarchy
+src/tokens.css              paleta — única fuente de verdad
+src/base.css                raíz del documento, scrollbars, selección, colour-scheme
+src/10-header.css           navegación superior, buscador, menú de usuario
+src/20-cards.css            tarjetas de producto, grilla de listado
+src/30-text.css             jerarquía de texto
 src/40-forms.css            inputs, selects, switches
-src/50-coverage.css         shared andes-* primitives
-src/60-search.css           search box, suggestions, result counts
-src/70-pdp.css              product detail page
-src/80-commerce.css         cart and checkout
-src/89-andes-ui.css         andes-ui-*   (newest design-system generation)
-src/90-account.css          my account, purchases, reviews, favourites
-src/91-home.css             home page namespaces
+src/50-coverage.css         primitivas andes-* compartidas
+src/60-search.css           buscador, sugerencias, conteo de resultados
+src/70-pdp.css              página de producto
+src/80-commerce.css         carrito y checkout
+src/89-andes-ui.css         andes-ui-*   (generación más nueva del design system)
+src/90-account.css          mi cuenta, compras, opiniones, favoritos
+src/91-home.css             namespaces del home
 src/92-landings.css         sbc-*, andes-landings-*, products-gallery-*, categories__*
-src/93-styled-components.css styles__<Name> (hashed styled-components)
+src/93-styled-components.css styles__<Nombre> (styled-components con hash)
 src/94-support.css          sc-*, myml-*, inbox-*
-src/95-misc.css             coupon cards, ui-navigation-* (purchase history)
-src/96-nav-extras.css       remaining navigation pieces
-src/97-seller.css           seller hub
-src/98-late-fixes.css       overrides that must win the cascade
-src/99-iframes.css          same-origin iframe documents
+src/95-misc.css             tarjetas de cupón, ui-navigation-* (historial de compras)
+src/96-nav-extras.css       piezas restantes de navegación
+src/97-seller.css           central de vendedores
+src/98-late-fixes.css       overrides que deben ganar la cascada
+src/99-iframes.css          documentos de iframes same-origin
 ```
 
-Three rules the codebase holds to, each learned from a real bug:
+Tres reglas que respeta el código, cada una aprendida de un bug real:
 
-1. **Every text rule sets both `color` and `-webkit-text-fill-color`.** Chrome
-   and Firefox paint the latter over the former, so a rule that sets only
-   `color` can look correct in a computed-style check and still render dark text.
-2. **When `background-color` will not budge, use `background-image:
-   linear-gradient(colour, colour)`.** MELI paints some surfaces with gradients,
-   which a background-colour audit cannot see.
-3. **Never use a broad, generic substring selector on a wrapper.** A generic
-   styled-component name such as `styles__Wrapper` is used both for layout
-   containers and for overlay layers stacked on top of product photos. Painting
-   it opaque covers the photo. Generic wrappers must inherit, never paint.
+1. **Toda regla de texto define `color` y `-webkit-text-fill-color`.** Chrome y
+   Firefox pintan la segunda por encima de la primera, así que una regla que
+   solo define `color` puede verse correcta al inspeccionar estilos computados y
+   aun así renderizar texto oscuro.
+2. **Cuando `background-color` no cede, usar `background-image:
+   linear-gradient(color, color)`.** MELI pinta algunas superficies con
+   gradientes, que una auditoría de background-color no puede ver.
+3. **Nunca usar un selector de subcadena amplio y genérico sobre un wrapper.** Un
+   nombre genérico de styled-component como `styles__Wrapper` se usa tanto para
+   contenedores de layout como para capas de overlay apiladas encima de las
+   fotos de producto. Pintarlo opaco tapa la foto. Los wrappers genéricos deben
+   heredar, nunca pintar.
 
 ---
 
-## Build from source
+## Compilar desde el código fuente
 
 ```bash
 node tools/build.mjs
 ```
 
-Produces:
+Genera:
 
 ```
-dist/mercadolibre-dark.css        plain CSS, no UserCSS metadata
-dist/mercadolibre-dark.user.css   canonical UserCSS for Stylus / userstyles.world
-dist/inject.js                    dev: inject the theme into a live page
-dist/inject-off.js                dev: remove it
-dist/probe.js                     dev: audit a page for contrast defects
+dist/mercadolibre-dark.css        CSS plano, sin metadatos UserCSS
+dist/mercadolibre-dark.user.css   UserCSS canónico para Stylus / userstyles.world
+dist/inject.js                    dev: inyecta el tema en una página viva
+dist/inject-off.js                dev: lo quita
+dist/probe.js                     dev: audita defectos de contraste en una página
 ```
 
-The build runs two guards and **fails** rather than shipping a broken stylesheet:
+El build corre dos guards y **falla** en vez de publicar una hoja rota:
 
-- the section-wrapper at-rule must appear **exactly once** (Stylus splits a
-  UserCSS by plain-text search on it — even inside a comment — and a phantom
-  boundary silently kills the whole style);
-- CSS comment blocks must balance (CSS has no nested comments, so a `/*` inside
-  a comment swallows the rest of the file).
+- la at-rule que envuelve las secciones debe aparecer **exactamente una vez**
+  (Stylus parte un UserCSS por búsqueda de texto plano de esa cadena — incluso
+  dentro de un comentario — y una frontera fantasma mata el estilo entero en
+  silencio);
+- los bloques de comentario CSS deben balancear (CSS no soporta comentarios
+  anidados, así que un `/*` dentro de un comentario se come el resto del
+  archivo).
 
 ---
 
-## Reporting a broken page
+## Cómo reportar una página rota
 
-A report that says "page X is light" cannot be fixed. Useful reports include:
+Un reporte que dice "la página X está clara" no se puede arreglar. Los reportes
+útiles incluyen:
 
-1. The **URL** and your **country**
-2. A **screenshot**
-3. Whether the theme is **fully** missing or **partially** applied — if the
-   navbar is dark and the content is light, that is the "Applies to" problem
-   above, not this stylesheet
-4. If you can, the element's class list from DevTools
+1. La **URL** y tu **país**
+2. Una **captura de pantalla**
+3. Si el tema falta **por completo** o está **aplicado a medias** — si la barra
+   de navegación está oscura y el contenido claro, ese es el problema de
+   "Applies to" de arriba, no esta hoja
+4. Si podés, la lista de clases del elemento desde DevTools
 
-Most "not applied" reports are the Stylus setting. Most "white box" reports are
-one uncovered component family.
+La mayoría de los reportes de "no aplica" son la configuración de Stylus. La
+mayoría de los reportes de "caja blanca" son una familia de componentes sin
+cubrir.
 
 ---
 
-## License
+## Licencia
 
-MIT — see [LICENSE](LICENSE).
+MIT — ver [LICENSE](LICENSE).
 
-Not affiliated with, endorsed by, or sponsored by MercadoLibre, Inc.
-"MercadoLibre" and the MercadoLibre logo are trademarks of MercadoLibre, Inc.
-This is an independent, unofficial user stylesheet and ships no MercadoLibre
-assets, fonts, images or logos.
+Sin afiliación, respaldo ni patrocinio de MercadoLibre, Inc. "MercadoLibre" y el
+logo de MercadoLibre son marcas de MercadoLibre, Inc. Esta es una hoja de
+estilos de usuario independiente y no oficial, y no incluye assets, tipografías,
+imágenes ni logos de MercadoLibre.
 
 [usw]: https://userstyles.world/
