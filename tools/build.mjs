@@ -42,13 +42,20 @@ writeFileSync(join(dist, 'mercadolibre-dark.css'), css);
 const META = {
   name: 'MercadoLibre Dark (comfort)',
   namespace: 'https://github.com/Milor123/mercadolibre-dark',
-  version: '1.0.0',
+  version: '1.0.1',
   description:
     'Comfortable dark mode for MercadoLibre in all 18 countries. Neutral blue-grey surfaces (never pure black), off-white text (never pure white), brand colours and product photos kept intact. Token-based, so it survives MELI redesigns.',
   author: 'Milor123',
   license: 'MIT',
   preprocessor: 'default',
 };
+
+/* Stylus reads @updateURL on a timer and pulls the new file when a build is
+   published. The download URL points at the release asset, which is the only
+   stable URL GitHub gives a single file: a raw.githubusercontent link would
+   always serve `main` and could hand Stylus a half-finished work in progress. */
+const REPO = 'https://github.com/Milor123/mercadolibre-dark';
+const UPDATE_URL = `${REPO}/releases/latest/download/mercadolibre-dark.user.css`;
 
 /* Each @var is emitted as a CSS custom property named exactly like the token,
    so the UserCSS surface and the token layer are the same thing. */
@@ -123,6 +130,8 @@ const usercss = `/* ==UserStyle==
 @description  ${META.description}
 @author       ${META.author}
 @license      ${META.license}
+@updateURL    ${UPDATE_URL}
+@downloadURL  ${UPDATE_URL}
 @preprocessor ${META.preprocessor}
 ${varLines}
 ${selectVars}

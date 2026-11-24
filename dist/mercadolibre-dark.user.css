@@ -1,10 +1,12 @@
 /* ==UserStyle==
 @name         MercadoLibre Dark (comfort)
 @namespace    https://github.com/Milor123/mercadolibre-dark
-@version      1.0.0
+@version      1.0.1
 @description  Comfortable dark mode for MercadoLibre in all 18 countries. Neutral blue-grey surfaces (never pure black), off-white text (never pure white), brand colours and product photos kept intact. Token-based, so it survives MELI redesigns.
 @author       Milor123
 @license      MIT
+@updateURL    https://github.com/Milor123/mercadolibre-dark/releases/latest/download/mercadolibre-dark.user.css
+@downloadURL  https://github.com/Milor123/mercadolibre-dark/releases/latest/download/mercadolibre-dark.user.css
 @preprocessor default
 @var color ml-surface-0 "Page background" #12151a
 @var color ml-surface-1 "Cards and panels" #181c22
