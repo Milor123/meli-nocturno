@@ -1,0 +1,80 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    width:1280px; height:640px; overflow:hidden;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: #12151a;
+    background-image:
+      radial-gradient(900px 520px at 78% 18%, rgba(91,155,255,.16), transparent 62%),
+      radial-gradient(700px 460px at 12% 92%, rgba(52,209,122,.11), transparent 60%);
+    position:relative;
+  }
+  .grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(circle at 50% 50%, #000 40%, transparent 82%);
+  }
+  .wrap { position:relative; display:flex; height:100%; padding:56px 60px; gap:44px; align-items:center; }
+  .left { flex:0 0 470px; }
+  .moon {
+    width:58px; height:58px; border-radius:50%;
+    background: linear-gradient(145deg, #ffe600 0%, #ffd400 55%, #f5b800 100%);
+    box-shadow: 0 0 0 1px rgba(255,230,0,.25), 0 0 44px rgba(255,214,0,.28);
+    position:relative; margin-bottom:30px;
+  }
+  .moon::after {
+    content:""; position:absolute; inset:0; border-radius:50%;
+    background:#12151a;
+    clip-path: circle(50% at 74% 32%);
+  }
+  h1 {
+    font-size:62px; line-height:1.02; letter-spacing:-2.2px; font-weight:800;
+    color:#e3e8ef;
+  }
+  h1 em { font-style:normal; color:#ffe600; }
+  .tag {
+    margin-top:20px; font-size:19px; line-height:1.5; color:#a9b3c1; font-weight:400;
+    max-width:390px;
+  }
+  .tag b { color:#e3e8ef; font-weight:600; }
+  .pills { display:flex; flex-wrap:wrap; gap:9px; margin-top:30px; }
+  .pill {
+    font-size:13px; font-weight:600; color:#c2cbdb;
+    background:#1f242c; border:1px solid #2f3742;
+    padding:7px 13px; border-radius:999px;
+  }
+  .pill.on { background:rgba(52,209,122,.13); border-color:rgba(52,209,122,.42); color:#34d17a; }
+  .shot {
+    flex:1; height:100%; display:flex; align-items:center; justify-content:center;
+  }
+  .card {
+    width:100%; border-radius:14px; overflow:hidden;
+    border:1px solid #2f3742;
+    box-shadow: 0 32px 80px rgba(0,0,0,.62), 0 0 0 1px rgba(255,255,255,.03);
+  }
+  .card img { display:block; width:100%; }
+</style></head>
+<body>
+  <div class="grid"></div>
+  <div class="wrap">
+    <div class="left">
+      <div class="moon"></div>
+      <h1>Meli<br><em>Nocturno</em></h1>
+      <p class="tag">Modo oscuro para <b>todo MercadoLibre</b>, en los 18 países.
+      Sin negro puro. Sin blanco puro. Sin destrozar las fotos.</p>
+      <div class="pills">
+        <span class="pill on">Comodidad real</span>
+        <span class="pill">Sin invert</span>
+        <span class="pill">18 países</span>
+        <span class="pill">Stylus</span>
+      </div>
+    </div>
+    <div class="shot">
+      <div class="card"><img src="images/02-listado.jpeg" alt=""></div>
+    </div>
+  </div>
+</body></html>

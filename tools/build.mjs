@@ -5,10 +5,10 @@
  *   node tools/build.mjs
  *
  * Emits:
- *   dist/mercadolibre-dark.css       plain CSS for any injector
+ *   dist/meli-nocturno.css       plain CSS for any injector
  *                                    (Dark Reader custom CSS, uBlock, Vivaldi,
  *                                    bookmarklet, Tampermonkey)
- *   dist/mercadolibre-dark.user.css  UserCSS for userstyles.world / Stylus
+ *   dist/meli-nocturno.user.css  UserCSS for userstyles.world / Stylus
  *                                    (@var palette + domain scope)
  *   dist/inject.js                   dev-only: injects the plain CSS into the
  *                                    current page (for chrome-devtools checks)
@@ -36,12 +36,12 @@ const parts = order.map((f) => `/* ===== ${f} ===== */\n` + readFileSync(join(sr
 const css = parts.join('\n\n') + '\n';
 
 /* ------------------------------------------------------------------ plain */
-writeFileSync(join(dist, 'mercadolibre-dark.css'), css);
+writeFileSync(join(dist, 'meli-nocturno.css'), css);
 
 /* ----------------------------------------------------------------- usercss */
 const META = {
-  name: 'MercadoLibre Dark (comfort)',
-  namespace: 'https://github.com/Milor123/mercadolibre-dark',
+  name: 'Meli Nocturno',
+  namespace: 'https://github.com/Milor123/meli-nocturno',
   version: '1.0.1',
   description:
     'Comfortable dark mode for MercadoLibre in all 18 countries. Neutral blue-grey surfaces (never pure black), off-white text (never pure white), brand colours and product photos kept intact. Token-based, so it survives MELI redesigns.',
@@ -54,8 +54,8 @@ const META = {
    published. The download URL points at the release asset, which is the only
    stable URL GitHub gives a single file: a raw.githubusercontent link would
    always serve `main` and could hand Stylus a half-finished work in progress. */
-const REPO = 'https://github.com/Milor123/mercadolibre-dark';
-const UPDATE_URL = `${REPO}/releases/latest/download/mercadolibre-dark.user.css`;
+const REPO = 'https://github.com/Milor123/meli-nocturno';
+const UPDATE_URL = `${REPO}/releases/latest/download/meli-nocturno.user.css`;
 
 /* Each @var is emitted as a CSS custom property named exactly like the token,
    so the UserCSS surface and the token layer are the same thing. */
@@ -275,7 +275,7 @@ if (occurrences !== 1) {
   }
 }
 
-writeFileSync(join(dist, 'mercadolibre-dark.user.css'), usercss);
+writeFileSync(join(dist, 'meli-nocturno.user.css'), usercss);
 /* ------------------------------------------------------------- dev inject */
 const inject = `(() => {
   const id = 'ml-dark-inject';
@@ -328,7 +328,7 @@ writeFileSync(join(dist, 'probe.js'), probe);
 
 const nLines = css.split('\n').length;
 console.log(`order: ${order.join(' -> ')}`);
-console.log(`plain : dist/mercadolibre-dark.css        ${nLines} lines, ${css.length} bytes`);
-console.log(`usercss: dist/mercadolibre-dark.user.css  ${usercss.split('\n').length} lines`);
+console.log(`plain : dist/meli-nocturno.css        ${nLines} lines, ${css.length} bytes`);
+console.log(`usercss: dist/meli-nocturno.user.css  ${usercss.split('\n').length} lines`);
 console.log(`inject: dist/inject.js (dev)`);
 console.log(`probe : dist/probe.js  (dev: inject + audit in one call)`);

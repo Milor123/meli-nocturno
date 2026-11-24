@@ -1,4 +1,8 @@
-# MercadoLibre Dark (comfort)
+# Meli Nocturno
+
+![Meli Nocturno](docs/images/banner.png)
+
+---
 
 **English** · [Español](README.md)
 
@@ -42,7 +46,7 @@ to" setting first**. That fixes it in almost every case.
 1. Install [Stylus](https://addons.mozilla.org/firefox/addon/styl-us/) for Firefox
    or [for Chrome](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne).
 2. Open the Stylus manager and choose **Write new style** → **Import**.
-3. Drag in `dist/mercadolibre-dark.user.css`, or paste its contents.
+3. Drag in `dist/meli-nocturno.user.css`, or paste its contents.
 4. Make sure the **UserCSS** toggle is on if you paste manually. Without it,
    Stylus reads `@-moz-document` as nested CSS and reports
    *"Nested @document produces broken code"*.
@@ -53,7 +57,7 @@ for you.
 
 ### Plain CSS
 
-`dist/mercadolibre-dark.css` is the same theme without the UserCSS metadata
+`dist/meli-nocturno.css` is the same theme without the UserCSS metadata
 block. It is unscoped, so it applies to any document you inject it into — useful
 for other injectors, or for a single-site setup where you control scoping
 yourself.
@@ -213,8 +217,8 @@ node tools/build.mjs
 Produces:
 
 ```
-dist/mercadolibre-dark.css        plain CSS, no UserCSS metadata
-dist/mercadolibre-dark.user.css   canonical UserCSS for Stylus / userstyles.world
+dist/meli-nocturno.css        plain CSS, no UserCSS metadata
+dist/meli-nocturno.user.css   canonical UserCSS for Stylus / userstyles.world
 dist/inject.js                    dev: inject the theme into a live page
 dist/inject-off.js                dev: remove it
 dist/probe.js                     dev: audit a page for contrast defects

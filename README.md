@@ -1,4 +1,8 @@
-# MercadoLibre Dark (comfort)
+# Meli Nocturno
+
+![Meli Nocturno](docs/images/banner.png)
+
+---
 
 [English](README.en.md) · **Español**
 
@@ -45,7 +49,7 @@ configuración de "Applies to"**. En casi todos los casos eso lo resuelve.
 1. Instalá [Stylus](https://addons.mozilla.org/firefox/addon/styl-us/) para
    Firefox o [para Chrome](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne).
 2. Abrí el gestor de Stylus y elegí **Write new style** → **Import**.
-3. Arrastrá `dist/mercadolibre-dark.user.css`, o pegá su contenido.
+3. Arrastrá `dist/meli-nocturno.user.css`, o pegá su contenido.
 4. Si pegás a mano, asegurate de que el interruptor **UserCSS** esté activado.
    Sin él, Stylus lee `@-moz-document` como CSS anidado y reporta
    *"Nested @document produces broken code"*.
@@ -56,7 +60,7 @@ actualizaciones por vos.
 
 ### CSS plano
 
-`dist/mercadolibre-dark.css` es el mismo tema sin el bloque de metadatos
+`dist/meli-nocturno.css` es el mismo tema sin el bloque de metadatos
 UserCSS. No tiene scoping, así que se aplica a cualquier documento donde lo
 inyectes — útil para otros inyectores, o para un setup de un solo sitio donde
 vos controlás el scoping.
@@ -220,8 +224,8 @@ node tools/build.mjs
 Genera:
 
 ```
-dist/mercadolibre-dark.css        CSS plano, sin metadatos UserCSS
-dist/mercadolibre-dark.user.css   UserCSS canónico para Stylus / userstyles.world
+dist/meli-nocturno.css        CSS plano, sin metadatos UserCSS
+dist/meli-nocturno.user.css   UserCSS canónico para Stylus / userstyles.world
 dist/inject.js                    dev: inyecta el tema en una página viva
 dist/inject-off.js                dev: lo quita
 dist/probe.js                     dev: audita defectos de contraste en una página
