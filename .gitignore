@@ -16,6 +16,7 @@ PLAN-*.md
 
 # README screenshots: redacted, safe to publish
 !docs/images/*.jpeg
+!docs/images/*.png
 
 # ---- dev helpers and internal tracking ------------------------------------
 # Screenshot redaction helper: one-off, not part of the theme.
