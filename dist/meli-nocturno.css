@@ -4087,6 +4087,35 @@ div[role="search"] {
   color: var(--ml-blue) !important;
 }
 
+/* Loyalty prices above "Cuotas sin interés" on the question page (and PDPs
+   with the same widget). Measured: an unclassed <span> "$ 439.900" inside
+   `.loyalty-price`, and a <div class="loyalty"> "$ 339.900", both inheriting
+   rgba(0,0,0,.55) from the `.sc-label__icon_left` row. The span has no class
+   at all, so the row itself has to carry the colour; styled-components
+   prefixes mean attribute matchers, as everywhere in the sc-* family. */
+.loyalty-price,
+[class*="loyalty-price"],
+[class*="loyalty-price"] span,
+[class*="loyalty-price"] div,
+div.loyalty,
+[class*="loyalty"] {
+  color: var(--ml-text-secondary) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary) !important;
+}
+
+/* Helpers under the "Hacer otra pregunta" textarea. Measured on
+   /preguntas/comprador/articulo/MCO...: the character counter
+   `0 / 2000` (`.andes-form-control__countdown`) and the response-time note
+   `Tiempo aproximado de respuesta: +2 d` (`.sc-response-message__default`)
+   both render rgba(0,0,0,.55) over the dark card. */
+.andes-form-control__countdown,
+[class*="andes-form-control__countdown"],
+.sc-response-message__default,
+[class*="sc-response-message"] {
+  color: var(--ml-text-muted) !important;
+  -webkit-text-fill-color: var(--ml-text-muted) !important;
+}
+
 /* Question rows ("question desktop" is measured markup, not a typo). */
 [class*="sc-question"],
 .question.desktop,
