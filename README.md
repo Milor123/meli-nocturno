@@ -2,6 +2,15 @@
 
 ![Meli Nocturno](docs/images/banner.png)
 
+<p align="center">
+
+[![Versión](https://img.shields.io/github/v/release/Milor123/meli-nocturno?style=flat-square&color=5b9bff&label=versi%C3%B3n)](https://github.com/Milor123/meli-nocturno/releases/latest)
+[![Licencia](https://img.shields.io/badge/licencia-MIT-34d17a?style=flat-square)](LICENSE)
+[![MercadoLibre](https://img.shields.io/badge/MercadoLibre-18%20pa%C3%ADses-ffe600?style=flat-square&labelColor=12151a)](https://github.com/Milor123/meli-nocturno#qu%C3%A9-cubre)
+![Sin negro puro](https://img.shields.io/badge/dark%20mode-sin%20negro%20puro-12151a?style=flat-square&labelColor=2e3540)
+
+</p>
+
 ---
 
 [English](README.en.md) · **Español**
@@ -44,7 +53,24 @@ configuración de "Applies to"**. En casi todos los casos eso lo resuelve.
 
 ## Instalación
 
-### Stylus (recomendado)
+<p align="center">
+
+[![Instalar desde userstyles.world](https://img.shields.io/badge/Instalar-userstyles.world-3483fa?style=for-the-badge&logo=stylus&logoColor=white)](https://userstyles.world/style/31713/meli-nocturno-mercadolibre-dark)
+[![Descargar desde GitHub](https://img.shields.io/badge/Descargar-GitHub-2e3540?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Milor123/meli-nocturno/releases/latest/download/meli-nocturno.user.css)
+
+</p>
+
+**La forma fácil:** el botón azul. Necesitás [Stylus](https://addons.mozilla.org/firefox/addon/styl-us/)
+instalado y el resto se resuelve en un clic. Instalando desde
+[userstyles.world](https://userstyles.world/style/31713/meli-nocturno-mercadolibre-dark)
+las actualizaciones te llegan solas.
+
+**Una sola advertencia:** al instalar, dejá **"Applies to" vacío**. La hoja ya
+trae su propio alcance; si lo configurás, Stylus lo anula y el tema se aplica a
+medias (ver la advertencia de arriba).
+
+<details>
+<summary><b>Instalación manual en Stylus</b> (si preferís hacerlo a mano)</summary>
 
 1. Instalá [Stylus](https://addons.mozilla.org/firefox/addon/styl-us/) para
    Firefox o [para Chrome](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne).
@@ -55,8 +81,13 @@ configuración de "Applies to"**. En casi todos los casos eso lo resuelve.
    *"Nested @document produces broken code"*.
 5. Dejá **Applies to** vacío. Ver la advertencia de arriba.
 
-El estilo también está publicado en [userstyles.world][usw], que maneja las
-actualizaciones por vos.
+</details>
+
+> **Sobre las actualizaciones.** Instalando desde userstyles.world no tenés que
+> hacer nada: el sitio revisa tu hoja cada 4 horas y publica la versión nueva
+> sola. Instalando desde GitHub, Stylus consulta la URL del release según tu
+> intervalo configurado. En ambos casos la versión tiene que subir para que la
+> actualización se detecte.
 
 ### CSS plano
 
@@ -270,4 +301,4 @@ logo de MercadoLibre son marcas de MercadoLibre, Inc. Esta es una hoja de
 estilos de usuario independiente y no oficial, y no incluye assets, tipografías,
 imágenes ni logos de MercadoLibre.
 
-[usw]: https://userstyles.world/
+[usw]: https://userstyles.world/style/31713/meli-nocturno-mercadolibre-dark

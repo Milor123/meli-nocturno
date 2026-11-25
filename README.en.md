@@ -2,6 +2,15 @@
 
 ![Meli Nocturno](docs/images/banner.png)
 
+<p align="center">
+
+[![Version](https://img.shields.io/github/v/release/Milor123/meli-nocturno?style=flat-square&color=5b9bff&label=version)](https://github.com/Milor123/meli-nocturno/releases/latest)
+[![License](https://img.shields.io/badge/license-MIT-34d17a?style=flat-square)](LICENSE)
+[![MercadoLibre](https://img.shields.io/badge/MercadoLibre-18%20countries-ffe600?style=flat-square&labelColor=12151a)](https://github.com/Milor123/meli-nocturno#what-it-covers)
+![No pure black](https://img.shields.io/badge/dark%20mode-no%20pure%20black-12151a?style=flat-square&labelColor=2e3540)
+
+</p>
+
 ---
 
 **English** · [Español](README.md)
@@ -41,7 +50,24 @@ to" setting first**. That fixes it in almost every case.
 
 ## Install
 
-### Stylus (recommended)
+<p align="center">
+
+[![Install from userstyles.world](https://img.shields.io/badge/Install-userstyles.world-3483fa?style=for-the-badge&logo=stylus&logoColor=white)](https://userstyles.world/style/31713/meli-nocturno-mercadolibre-dark)
+[![Download from GitHub](https://img.shields.io/badge/Download-GitHub-2e3540?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Milor123/meli-nocturno/releases/latest/download/meli-nocturno.user.css)
+
+</p>
+
+**The easy way:** the blue button. You need [Stylus](https://addons.mozilla.org/firefox/addon/styl-us/)
+installed and the rest is one click. Installing from
+[userstyles.world](https://userstyles.world/style/31713/meli-nocturno-mercadolibre-dark)
+gets you updates automatically.
+
+**One word of warning:** when installing, leave **"Applies to" empty**. The
+style ships its own scope; if you configure it, Stylus overrides that and the
+theme applies halfway (see the warning above).
+
+<details>
+<summary><b>Manual install in Stylus</b> (if you prefer doing it by hand)</summary>
 
 1. Install [Stylus](https://addons.mozilla.org/firefox/addon/styl-us/) for Firefox
    or [for Chrome](https://chrome.google.com/webstore/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne).
@@ -52,8 +78,13 @@ to" setting first**. That fixes it in almost every case.
    *"Nested @document produces broken code"*.
 5. Leave **Applies to** empty. See the warning above.
 
-The style is also published on [userstyles.world][usw], which handles updates
-for you.
+</details>
+
+> **About updates.** Installing from userstyles.world means nothing to do on
+> your side: the site checks your stylesheet every 4 hours and publishes the new
+> version on its own. Installing from GitHub, Stylus polls the release URL at
+> your configured interval. Either way, the version has to increase for the
+> update to be picked up.
 
 ### Plain CSS
 
@@ -259,4 +290,4 @@ Not affiliated with, endorsed by, or sponsored by MercadoLibre, Inc.
 This is an independent, unofficial user stylesheet and ships no MercadoLibre
 assets, fonts, images or logos.
 
-[usw]: https://userstyles.world/
+[usw]: https://userstyles.world/style/31713/meli-nocturno-mercadolibre-dark
