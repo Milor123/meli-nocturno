@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name         Meli Nocturno
 @namespace    https://github.com/Milor123/meli-nocturno
-@version      1.0.3
+@version      1.0.4
 @description  Comfortable dark mode for MercadoLibre in all 18 countries. Neutral blue-grey surfaces (never pure black), off-white text (never pure white), brand colours and product photos kept intact. Token-based, so it survives MELI redesigns.
 @author       Milor123
 @license      MIT
@@ -318,6 +318,30 @@
   .nav-menu-item-link:hover,
   .option-purchases:hover {
     background-color: var(--ml-surface-4) !important;
+  }
+  /* MELI coerces hover on the account dropdown with a pale-cream background and
+     pure-black text, and does it through `#nav-header-menu .nav-header-user-layer
+     a:hover` on a classless <a>. The class-based rules above never matched it, so
+     hovering painted a light bar with unreadable labels. The id-qualified selector
+     is used here deliberately: it is the only hook that reaches that bare <a>, and
+     it mirrors the specificity MELI itself uses. */
+  #nav-header-menu .nav-header-user-layer a,
+  #nav-header-menu .nav-header-user-layer a:link,
+  #nav-header-menu .nav-header-user-layer a:visited,
+  #nav-header-menu .nav-header-user-layer a:hover,
+  #nav-header-menu .nav-header-user-layer a:focus {
+    color: var(--ml-text-primary) !important;
+    -webkit-text-fill-color: var(--ml-text-primary) !important;
+    background-color: transparent !important;
+  }
+  #nav-header-menu .nav-header-user-layer a:hover,
+  #nav-header-menu .nav-header-user-layer a:focus {
+    background-color: var(--ml-surface-4) !important;
+  }
+  /* Same coercion one level up: any anchor row inside the header menu. */
+  #nav-header-menu a:hover {
+    color: var(--ml-text-primary) !important;
+    -webkit-text-fill-color: var(--ml-text-primary) !important;
   }
   .user-menu__divider,
   .nav-menu-divider {
@@ -3952,6 +3976,40 @@
   [class*="sc-"] [class*="empty"],
   [class*="sc-"] [class*="no-results"] {
     color: var(--ml-text-secondary) !important;
+  }
+  /* ---- myml-nav rail icons (My Account side strip) ------------------------
+     The collapsed "Mi cuenta" rail renders each icon as an inline <svg> whose
+     <path> carries a PRESENTATION ATTRIBUTE fill="#000" — not a CSS rule.
+
+       <span class="myml-nav__section-icon-...">
+         <div class="myml-nav__section-icon-container">
+           <svg fill="none"><path fill="#000" .../></svg>
+
+     Measured: the container's computed `color` was already the theme's off-white,
+     yet the paths still resolved to rgb(0,0,0), because a presentation attribute
+     loses to every CSS declaration but is never inherited from `color`. Setting
+     `color` on the wrapper cannot reach it; the fill itself has to be declared.
+
+     `fill: currentColor` re-binds the path to the container colour, so the icons
+     follow the token instead of being repainted a second hard-coded value. */
+  .myml-nav__section-icon svg,
+  .myml-nav__section-icon-container svg,
+  [class*="myml-nav__section-icon"] svg {
+    fill: currentColor !important;
+    color: var(--ml-text-primary) !important;
+  }
+  .myml-nav__section-icon svg path,
+  .myml-nav__section-icon-container svg path,
+  .myml-nav__section-icon svg circle,
+  .myml-nav__section-icon svg rect,
+  .myml-nav__section-icon svg polygon,
+  [class*="myml-nav__section-icon"] svg path,
+  [class*="myml-nav__section-icon"] svg circle,
+  [class*="myml-nav__section-icon"] svg rect {
+    fill: currentColor !important;
+    /* Paths authored as outlines use stroke instead of fill; both are rebound so
+       a mixed icon set cannot leave half the rail dark. */
+    stroke: currentColor !important;
   }
 
   /* ===== 95-misc.css ===== */

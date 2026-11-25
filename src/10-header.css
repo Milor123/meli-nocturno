@@ -106,6 +106,30 @@ button.nav-search-btn {
 .option-purchases:hover {
   background-color: var(--ml-surface-4) !important;
 }
+/* MELI coerces hover on the account dropdown with a pale-cream background and
+   pure-black text, and does it through `#nav-header-menu .nav-header-user-layer
+   a:hover` on a classless <a>. The class-based rules above never matched it, so
+   hovering painted a light bar with unreadable labels. The id-qualified selector
+   is used here deliberately: it is the only hook that reaches that bare <a>, and
+   it mirrors the specificity MELI itself uses. */
+#nav-header-menu .nav-header-user-layer a,
+#nav-header-menu .nav-header-user-layer a:link,
+#nav-header-menu .nav-header-user-layer a:visited,
+#nav-header-menu .nav-header-user-layer a:hover,
+#nav-header-menu .nav-header-user-layer a:focus {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+  background-color: transparent !important;
+}
+#nav-header-menu .nav-header-user-layer a:hover,
+#nav-header-menu .nav-header-user-layer a:focus {
+  background-color: var(--ml-surface-4) !important;
+}
+/* Same coercion one level up: any anchor row inside the header menu. */
+#nav-header-menu a:hover {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
 .user-menu__divider,
 .nav-menu-divider {
   border-color: var(--ml-border-subtle) !important;
