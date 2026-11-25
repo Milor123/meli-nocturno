@@ -109,6 +109,59 @@
   border-color: var(--ml-border-subtle, #242a33) !important;
 }
 
+/* ---- Faceted search bar (vehicle/real-estate landing pages) -------------
+   `/c/carros-motos-y-otros` and friends render a filter bar that is NOT the
+   usual search box: a `div.faceted-search-desktop` slab holding several
+   `andes-dropdown` components and two `andes-tag` pills.
+
+   Measured after the rest of the page was already dark: the slab still came
+   out rgb(255,255,255) at 1184x96, and its contents were pure black text on
+   it (rgb(0,0,0) on the dark surface once the slab was covered, ratio 1.35).
+   Neither the class name nor the `andes-*` primitives were covered before. */
+.faceted-search-desktop,
+.faceted-search-desktop [class*="faceted-search"],
+[class*="faceted-search"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* ---- Andes dropdown + tag: the two primitives that stayed black ----------
+   `andes-dropdown__placeholder` ("Todas las marcas", "Modelo") and
+   `andes-tag__label` ("Tienda oficial 0 km", "Es financiable") both computed
+   `color: rgb(0,0,0)` — MELI's default for these primitives, which assumes a
+   white page. They are generic enough to theme globally rather than only
+   inside the faceted-search slab, and a placeholder has to be dimmer than a
+   real value or the field reads as already filled. */
+.andes-dropdown__placeholder {
+  color: var(--ml-text-muted, #7c8794) !important;
+  -webkit-text-fill-color: var(--ml-text-muted, #7c8794) !important;
+}
+.andes-dropdown__value,
+.andes-dropdown__label {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+.andes-tag__label,
+.andes-tag {
+  color: var(--ml-text-facet, #c2cbdb) !important;
+  -webkit-text-fill-color: var(--ml-text-facet, #c2cbdb) !important;
+}
+/* The pill shapes are light chips by default (white fill, grey border). */
+.andes-tag {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #2f3742) !important;
+}
+/* Dropdown triggers/fields inside that slab keep the input surface, not white. */
+.faceted-search-desktop .andes-dropdown,
+.faceted-search-desktop .andes-dropdown__trigger,
+.faceted-search-desktop [class*="andes-form-control"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #2f3742) !important;
+}
+
 /* ---- Header entry point ------------------------------------------------- */
 /* The help link in the navbar belongs to the OLD header but points here; its
    label was the only other dark text left on the page. */
