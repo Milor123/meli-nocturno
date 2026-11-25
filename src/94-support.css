@@ -177,3 +177,157 @@
      a mixed icon set cannot leave half the rail dark. */
   stroke: currentColor !important;
 }
+
+/* ---- Message thread (/compras/nueva/mensajeria/...) --------------------
+   Sixth vocabulary with no pass of its own: the buyer/seller chat.
+
+     messages-desktop        rgb(237,237,237)   the page slab behind everything
+     chat_box                rgb(255,255,255)   748x746 white card
+     user_header             rgb(245,245,245)   the seller header strip
+     message-content         rgba(65,137,230,.2) the bubbles — brand blue at 20%
+     sidebar__section*       rgb(245,245,245)   "Productos de la compra" card
+     item_order__number/__summary               order meta
+     andes-list__item-primary                   product title rgba(0,0,0,.8)
+
+   The bubbles are the interesting case. MELI paints them as brand blue with
+   alpha over white, so the text inside stays dark. On a dark page that same
+   rgba() composites to a washed-out mid-tone that reads as neither dark nor
+   light, and the dark text on top of it disappears. An alpha colour has to be
+   replaced by an opaque one here, not darkened. */
+/* The detail-panel gutter. `#content_side` is a 420px column, but MELI gives
+   it an absolutely positioned ::after that is 340px x full height and painted
+   rgb(245,245,245). It is a *spacer* drawn as a pseudo-element, which makes it
+   uniquely nasty to diagnose:
+
+     - querySelectorAll() cannot see it (pseudo-elements are not nodes)
+     - elementsFromPoint() cannot see it (it does not hit-test)
+     - `body * { background: ... }` cannot reach it (no element to match)
+     - its host (#content_side) reports its own 420px box, which ends exactly
+       where the light band begins, so the host looks innocent
+
+   Measured after every other surface was already dark: the band survived a
+   global repaint of `html, body, body *`, and only vanished when the whole
+   document got `opacity: 0`, which is what proved it lived inside the page.
+   Widening the host selector to `*::after` once is cheaper than re-deriving
+   this; the surface token keeps the gutter coherent with the panel beside it. */
+#content_side::after,
+.content::after {
+  background-color: var(--ml-surface-3) !important;
+  background-image: none !important;
+}
+.messages-desktop,
+.chat_box {
+  background-color: var(--ml-surface-1) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+.user_header {
+  background-color: var(--ml-surface-2) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle) !important;
+}
+/* Bubbles: keep the blue identity, drop the alpha so text contrast is fixed
+   and predictable instead of depending on what sits underneath. */
+.message-content,
+.message-content.enable-select-text {
+  background-color: #1d2d43 !important;
+  background-image: none !important;
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+.message-content a,
+.message-content * {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+/* Sidebar: order summary panel and its metadata. */
+.sidebar__section,
+.sidebar__section__header,
+.sidebar__section-item {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: var(--ml-text-primary) !important;
+}
+.item_order__number,
+.item_order__summary,
+.sidebar__section__header__description,
+.sidebar__section-item__quantity {
+  color: var(--ml-text-secondary) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary) !important;
+}
+.andes-list__item-primary,
+.andes-list__item-secondary {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+/* The "¿Buscas ayuda?" disclosure and its date chip. */
+.title,
+[class*="chat_box"] [class*="title"],
+[class*="chat_box"] [class*="pill"] {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+/* Message timestamps and read receipts. */
+.messages-desktop p,
+.messages-desktop time,
+.message-content + *,
+[class*="message"] [class*="time"] {
+  color: var(--ml-text-muted) !important;
+  -webkit-text-fill-color: var(--ml-text-muted) !important;
+}
+/* Composer: input plus the attach and send buttons. */
+.chat_box [class*="form-control"],
+.chat_box textarea,
+.chat_box input,
+.message-input-box {
+  background-color: var(--ml-surface-2) !important;
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+  border-color: var(--ml-border) !important;
+}
+.chat_box ::placeholder,
+.chat_box ::-webkit-input-placeholder {
+  color: var(--ml-text-disabled) !important;
+  -webkit-text-fill-color: var(--ml-text-disabled) !important;
+}
+
+/* ---- Remaining dark text on the message thread -------------------------
+   Two leaks survived the first pass:
+
+     andes-breadcrumb__link   rgb(26,26,26)          "Mensajes de la compra"
+     span (classless)         rgba(0,0,0,.45)        "BANQUETE CORP"
+
+   The breadcrumb is a design-system primitive and is themed globally instead
+   of per page, so the fix also covers every other breadcrumb on the site.
+   The seller name is a classless <span> inside the themed header, so it is
+   reached through `color: inherit` on the header's own text nodes. */
+.andes-breadcrumb,
+.andes-breadcrumb__link,
+.andes-breadcrumb__current,
+.andes-breadcrumb__text {
+  color: var(--ml-text-secondary) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary) !important;
+}
+.andes-breadcrumb__link:hover {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+.user_header,
+.user_header__content {
+  color: var(--ml-text-primary) !important;
+}
+/* Unclassed spans MELI paints with a raw rgba black: inherit the themed
+   parent instead, which is what they visually belong to. */
+.user_header span:not([class]),
+.user_header p:not([class]),
+.user_header div:not([class]) {
+  color: var(--ml-text-secondary) !important;
+  -webkit-text-fill-color: var(--ml-text-secondary) !important;
+}
+/* Tooltip arrows are drawn as a white square rotated 45deg. */
+[class*="andes-tooltip"][class*="arrow"],
+[class*="tooltip-data__arrow"] {
+  background-color: var(--ml-surface-3) !important;
+  background-image: none !important;
+  border-color: var(--ml-border) !important;
+}

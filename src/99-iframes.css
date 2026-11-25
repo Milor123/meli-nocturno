@@ -196,9 +196,21 @@ body {
    problem in 92-landings.css): it is anchored at the start of a class token
    and the only MELI classes beginning with `andes-ui` are this generation's
    primitives. */
+/* The document root of these embedded surfaces.
+
+   This rule used to be `background-color: transparent`. That was a defect, not
+   a style choice: this stylesheet is a single file, so the rule also applied to
+   the MAIN document, and a transparent <html> makes the browser paint its
+   default white canvas in any area the body does not cover. On the message
+   thread it produced a large white column down the right edge of the window.
+
+   Painting the token instead is equivalent visually — the host dialog behind
+   these embedded surfaces is already dark — and it can no longer leak a white
+   canvas anywhere. baseline: measured html computed rgba(0,0,0,0) while body
+   was rgb(24,28,34). */
 html,
 body {
-  background-color: transparent !important; /* the host dialog paints behind */
+  background-color: var(--ml-surface-0) !important;
 }
 
 [class^="andes-ui"] {

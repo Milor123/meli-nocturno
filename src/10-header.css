@@ -157,6 +157,23 @@ button.nav-search-btn {
 .nav-cart {
   color: var(--ml-text-primary) !important;
 }
+/* The cart count is its own <span>, NOT part of the icon font:
+
+     <a class="nav-cart nav-cart-full">
+       <i class="nav-icon-cart"></i>
+       <span class="nav-icon-cart-quantity">4</span>
+
+   It carries the same rgba(0,0,0,.898) MELI uses for header glyphs, and none
+   of the icon-font rules above reach it because it is not an <i>. Measured:
+   4 items in the cart rendered black-on-dark, so the count was invisible.
+   Kept on the primary text token rather than the brand fill: MELI reserves
+   the blue badge for notifications, and the cart shows a bare number. */
+.nav-icon-cart-quantity,
+.nav-cart .nav-icon-cart-quantity,
+.nav-cart-full .nav-icon-cart-quantity {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
 .nav-cart:hover {
   background-color: var(--ml-surface-2) !important;
 }
