@@ -42,7 +42,7 @@ writeFileSync(join(dist, 'meli-nocturno.css'), css);
 const META = {
   name: 'Meli Nocturno',
   namespace: 'https://github.com/Milor123/meli-nocturno',
-  version: '1.0.7',
+  version: '1.0.8',
   description:
     'Comfortable dark mode for MercadoLibre in all 18 countries. Neutral blue-grey surfaces (never pure black), off-white text (never pure white), brand colours and product photos kept intact. Token-based, so it survives MELI redesigns.',
   author: 'Milor123',

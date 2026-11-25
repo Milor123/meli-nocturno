@@ -202,6 +202,93 @@
   stroke: currentColor !important;
 }
 
+/* ---- Address / checkout forms (`andes-ui-*`, the newer generation) -------
+   MEASURED ON /addresses/v3/address and /addresses/v3/navigation/hub:
+
+     MAIN                                     rgb(255,255,255)  the whole page
+     .andes-ui-card.layout__container__card   rgb(255,255,255)  672x1073
+     .andes-ui-textfield__control-container   rgb(255,255,255)  x11  the inputs
+     .andes-ui-dropdown__button               rgb(255,255,255)  selects
+     .address-list                            rgb(255,255,255)  608x210
+     .andes-ui-radio__outer-circle            rgb(255,255,255)  the radio dots
+
+   Two traps here, both already seen elsewhere in this file:
+
+   1. `[class^="andes-ui-card"]` above already covers cards, yet the card in
+      the address form stayed white. Its real selector is
+      `.andes-ui-card.layout__container__card` — MELI pairs a generic class
+      with a layout one, so the bare attribute rule loses. Matching the layout
+      class explicitly wins without raising specificity across the board.
+   2. The inputs are transparent themselves (`rgba(0,0,0,0)`); the white is the
+      wrapping `.andes-ui-textfield__control-container`. Painting the <input>
+      does nothing visible. That is why the earlier form rules missed these.
+
+   These are multi-part class names, so `[class*="..."]` is required: an
+   element can carry `andes-ui-typography andes-ui-textfield__field ...`. */
+.andes-ui-textfield__control-container,
+[class*="andes-ui-textfield__control-container"],
+.andes-ui-dropdown__button,
+[class*="andes-ui-dropdown__button"],
+[class*="andes-ui-textfield__control"],
+[class*="andes-ui-select__control"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #2f3742) !important;
+}
+/* Text living inside those controls, and the field itself. */
+[class*="andes-ui-textfield"] input,
+[class*="andes-ui-textfield"] textarea,
+[class*="andes-ui-dropdown__button"] {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+[class*="andes-ui-textfield"] input::placeholder,
+[class*="andes-ui-textfield"] textarea::placeholder {
+  color: var(--ml-text-disabled, #5a6472) !important;
+  -webkit-text-fill-color: var(--ml-text-disabled, #5a6472) !important;
+}
+/* The card that holds the whole form. `.layout__container__card` is the class
+   that actually wins over the generic attribute rule above. */
+.layout__container__card,
+[class*="layout__container__card"],
+.andes-ui-card,
+[class*="andes-ui-card"],
+main {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* ---- Address list ("Elige una dirección") -------------------------------
+   .address-list is white and holds `andes-ui-list` items whose own background
+   is transparent, so the white slab showed through every row. */
+.address-list,
+[class*="address-list"],
+[class*="andes-ui-list"],
+[class*="andes-ui-radio-list"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+/* The radio dots are white circles by default: they read as holes punched in
+   the dark panel. The card colour is what an unchecked radio should look like. */
+.andes-ui-radio__outer-circle,
+[class*="andes-ui-radio__outer-circle"],
+[class*="andes-ui-radio__background"],
+[class*="andes-ui-radio-element"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  border-color: var(--ml-border-strong, #3d4653) !important;
+}
+/* Checkboxes are svg/div based in this generation; a bare attribute match keeps
+   it generic without knowing the inner structure. */
+[class*="andes-ui-checkbox__background"],
+[class*="andes-ui-checkbox__icon"] {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  border-color: var(--ml-border-strong, #3d4653) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
 /* ---- Header entry point ------------------------------------------------- */
 /* The help link in the navbar belongs to the OLD header but points here; its
    label was the only other dark text left on the page. */
