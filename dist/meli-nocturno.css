@@ -2955,6 +2955,46 @@ ul[class*="rating-select"] li:hover svg {
   border-color: var(--ml-border, #2f3742) !important;
 }
 
+/* ---- Floating menu popper (dropdown panels) -----------------------------
+   Opening a dropdown inside the faceted-search bar reveals a MELI popper:
+   `andes-popper__content andes-floating-menu__popper-content`, 238x390,
+   painted rgb(255,255,255). The list inside it already inherits our surface,
+   so the white slab showed only around the search box and the list edges.
+
+   Important: this are rendered in a portal at document level (MELI uses
+   Popper), NOT inside `.faceted-search-desktop`. Scoping these rules to the
+   filter bar would silently miss every dropdown on every other page, so they
+   are global primitives. */
+.andes-popper__content,
+.andes-floating-menu__popper-content {
+  background-color: var(--ml-surface-3, #262c35) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #2f3742) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+}
+/* The search box at the top of a floating menu keeps its own white fill.
+   Measured: 206x32 rgb(255,255,255) with rgba(0,0,0,.9) text on it. */
+.andes-floating-menu--search,
+.andes-floating-menu__search-box {
+  background-color: var(--ml-surface-2, #1f242c) !important;
+  background-image: none !important;
+  border-color: var(--ml-border, #2f3742) !important;
+}
+.andes-floating-menu__search-box label,
+.andes-floating-menu--search .andes-form-control__field {
+  color: var(--ml-text-primary, #e3e8ef) !important;
+  -webkit-text-fill-color: var(--ml-text-primary, #e3e8ef) !important;
+}
+/* The magnifier is an <svg> whose path has a hardcoded dark fill attribute,
+   same trap as the My-Account rail icons: `color` alone does nothing. */
+.andes-form-control__search-icon,
+.andes-form-control__search-icon svg,
+.andes-form-control__search-icon svg path {
+  color: var(--ml-text-muted, #7c8794) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
 /* ---- Header entry point ------------------------------------------------- */
 /* The help link in the navbar belongs to the OLD header but points here; its
    label was the only other dark text left on the page. */
