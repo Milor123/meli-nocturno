@@ -31,6 +31,13 @@
   /* ---- brand + semantic ------------------------------------------------ */
   --ml-green: #34d17a;          /* was #00a650, lightened for text    */
   --ml-green-fill: #00a650;     /* keep brand fills                   */
+  /* Text-on-green fills. MEASURED: no light colour reaches WCAG AA on
+     #00a650 — pure white caps at 3.20 and #f2f5f8 gives 2.92. MELI's own
+     white-on-brand-green is therefore sub-AA by construction. Deepening the
+     fill is the only honest fix: #00803c holds --ml-text-on-brand at 4.62.
+     Used ONLY where a light label sits on the green fill (shipping/discount
+     pills), never for the brand accent itself. */
+  --ml-green-fill-deep: #00803c;
   --ml-green-tint: #14261d;     /* was rgb(229,246,237)               */
   --ml-blue: #5b9bff;           /* was #3483fa, lightened for text    */
   --ml-blue-fill: #3483fa;      /* keep brand fills                   */

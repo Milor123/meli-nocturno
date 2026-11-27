@@ -18,6 +18,18 @@
   background-color: var(--ml-blue-fill) !important;
   color: var(--ml-text-on-brand) !important;
 }
+/* MELI puts the visible label in `.andes-button__content` / `__text`, which do
+   NOT inherit from the button's own colour rule above in every component —
+   MEASURED ON /p/MCO55747942 (2026-11-26): "Comprar ahora" and "Preguntar"
+   computed rgb(227,232,239) (== --ml-text-primary) on rgb(52,131,250),
+   ratio 2.95. On a brand fill the label must use the on-brand off-white. */
+.andes-button--loud .andes-button__content,
+.andes-button--loud .andes-button__text,
+.andes-button--primary .andes-button__content,
+.andes-button--primary .andes-button__text {
+  color: var(--ml-text-on-brand) !important;
+  -webkit-text-fill-color: var(--ml-text-on-brand) !important;
+}
 .andes-button--loud:hover,
 .andes-button--primary:hover {
   background-color: #4a90fb !important;
@@ -239,9 +251,12 @@ select option {
   color: inherit !important;
 }
 
-/* MELI "polylabel" pills: green shipping pill and its variants. */
+/* MELI "polylabel" pills: green shipping pill and its variants.
+   The fill uses the DEEP green so the light label clears WCAG AA: MELI's own
+   #00a650 caps every light text colour at 3.20 (white) / 2.92 (our token).
+   See --ml-green-fill-deep in tokens.css. */
 .polylabel-pill {
-  background-color: var(--ml-green-fill) !important;
+  background-color: var(--ml-green-fill-deep) !important;
   color: var(--ml-text-on-brand) !important;
 }
 .polylabel-pill--quiet {

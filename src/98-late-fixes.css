@@ -173,10 +173,10 @@ li.ui-review-capability-rating__level svg {
 [class*="andes-money-amount__currency-symbol"] {
   color: inherit !important;
 }
-[class*="poly-price__label"] span,
-[class*="poly-price__labels"] span,
-[class*="ui-search-price__second-line"] span,
-[class*="ui-search-price__part"] span {
+[class*="poly-price__label"] span:not([class*="polylabel"]),
+[class*="poly-price__labels"] span:not([class*="polylabel"]),
+[class*="ui-search-price__second-line"] span:not([class*="polylabel"]),
+[class*="ui-search-price__part"] span:not([class*="polylabel"]) {
   color: inherit !important;
 }
 

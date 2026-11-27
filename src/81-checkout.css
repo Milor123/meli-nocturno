@@ -1,0 +1,131 @@
+/* ============================================================================
+   81-checkout.css — Billing Flow (`bf-*`) checkout pages.
+   `/checkout/review/onestep`, the payment/review flow and its accordions.
+
+   MEASURED ON /checkout/review/onestep (2026-11-26):
+     .bf-one-step                          rgb(255,255,255)  1280x985 slab
+     .bf-core-header__title--visible       rgb(51,51,51)     "Finaliza tu compra"
+     .bf-ui-core-label .andes-money-amount__fraction
+                                           rgba(0,0,0,.9)    "18.900"
+     .andes-radio__outer-circle            rgb(255,255,255)  radio dots
+
+   The inner panels (.andes-list, .andes-card, .bf-pricebox-container) are
+   already themed dark by 20-cards.css and the andes rules; the only white is
+   this outer slab, visible in the gaps between sections and behind the
+   header. Section titles ("Forma de entrega", "Medios de pago") and the blue
+   "Mostrar todos" / "Combinar 2 medios" links were already light — they only
+   became unreadable because they sat on the white slab. Fixing the slab and
+   the few hardcoded-dark nodes is enough.
+   ========================================================================== */
+
+/* ---- The slab ----------------------------------------------------------- */
+.bf-one-step,
+[class*="bf-one-step"] {
+  background-color: var(--ml-surface-1) !important;
+  background-image: none !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Header title -------------------------------------------------------
+   The header band is transparent (the `--yellow` modifier paints nothing
+   here), so the title sits straight on the slab. MELI hardcodes
+   rgb(51,51,51); on the dark slab that disappears. */
+.bf-core-header__title--visible,
+[class*="bf-core-header__title"] {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+
+/* ---- Old-generation radios (shipping / payment lists) -------------------
+   The `-ui-` variants are covered in 89-andes-ui.css; this flow uses the
+   plain `andes-radio` family. 40-forms.css already themes `.andes-radio__radio`
+   (bordered ring, transparent fill). What stays white here is the separate
+   `__outer-circle` disc, which reads as a hole punched in the dark panel.
+   Only that disc and the inner dot are repainted. */
+.andes-radio__outer-circle,
+[class*="andes-radio__outer-circle"],
+.andes-radio__inner-circle,
+[class*="andes-radio__inner-circle"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+
+/* ---- Payment-summary prices ---------------------------------------------
+   The amount under `bf-ui-core-label` carries its own black fraction; the
+   price-box rows already inherit light, so scope the fix to the label. */
+.bf-ui-core-label .andes-money-amount__fraction,
+.bf-ui-core-label .andes-money-amount__currency-symbol,
+.bf-ui-core-label .andes-money-amount__currency {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+
+/* ---- Payment-methods page (/checkout/payments) --------------------------
+   MEASURED ON /checkout/payments (2026-11-26), reached via "Mostrar todos":
+     .step-container.options-container     rgb(255,255,255)  1892x1076 slab
+     .bf-ui-core-container                 rgb(255,255,255)  1184x1074
+     .andes-card.bf-ui-core-card           rgb(255,255,255)  each method row
+     .bf-ui-core-list-item__container      rgb(255,255,255)
+     .bf-ui-core-footer                    rgb(255,255,255)  bottom bar
+
+   This page reuses the bf-ui-core family but not the .bf-one-step slab, and
+   its `.andes-card` rows stay white despite 20-cards.css because MELI paints
+   them with a background-image. background-image:none is required here. */
+.step-container,
+.options-container,
+[class*="options-container"],
+.bf-ui-core-container,
+[class*="bf-ui-core-container"],
+.bf-ui-core-card,
+[class*="bf-ui-core-card"],
+.bf-ui-core-list-item__container,
+[class*="bf-ui-core-list-item__container"],
+.bf-ui-core-footer,
+[class*="bf-ui-core-footer"] {
+  background-color: var(--ml-surface-1) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* MELI force-paints these container modifiers white with `!important` at
+   specificity (0,3,0): `.step-container.is-osc .bf-ui-core-container--background-*`,
+   plus the `--main` and `--overview` variants. The plain rules above lose to
+   that, so they need a higher-specificity override.
+
+   Rather than enumerate every modifier MELI may add later, this targets the
+   base class inside `.step-container` for ANY of them: the doubling through
+   `.step-container` (and `.step-container.is-osc`) lifts the rule to (0,4,0),
+   which beats MELI's (0,3,0) regardless of source order. The `:not()` keeps
+   genuinely coloured containers (the pink/purple `--background-secondary*`
+   and the brand `primary` tokens) out of the override. */
+.step-container .bf-ui-core-container--main,
+.step-container .bf-ui-core-container--overview,
+.step-container .bf-ui-core-container[class*="--background-gray"],
+.step-container .bf-ui-core-container[class*="--background-white"],
+.step-container.is-osc .bf-ui-core-container--main,
+.step-container.is-osc .bf-ui-core-container--overview,
+.step-container.is-osc .bf-ui-core-container[class*="--background-gray"],
+.step-container.is-osc .bf-ui-core-container[class*="--background-white"] {
+  background-color: var(--ml-surface-1) !important;
+  background-image: none !important;
+}
+
+/* ---- Payment method rows ------------------------------------------------
+   MEASURED ON /checkout/payments (2026-11-26): each method row is a
+   <label class="bf-ui-core-list-item__container ... --background-white">
+   plus a <div class="andes-card bf-ui-core-card ... andes-card--primary">.
+   Both stayed rgb(255,255,255) even though our plain rule carried
+   `!important` -- MELI force-paints them from a cross-origin sheet
+   (http2.mlstatic.com, unreadable via cssRules) at specificity (0,3,0).
+
+   FIX: repeat the base class. `.x.x.x.x` is (0,4,0) with zero knowledge of
+   MELI's compound selectors, so it wins now and keeps winning when they add
+   modifiers. Scoped to the `bf-ui-core-*` family so ordinary `.andes-card`
+   promo/brand cards elsewhere on the site stay untouched. */
+.bf-ui-core-list-item__container.bf-ui-core-list-item__container.bf-ui-core-list-item__container.bf-ui-core-list-item__container,
+.bf-ui-core-card.bf-ui-core-card.bf-ui-core-card.bf-ui-core-card {
+  background-color: var(--ml-surface-2) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle) !important;
+}

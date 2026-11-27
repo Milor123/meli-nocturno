@@ -32,6 +32,13 @@
   /* ---- brand + semantic ------------------------------------------------ */
   --ml-green: #34d17a;          /* was #00a650, lightened for text    */
   --ml-green-fill: #00a650;     /* keep brand fills                   */
+  /* Text-on-green fills. MEASURED: no light colour reaches WCAG AA on
+     #00a650 — pure white caps at 3.20 and #f2f5f8 gives 2.92. MELI's own
+     white-on-brand-green is therefore sub-AA by construction. Deepening the
+     fill is the only honest fix: #00803c holds --ml-text-on-brand at 4.62.
+     Used ONLY where a light label sits on the green fill (shipping/discount
+     pills), never for the brand accent itself. */
+  --ml-green-fill-deep: #00803c;
   --ml-green-tint: #14261d;     /* was rgb(229,246,237)               */
   --ml-blue: #5b9bff;           /* was #3483fa, lightened for text    */
   --ml-blue-fill: #3483fa;      /* keep brand fills                   */
@@ -663,6 +670,44 @@ footer[role="contentinfo"] {
   background-color: var(--ml-surface-1) !important;
   border-color: var(--ml-border-subtle) !important;
 }
+/* ---- Cart scarcity badge: `cl-image-label--abc-scarcity` ---------------
+   MEASURED ON /gz/cart (2026-11-26). `.cl-image-label__phrase` is shared by
+   FOUR MELI variants, each with its own inherited colour:
+     --not-last-unit   -> rgb(230,84,11)  orange, correct
+     --last-unit       -> rgb(255,255,255) white on brand fill, correct
+     (bare)            -> rgb(255,255,255) "AGOTADO", correct
+     --abc-scarcity    -> rgba(0,0,0,.9)  "QUEDAN N", BROKEN on our surface
+   Fixing `.cl-image-label__phrase` globally would have broken the other three,
+   which is why the rule below targets the scarcity modifier only and sets the
+   colour on the label (the phrase inherits it). */
+.cl-image-label--abc-scarcity,
+[class*="cl-image-label--abc-scarcity"] {
+  background-color: var(--ml-peach-tint, #3a2a22) !important;
+  color: var(--ml-orange, #ff9d5c) !important;
+}
+.cl-image-label--abc-scarcity .cl-image-label__phrase,
+[class*="cl-image-label--abc-scarcity"] [class*="cl-image-label__phrase"] {
+  color: var(--ml-orange, #ff9d5c) !important;
+  -webkit-text-fill-color: var(--ml-orange, #ff9d5c) !important;
+}
+
+/* Two cart elements keep a MELI colour that ignores their (already themed)
+   parent:
+     .cl-card-footer__info-row__description--seller-text  rgba(0,0,0,.9)
+     .progress-text.progress-text--success                rgb(0,166,80)
+   Both parents compute rgb(227,232,239), so inheriting is the durable fix.
+   `.progress-text` is scoped so other progress bars elsewhere keep their own
+   colour scheme. */
+.cl-card-footer__info-row__description--seller-text,
+[class*="description--seller-text"] {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+.cl-card-footer .progress-text,
+[class*="cl-card-footer"] [class*="progress-text"] {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
 
 /* ===== 30-text.css ===== */
 /* ============================================================================
@@ -922,6 +967,18 @@ a.ui-search-link:hover,
   background-color: var(--ml-blue-fill) !important;
   color: var(--ml-text-on-brand) !important;
 }
+/* MELI puts the visible label in `.andes-button__content` / `__text`, which do
+   NOT inherit from the button's own colour rule above in every component —
+   MEASURED ON /p/MCO55747942 (2026-11-26): "Comprar ahora" and "Preguntar"
+   computed rgb(227,232,239) (== --ml-text-primary) on rgb(52,131,250),
+   ratio 2.95. On a brand fill the label must use the on-brand off-white. */
+.andes-button--loud .andes-button__content,
+.andes-button--loud .andes-button__text,
+.andes-button--primary .andes-button__content,
+.andes-button--primary .andes-button__text {
+  color: var(--ml-text-on-brand) !important;
+  -webkit-text-fill-color: var(--ml-text-on-brand) !important;
+}
 .andes-button--loud:hover,
 .andes-button--primary:hover {
   background-color: #4a90fb !important;
@@ -1143,9 +1200,12 @@ select option {
   color: inherit !important;
 }
 
-/* MELI "polylabel" pills: green shipping pill and its variants. */
+/* MELI "polylabel" pills: green shipping pill and its variants.
+   The fill uses the DEEP green so the light label clears WCAG AA: MELI's own
+   #00a650 caps every light text colour at 3.20 (white) / 2.92 (our token).
+   See --ml-green-fill-deep in tokens.css. */
 .polylabel-pill {
-  background-color: var(--ml-green-fill) !important;
+  background-color: var(--ml-green-fill-deep) !important;
   color: var(--ml-text-on-brand) !important;
 }
 .polylabel-pill--quiet {
@@ -1984,6 +2044,35 @@ aside li[class*="active"],
   color: var(--ml-text-facet, #c2cbdb) !important;
 }
 
+/* ---- "Agrega más productos al carrito" strip ---------------------------
+   MEASURED ON /mascara-3m (2026-11-26), only present when the cart already
+   has items: `.ui-search-shopping-cart-intervention` is ONE white slab
+   (1184x364 rgb(255,255,255)); every price, the title "de productos" and the
+   caption inside it already compute light, so they were unreadable at 1.23.
+
+   The `ui-search-price__discount` labels inside it stay light-theme WHITE
+   text (rgb(255,255,255)) because MELI paints them for the "¡ÚLTIMA!" /
+   "MÁS VENDIDO" orange pill, where white is MELI's own choice, not ours. */
+.ui-search-shopping-cart-intervention,
+[class*="ui-search-shopping-cart-intervention"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Carousel card titles: `card-content__title` -----------------------
+   MEASURED ON /mascara-3m (2026-11-26), inside `.andes-carousel-snapped`
+   ("Productos relacionados"): the title span carries MELI's
+   `rgba(0,0,0,.9)` while its `.card-content` parent already computes light,
+   so it rendered at 1.23 on our surface. Inheriting is the durable fix — the
+   whole `card-content` / `card-item` carousel family is unthemed otherwise. */
+.card-content__title,
+[class*="card-content"] [class*="__title"] {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
 /* ===== 70-pdp.css ===== */
 /* ============================================================================
    70-pdp.css — product detail page (www.mercadolibre.com.co/.../p/MCO*).
@@ -2498,6 +2587,65 @@ ul[class*="rating-select"] li:hover svg {
   color: var(--ml-text-muted, #7c8794) !important;
 }
 
+/* ---- Offers comparison table: `ui-pdp-table` / `ui-pdp-s-table` --------
+   MEASURED ON /p/MCO55747942 (2026-11-26), opened through
+   "Ver más opciones desde $400.000": the table itself is ONE white slab
+   `.ui-pdp-table.ui-pdp-s-table` (1184x471 rgb(255,255,255)) while every
+   `.ui-pdp-table__cell` / `__row` computes transparent. So the fix belongs
+   on the table, not on the cells — repainting cells alone would leave the
+   slab white behind them, exactly the failure mode from /checkout/payments.
+
+   The seller cell is NOT painted black: `.ui-pdp-seller` computes our own
+   --ml-surface-1, and it only *looked* like a black block because it sat on
+   the white slab. Theming the table makes it blend. No extra rule needed. */
+.ui-pdp-table,
+.ui-pdp-s-table,
+.ui-pdp-table__row,
+.ui-pdp-s-table__row,
+.ui-pdp-table__cell,
+.ui-pdp-s-table__cell,
+.ui-pdp-s-table__header {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+.ui-pdp-s-table__header,
+.ui-pdp-table__header {
+  color: var(--ml-text-muted, #7c8794) !important;
+  -webkit-text-fill-color: var(--ml-text-muted, #7c8794) !important;
+}
+/* Row separators were light-theme lines; keep them visible but subtle. */
+.ui-pdp-table__row + .ui-pdp-table__row,
+.ui-pdp-s-table__row + .ui-pdp-s-table__row {
+  border-top-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* Two spans inside the offers table keep MELI's own `rgba(0,0,0,.9)` and are
+   not reached by the existing `ui-pdp-seller` rules (they belong to the
+   table's own namespace, and one sits inside a <button>):
+     .ui-pdp-condition.ui-pdp-s-condition           -> "Nuevo"
+     .ui-pdp-seller__label-text-no-action           -> seller name
+   Both parents already compute light text, so inheriting is correct and
+   survives any new sibling MELI adds inside these cells. */
+.ui-pdp-s-table__cell .ui-pdp-s-condition,
+.ui-pdp-s-table__cell [class*="ui-pdp-condition"],
+.ui-pdp-s-table__seller .ui-pdp-seller__label-text-no-action,
+.ui-pdp-s-table__seller [class*="label-text"] {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+/* Header band of the offers page: `.ui-pdp-s-header` is a full-width white
+   slab (1892x219) that survives even after the table itself is themed, so the
+   product image sat on a white strip. Same generation as `ui-pdp-s-table`. */
+.ui-pdp-s-header,
+[class*="ui-pdp-s-header"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
 /* ===== 80-commerce.css ===== */
 /* ============================================================================
    80-commerce.css — cart (…/gz/cart*) and checkout.
@@ -2788,6 +2936,139 @@ ul[class*="rating-select"] li:hover svg {
 .nav-categs-detail__header span,
 .nav-categs-detail > div {
   color: var(--ml-text-primary) !important;
+}
+
+/* ===== 81-checkout.css ===== */
+/* ============================================================================
+   81-checkout.css — Billing Flow (`bf-*`) checkout pages.
+   `/checkout/review/onestep`, the payment/review flow and its accordions.
+
+   MEASURED ON /checkout/review/onestep (2026-11-26):
+     .bf-one-step                          rgb(255,255,255)  1280x985 slab
+     .bf-core-header__title--visible       rgb(51,51,51)     "Finaliza tu compra"
+     .bf-ui-core-label .andes-money-amount__fraction
+                                           rgba(0,0,0,.9)    "18.900"
+     .andes-radio__outer-circle            rgb(255,255,255)  radio dots
+
+   The inner panels (.andes-list, .andes-card, .bf-pricebox-container) are
+   already themed dark by 20-cards.css and the andes rules; the only white is
+   this outer slab, visible in the gaps between sections and behind the
+   header. Section titles ("Forma de entrega", "Medios de pago") and the blue
+   "Mostrar todos" / "Combinar 2 medios" links were already light — they only
+   became unreadable because they sat on the white slab. Fixing the slab and
+   the few hardcoded-dark nodes is enough.
+   ========================================================================== */
+
+/* ---- The slab ----------------------------------------------------------- */
+.bf-one-step,
+[class*="bf-one-step"] {
+  background-color: var(--ml-surface-1) !important;
+  background-image: none !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* ---- Header title -------------------------------------------------------
+   The header band is transparent (the `--yellow` modifier paints nothing
+   here), so the title sits straight on the slab. MELI hardcodes
+   rgb(51,51,51); on the dark slab that disappears. */
+.bf-core-header__title--visible,
+[class*="bf-core-header__title"] {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+
+/* ---- Old-generation radios (shipping / payment lists) -------------------
+   The `-ui-` variants are covered in 89-andes-ui.css; this flow uses the
+   plain `andes-radio` family. 40-forms.css already themes `.andes-radio__radio`
+   (bordered ring, transparent fill). What stays white here is the separate
+   `__outer-circle` disc, which reads as a hole punched in the dark panel.
+   Only that disc and the inner dot are repainted. */
+.andes-radio__outer-circle,
+[class*="andes-radio__outer-circle"],
+.andes-radio__inner-circle,
+[class*="andes-radio__inner-circle"] {
+  background-color: var(--ml-surface-2) !important;
+  border-color: var(--ml-border-strong) !important;
+}
+
+/* ---- Payment-summary prices ---------------------------------------------
+   The amount under `bf-ui-core-label` carries its own black fraction; the
+   price-box rows already inherit light, so scope the fix to the label. */
+.bf-ui-core-label .andes-money-amount__fraction,
+.bf-ui-core-label .andes-money-amount__currency-symbol,
+.bf-ui-core-label .andes-money-amount__currency {
+  color: var(--ml-text-primary) !important;
+  -webkit-text-fill-color: var(--ml-text-primary) !important;
+}
+
+/* ---- Payment-methods page (/checkout/payments) --------------------------
+   MEASURED ON /checkout/payments (2026-11-26), reached via "Mostrar todos":
+     .step-container.options-container     rgb(255,255,255)  1892x1076 slab
+     .bf-ui-core-container                 rgb(255,255,255)  1184x1074
+     .andes-card.bf-ui-core-card           rgb(255,255,255)  each method row
+     .bf-ui-core-list-item__container      rgb(255,255,255)
+     .bf-ui-core-footer                    rgb(255,255,255)  bottom bar
+
+   This page reuses the bf-ui-core family but not the .bf-one-step slab, and
+   its `.andes-card` rows stay white despite 20-cards.css because MELI paints
+   them with a background-image. background-image:none is required here. */
+.step-container,
+.options-container,
+[class*="options-container"],
+.bf-ui-core-container,
+[class*="bf-ui-core-container"],
+.bf-ui-core-card,
+[class*="bf-ui-core-card"],
+.bf-ui-core-list-item__container,
+[class*="bf-ui-core-list-item__container"],
+.bf-ui-core-footer,
+[class*="bf-ui-core-footer"] {
+  background-color: var(--ml-surface-1) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle) !important;
+  color: var(--ml-text-primary) !important;
+}
+
+/* MELI force-paints these container modifiers white with `!important` at
+   specificity (0,3,0): `.step-container.is-osc .bf-ui-core-container--background-*`,
+   plus the `--main` and `--overview` variants. The plain rules above lose to
+   that, so they need a higher-specificity override.
+
+   Rather than enumerate every modifier MELI may add later, this targets the
+   base class inside `.step-container` for ANY of them: the doubling through
+   `.step-container` (and `.step-container.is-osc`) lifts the rule to (0,4,0),
+   which beats MELI's (0,3,0) regardless of source order. The `:not()` keeps
+   genuinely coloured containers (the pink/purple `--background-secondary*`
+   and the brand `primary` tokens) out of the override. */
+.step-container .bf-ui-core-container--main,
+.step-container .bf-ui-core-container--overview,
+.step-container .bf-ui-core-container[class*="--background-gray"],
+.step-container .bf-ui-core-container[class*="--background-white"],
+.step-container.is-osc .bf-ui-core-container--main,
+.step-container.is-osc .bf-ui-core-container--overview,
+.step-container.is-osc .bf-ui-core-container[class*="--background-gray"],
+.step-container.is-osc .bf-ui-core-container[class*="--background-white"] {
+  background-color: var(--ml-surface-1) !important;
+  background-image: none !important;
+}
+
+/* ---- Payment method rows ------------------------------------------------
+   MEASURED ON /checkout/payments (2026-11-26): each method row is a
+   <label class="bf-ui-core-list-item__container ... --background-white">
+   plus a <div class="andes-card bf-ui-core-card ... andes-card--primary">.
+   Both stayed rgb(255,255,255) even though our plain rule carried
+   `!important` -- MELI force-paints them from a cross-origin sheet
+   (http2.mlstatic.com, unreadable via cssRules) at specificity (0,3,0).
+
+   FIX: repeat the base class. `.x.x.x.x` is (0,4,0) with zero knowledge of
+   MELI's compound selectors, so it wins now and keeps winning when they add
+   modifiers. Scoped to the `bf-ui-core-*` family so ordinary `.andes-card`
+   promo/brand cards elsewhere on the site stay untouched. */
+.bf-ui-core-list-item__container.bf-ui-core-list-item__container.bf-ui-core-list-item__container.bf-ui-core-list-item__container,
+.bf-ui-core-card.bf-ui-core-card.bf-ui-core-card.bf-ui-core-card {
+  background-color: var(--ml-surface-2) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle) !important;
 }
 
 /* ===== 89-andes-ui.css ===== */
@@ -5192,10 +5473,10 @@ li.ui-review-capability-rating__level svg {
 [class*="andes-money-amount__currency-symbol"] {
   color: inherit !important;
 }
-[class*="poly-price__label"] span,
-[class*="poly-price__labels"] span,
-[class*="ui-search-price__second-line"] span,
-[class*="ui-search-price__part"] span {
+[class*="poly-price__label"] span:not([class*="polylabel"]),
+[class*="poly-price__labels"] span:not([class*="polylabel"]),
+[class*="ui-search-price__second-line"] span:not([class*="polylabel"]),
+[class*="ui-search-price__part"] span:not([class*="polylabel"]) {
   color: inherit !important;
 }
 

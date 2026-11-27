@@ -291,3 +291,32 @@ aside li[class*="active"],
 [class*="ui-search-results-count"] {
   color: var(--ml-text-facet, #c2cbdb) !important;
 }
+
+/* ---- "Agrega más productos al carrito" strip ---------------------------
+   MEASURED ON /mascara-3m (2026-11-26), only present when the cart already
+   has items: `.ui-search-shopping-cart-intervention` is ONE white slab
+   (1184x364 rgb(255,255,255)); every price, the title "de productos" and the
+   caption inside it already compute light, so they were unreadable at 1.23.
+
+   The `ui-search-price__discount` labels inside it stay light-theme WHITE
+   text (rgb(255,255,255)) because MELI paints them for the "¡ÚLTIMA!" /
+   "MÁS VENDIDO" orange pill, where white is MELI's own choice, not ours. */
+.ui-search-shopping-cart-intervention,
+[class*="ui-search-shopping-cart-intervention"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
+
+/* ---- Carousel card titles: `card-content__title` -----------------------
+   MEASURED ON /mascara-3m (2026-11-26), inside `.andes-carousel-snapped`
+   ("Productos relacionados"): the title span carries MELI's
+   `rgba(0,0,0,.9)` while its `.card-content` parent already computes light,
+   so it rendered at 1.23 on our surface. Inheriting is the durable fix — the
+   whole `card-content` / `card-item` carousel family is unthemed otherwise. */
+.card-content__title,
+[class*="card-content"] [class*="__title"] {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}

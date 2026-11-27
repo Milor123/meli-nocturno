@@ -29,3 +29,28 @@ odd/
 # plus a probe). They are not part of the theme.
 dist/test-*.js
 dist/_inner.css
+# One-off diagnostic probes from the white-surface hunts. Regenerate as needed;
+# they exist only to measure a live page, never part of the theme.
+dist/pay-*.js
+dist/cont-*.js
+dist/row-*.js
+dist/sum*.js
+dist/bf-*.js
+dist/cl*.js
+dist/pill*.js
+dist/pdp-*.js
+dist/tbl*.js
+dist/hdr.js
+dist/interv.js
+dist/orange.js
+dist/prog.js
+dist/two.js
+dist/wh.js
+dist/uninject.js
+dist/open*.js
+dist/scroll-sellers.js
+dist/seller-name.js
+dist/find-offers.js
+dist/show-all.js
+dist/light-surf.js
+dist/checkout-diag.js

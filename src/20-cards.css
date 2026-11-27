@@ -216,3 +216,41 @@
   background-color: var(--ml-surface-1) !important;
   border-color: var(--ml-border-subtle) !important;
 }
+/* ---- Cart scarcity badge: `cl-image-label--abc-scarcity` ---------------
+   MEASURED ON /gz/cart (2026-11-26). `.cl-image-label__phrase` is shared by
+   FOUR MELI variants, each with its own inherited colour:
+     --not-last-unit   -> rgb(230,84,11)  orange, correct
+     --last-unit       -> rgb(255,255,255) white on brand fill, correct
+     (bare)            -> rgb(255,255,255) "AGOTADO", correct
+     --abc-scarcity    -> rgba(0,0,0,.9)  "QUEDAN N", BROKEN on our surface
+   Fixing `.cl-image-label__phrase` globally would have broken the other three,
+   which is why the rule below targets the scarcity modifier only and sets the
+   colour on the label (the phrase inherits it). */
+.cl-image-label--abc-scarcity,
+[class*="cl-image-label--abc-scarcity"] {
+  background-color: var(--ml-peach-tint, #3a2a22) !important;
+  color: var(--ml-orange, #ff9d5c) !important;
+}
+.cl-image-label--abc-scarcity .cl-image-label__phrase,
+[class*="cl-image-label--abc-scarcity"] [class*="cl-image-label__phrase"] {
+  color: var(--ml-orange, #ff9d5c) !important;
+  -webkit-text-fill-color: var(--ml-orange, #ff9d5c) !important;
+}
+
+/* Two cart elements keep a MELI colour that ignores their (already themed)
+   parent:
+     .cl-card-footer__info-row__description--seller-text  rgba(0,0,0,.9)
+     .progress-text.progress-text--success                rgb(0,166,80)
+   Both parents compute rgb(227,232,239), so inheriting is the durable fix.
+   `.progress-text` is scoped so other progress bars elsewhere keep their own
+   colour scheme. */
+.cl-card-footer__info-row__description--seller-text,
+[class*="description--seller-text"] {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+.cl-card-footer .progress-text,
+[class*="cl-card-footer"] [class*="progress-text"] {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}

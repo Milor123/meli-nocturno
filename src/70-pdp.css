@@ -510,3 +510,62 @@ ul[class*="rating-select"] li:hover svg {
 [class*="ui-card-pending"] [class*="product-date"] span {
   color: var(--ml-text-muted, #7c8794) !important;
 }
+
+/* ---- Offers comparison table: `ui-pdp-table` / `ui-pdp-s-table` --------
+   MEASURED ON /p/MCO55747942 (2026-11-26), opened through
+   "Ver más opciones desde $400.000": the table itself is ONE white slab
+   `.ui-pdp-table.ui-pdp-s-table` (1184x471 rgb(255,255,255)) while every
+   `.ui-pdp-table__cell` / `__row` computes transparent. So the fix belongs
+   on the table, not on the cells — repainting cells alone would leave the
+   slab white behind them, exactly the failure mode from /checkout/payments.
+
+   The seller cell is NOT painted black: `.ui-pdp-seller` computes our own
+   --ml-surface-1, and it only *looked* like a black block because it sat on
+   the white slab. Theming the table makes it blend. No extra rule needed. */
+.ui-pdp-table,
+.ui-pdp-s-table,
+.ui-pdp-table__row,
+.ui-pdp-s-table__row,
+.ui-pdp-table__cell,
+.ui-pdp-s-table__cell,
+.ui-pdp-s-table__header {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+}
+.ui-pdp-s-table__header,
+.ui-pdp-table__header {
+  color: var(--ml-text-muted, #7c8794) !important;
+  -webkit-text-fill-color: var(--ml-text-muted, #7c8794) !important;
+}
+/* Row separators were light-theme lines; keep them visible but subtle. */
+.ui-pdp-table__row + .ui-pdp-table__row,
+.ui-pdp-s-table__row + .ui-pdp-s-table__row {
+  border-top-color: var(--ml-border-subtle, #242a33) !important;
+}
+
+/* Two spans inside the offers table keep MELI's own `rgba(0,0,0,.9)` and are
+   not reached by the existing `ui-pdp-seller` rules (they belong to the
+   table's own namespace, and one sits inside a <button>):
+     .ui-pdp-condition.ui-pdp-s-condition           -> "Nuevo"
+     .ui-pdp-seller__label-text-no-action           -> seller name
+   Both parents already compute light text, so inheriting is correct and
+   survives any new sibling MELI adds inside these cells. */
+.ui-pdp-s-table__cell .ui-pdp-s-condition,
+.ui-pdp-s-table__cell [class*="ui-pdp-condition"],
+.ui-pdp-s-table__seller .ui-pdp-seller__label-text-no-action,
+.ui-pdp-s-table__seller [class*="label-text"] {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
+}
+
+/* Header band of the offers page: `.ui-pdp-s-header` is a full-width white
+   slab (1892x219) that survives even after the table itself is themed, so the
+   product image sat on a white strip. Same generation as `ui-pdp-s-table`. */
+.ui-pdp-s-header,
+[class*="ui-pdp-s-header"] {
+  background-color: var(--ml-surface-1, #181c22) !important;
+  background-image: none !important;
+  border-color: var(--ml-border-subtle, #242a33) !important;
+  color: var(--ml-text-primary, #e3e8ef) !important;
+}
